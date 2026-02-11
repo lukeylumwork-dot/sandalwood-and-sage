@@ -25,7 +25,10 @@ const FeaturedEpisode = () => {
           policy proposals and technical evidence.
         </p>
         <div className="mt-5 max-w-sm">
-          <AudioPlayer label="Should Governments Regulate AI Development?" />
+          <AudioPlayer
+            label="Should Governments Regulate AI Development?"
+            text="Should Governments Regulate AI Development? One side argues that unchecked artificial intelligence poses systemic risks demanding immediate oversight. The other contends that premature regulation could stifle innovation and concentrate advantage among less cautious states. Both draw on recent policy proposals and technical evidence."
+          />
         </div>
       </div>
     </section>

@@ -231,7 +231,10 @@ const EpisodesList = () => {
                 </div>
 
                 <div className="pt-2">
-                  <AudioPlayer label={selectedEpisode.title} />
+                  <AudioPlayer
+                    label={selectedEpisode.title}
+                    text={`${selectedEpisode.title}. ${selectedEpisode.question} ${selectedEpisode.summary} Key points: ${selectedEpisode.keyPoints.join(". ")}`}
+                  />
                 </div>
               </div>
             </>
