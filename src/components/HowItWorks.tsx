@@ -2,17 +2,17 @@ const steps = [
   {
     number: "1",
     title: "One question",
-    description: "Each episode is framed around a single, clearly stated question.",
+    description: "Each episode starts with a single, clearly stated question — no ambiguity, no bait.",
   },
   {
     number: "2",
     title: "Two perspectives",
-    description: "Two sides present their strongest case, grounded in research and reasoning.",
+    description: "Two sides make their strongest case, drawing on research, data, and reasoned argument.",
   },
   {
     number: "3",
     title: "Evidence-led exchange",
-    description: "Arguments are weighed on merit, with sources cited and claims examined.",
+    description: "Claims are examined on merit. Sources are cited. The listener decides what holds up.",
   },
 ];
 

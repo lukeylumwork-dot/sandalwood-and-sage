@@ -4,6 +4,7 @@ import FeaturedEpisode from "@/components/FeaturedEpisode";
 import HowItWorks from "@/components/HowItWorks";
 import EpisodesList from "@/components/EpisodesList";
 import About from "@/components/About";
+import TopicSubmission from "@/components/TopicSubmission";
 import Subscribe from "@/components/Subscribe";
 import Footer from "@/components/Footer";
 
@@ -17,6 +18,7 @@ const Index = () => {
         <HowItWorks />
         <EpisodesList />
         <About />
+        <TopicSubmission />
         <Subscribe />
       </main>
       <Footer />
