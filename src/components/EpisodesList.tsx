@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Clock, Play } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Clock } from "lucide-react";
+import AudioPlayer from "@/components/AudioPlayer";
 import {
   Dialog,
   DialogContent,
@@ -230,13 +230,8 @@ const EpisodesList = () => {
                   </ul>
                 </div>
 
-                <div className="flex items-center gap-3 pt-2">
-                  <Button size="sm" className="gap-2">
-                    <Play size={14} /> Play Episode
-                  </Button>
-                  <span className="text-xs text-muted-foreground flex items-center gap-1">
-                    <Clock size={13} /> {selectedEpisode.duration}
-                  </span>
+                <div className="pt-2">
+                  <AudioPlayer label={selectedEpisode.title} />
                 </div>
               </div>
             </>
