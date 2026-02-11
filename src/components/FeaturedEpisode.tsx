@@ -1,6 +1,21 @@
-import { useState, useRef } from "react";
 import { Clock } from "lucide-react";
 import AudioPlayer from "@/components/AudioPlayer";
+import { VOICES } from "@/lib/voices";
+
+const featuredSegments = [
+  {
+    text: "Should Governments Regulate AI Development? Is state-level regulation of AI necessary to prevent harm, or does it risk doing more damage than it prevents?",
+    voiceId: VOICES.HOST,
+  },
+  {
+    text: "The case for. Governments must regulate AI development now. Unchecked artificial intelligence poses existential risks, from autonomous weapons to mass surveillance and algorithmic discrimination. The EU AI Act demonstrates that proportionate regulation is possible. Without guardrails, a handful of corporations will shape society's future with no democratic accountability.",
+    voiceId: VOICES.FOR,
+  },
+  {
+    text: "The case against. Government regulation of AI at this stage would be premature and counterproductive. Innovation moves faster than legislation, and rigid rules will lock in today's understanding of a rapidly evolving technology. Heavy regulation drives talent and investment to less cautious jurisdictions. We should foster innovation first and regulate specific harms as they emerge.",
+    voiceId: VOICES.AGAINST,
+  },
+];
 
 const FeaturedEpisode = () => {
   return (
@@ -27,7 +42,7 @@ const FeaturedEpisode = () => {
         <div className="mt-5 max-w-sm">
           <AudioPlayer
             label="Should Governments Regulate AI Development?"
-            text="Should Governments Regulate AI Development? One side argues that unchecked artificial intelligence poses systemic risks demanding immediate oversight. The other contends that premature regulation could stifle innovation and concentrate advantage among less cautious states. Both draw on recent policy proposals and technical evidence."
+            segments={featuredSegments}
           />
         </div>
       </div>
