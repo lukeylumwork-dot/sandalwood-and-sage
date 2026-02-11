@@ -1,15 +1,8 @@
 import { useState, useRef } from "react";
-import { Play, Pause, Clock } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Clock } from "lucide-react";
+import AudioPlayer from "@/components/AudioPlayer";
 
 const FeaturedEpisode = () => {
-  const [playing, setPlaying] = useState(false);
-  const audioRef = useRef<HTMLAudioElement>(null);
-
-  const togglePlay = () => {
-    setPlaying((prev) => !prev);
-  };
-
   return (
     <section id="featured" className="mx-auto max-w-4xl px-5 pb-16">
       <p className="text-xs font-medium uppercase tracking-widest text-primary mb-4">
@@ -31,18 +24,9 @@ const FeaturedEpisode = () => {
           innovation and concentrate advantage among less cautious states. Both draw on recent
           policy proposals and technical evidence.
         </p>
-        <div className="mt-5">
-          <Button
-            size="sm"
-            variant="outline"
-            className="gap-2"
-            onClick={togglePlay}
-          >
-            {playing ? <Pause size={16} /> : <Play size={16} />}
-            {playing ? "Pause" : "Play Episode"}
-          </Button>
+        <div className="mt-5 max-w-sm">
+          <AudioPlayer label="Should Governments Regulate AI Development?" />
         </div>
-        <audio ref={audioRef} />
       </div>
     </section>
   );
