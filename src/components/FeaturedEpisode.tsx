@@ -8,7 +8,6 @@ const FeaturedEpisode = () => {
 
   const togglePlay = () => {
     setPlaying((prev) => !prev);
-    // Placeholder — no real audio source
   };
 
   return (
@@ -18,7 +17,7 @@ const FeaturedEpisode = () => {
       </p>
       <div className="rounded-lg border bg-card p-6 md:p-8">
         <span className="inline-block text-xs font-medium text-primary mb-2">
-          Technology &amp; Society
+          Technology
         </span>
         <h2 className="text-xl font-semibold text-card-foreground md:text-2xl">
           Should Governments Regulate AI Development?
@@ -27,9 +26,10 @@ const FeaturedEpisode = () => {
           <Clock size={14} /> 14 min
         </p>
         <p className="mt-3 text-sm text-muted-foreground leading-relaxed max-w-2xl">
-          One side argues that unchecked AI poses systemic risks demanding
-          immediate oversight. The other contends that premature regulation
-          stifles innovation and hands advantage to less cautious states.
+          One side argues that unchecked artificial intelligence poses systemic risks demanding
+          immediate oversight. The other contends that premature regulation could stifle
+          innovation and concentrate advantage among less cautious states. Both draw on recent
+          policy proposals and technical evidence.
         </p>
         <div className="mt-5">
           <Button

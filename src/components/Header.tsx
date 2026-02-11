@@ -15,8 +15,10 @@ const Header = () => {
   return (
     <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
       <div className="mx-auto flex max-w-4xl items-center justify-between px-5 py-4">
-        <a href="#" className="text-lg font-semibold tracking-tight text-foreground">
-          Split Decision
+        <a href="#" className="flex items-center gap-0 text-lg font-semibold tracking-tight text-foreground">
+          <span>Split</span>
+          <span className="mx-1.5 inline-block h-5 w-px bg-primary" aria-hidden="true" />
+          <span>Decision</span>
         </a>
 
         <nav className="hidden items-center gap-6 md:flex">

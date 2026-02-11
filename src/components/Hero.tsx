@@ -6,14 +6,14 @@ const Hero = () => (
       Two Sides. One Question.
     </h1>
     <p className="mt-4 text-lg text-muted-foreground max-w-xl mx-auto">
-      Structured debates grounded in evidence, delivered in fifteen minutes.
+      Short, structured debates grounded in evidence — not opinion. Each episode tackles one question from two perspectives in around fifteen minutes.
     </p>
     <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
       <Button asChild>
         <a href="#featured">Listen to the Latest</a>
       </Button>
       <Button variant="outline" asChild>
-        <a href="#episodes">View Episodes</a>
+        <a href="#episodes">Browse Episodes</a>
       </Button>
     </div>
   </section>

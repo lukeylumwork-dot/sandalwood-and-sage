@@ -4,10 +4,10 @@ const About = () => (
       About
     </p>
     <p className="text-sm text-muted-foreground leading-relaxed max-w-2xl">
-      Split Decision presents structured exchanges between two perspectives on
-      a single question. Each episode is researched and scripted using AI tools,
-      then produced with synthetic voice and avatar technology. The aim is clear,
-      balanced argument — not entertainment or persuasion.
+      Split Decision presents structured exchanges between two perspectives on a single
+      question. Episodes are researched and scripted with the aid of AI tools, then produced
+      using synthetic voice and avatar technology. The goal is clarity, not persuasion — each
+      side makes its case, and the listener weighs the evidence.
     </p>
   </section>
 );
