@@ -1,8 +1,11 @@
 import { useState, useRef, useEffect, useCallback } from "react";
-import { Play, Pause, RotateCcw } from "lucide-react";
+import { Play, Pause, RotateCcw, Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 interface AudioPlayerProps {
   label?: string;
+  text?: string;
+  voiceId?: string;
 }
 
 const formatTime = (seconds: number) => {
@@ -11,38 +14,84 @@ const formatTime = (seconds: number) => {
   return `${m}:${s.toString().padStart(2, "0")}`;
 };
 
-// A short silent MP3 data URI so the player has something to load
-const SILENT_MP3 =
-  "data:audio/mpeg;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4Ljc2LjEwMAAAAAAAAAAAAAAA//tQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAACAAABhgC7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7//////////////////////////////////////////////////////////////////8AAAAATGF2YzU4LjEzAAAAAAAAAAAAAAAAJAAAAAAAAAAAAYYoRwmHAAAAAAD/+1DEAAAHAAGf9AAAIiWkM/80AQAAAAAB//t+sGBgYP/BgYGD/4YGBg/+GBgYGBgYAAACYGBQMDAwAAAAIAAAhv/7UsQBgAeAAaf9BEAIAAAz/6CIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP/7UMQIAAAADSAAAAAAAAGkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//tQxBcAAADSAAAAAAAAAaQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+const TTS_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/elevenlabs-tts`;
 
-const AudioPlayer = ({ label }: AudioPlayerProps) => {
+const AudioPlayer = ({ label, text, voiceId }: AudioPlayerProps) => {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [playing, setPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const progressRef = useRef<HTMLDivElement>(null);
 
-  const toggle = useCallback(() => {
+  const generateAudio = useCallback(async () => {
+    if (!text) return;
+    setLoading(true);
+    try {
+      const resp = await fetch(TTS_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+        },
+        body: JSON.stringify({ text, voiceId }),
+      });
+      if (!resp.ok) {
+        const err = await resp.json().catch(() => ({ error: "Unknown error" }));
+        throw new Error(err.error || `HTTP ${resp.status}`);
+      }
+      const blob = await resp.blob();
+      const url = URL.createObjectURL(blob);
+      setAudioUrl(url);
+      return url;
+    } catch (e) {
+      console.error("TTS error:", e);
+      toast.error("Failed to generate audio. Please try again.");
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  }, [text, voiceId]);
+
+  const toggle = useCallback(async () => {
     const audio = audioRef.current;
     if (!audio) return;
+
+    if (!audioUrl && text) {
+      const url = await generateAudio();
+      if (!url) return;
+      // Audio element will pick up the new src via effect
+      return;
+    }
+
     if (playing) {
       audio.pause();
     } else {
       audio.play().catch(() => {});
     }
     setPlaying(!playing);
-  }, [playing]);
+  }, [playing, audioUrl, text, generateAudio]);
+
+  // Auto-play when audioUrl is first set
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio || !audioUrl) return;
+    audio.src = audioUrl;
+    audio.load();
+    audio.play().then(() => setPlaying(true)).catch(() => {});
+  }, [audioUrl]);
 
   const restart = useCallback(() => {
     const audio = audioRef.current;
-    if (!audio) return;
+    if (!audio || !audioUrl) return;
     audio.currentTime = 0;
     setCurrentTime(0);
     if (!playing) {
       audio.play().catch(() => {});
       setPlaying(true);
     }
-  }, [playing]);
+  }, [playing, audioUrl]);
 
   const seek = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
@@ -75,16 +124,30 @@ const AudioPlayer = ({ label }: AudioPlayerProps) => {
     };
   }, []);
 
+  // Cleanup blob URL
+  useEffect(() => {
+    return () => {
+      if (audioUrl) URL.revokeObjectURL(audioUrl);
+    };
+  }, [audioUrl]);
+
   const progress = duration ? (currentTime / duration) * 100 : 0;
 
   return (
     <div className="flex items-center gap-3 rounded-md border bg-card px-3 py-2.5">
       <button
         onClick={toggle}
-        aria-label={playing ? "Pause" : "Play"}
-        className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground transition-colors hover:bg-primary/90"
+        disabled={loading}
+        aria-label={loading ? "Generating audio" : playing ? "Pause" : "Play"}
+        className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-60"
       >
-        {playing ? <Pause size={14} /> : <Play size={14} className="ml-0.5" />}
+        {loading ? (
+          <Loader2 size={14} className="animate-spin" />
+        ) : playing ? (
+          <Pause size={14} />
+        ) : (
+          <Play size={14} className="ml-0.5" />
+        )}
       </button>
 
       <div className="flex min-w-0 flex-1 flex-col gap-1">
@@ -115,13 +178,14 @@ const AudioPlayer = ({ label }: AudioPlayerProps) => {
 
       <button
         onClick={restart}
+        disabled={!audioUrl}
         aria-label="Restart"
-        className="shrink-0 text-muted-foreground transition-colors hover:text-foreground"
+        className="shrink-0 text-muted-foreground transition-colors hover:text-foreground disabled:opacity-40"
       >
         <RotateCcw size={14} />
       </button>
 
-      <audio ref={audioRef} src={SILENT_MP3} preload="metadata" />
+      <audio ref={audioRef} preload="metadata" />
     </div>
   );
 };
