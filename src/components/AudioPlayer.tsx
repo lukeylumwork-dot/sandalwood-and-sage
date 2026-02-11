@@ -2,9 +2,17 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { Play, Pause, RotateCcw, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
+export interface AudioSegment {
+  text: string;
+  voiceId?: string;
+}
+
 interface AudioPlayerProps {
   label?: string;
+  /** Single text string (uses default voice) */
   text?: string;
+  /** Multi-voice segments — takes precedence over text */
+  segments?: AudioSegment[];
   voiceId?: string;
 }
 
@@ -16,7 +24,7 @@ const formatTime = (seconds: number) => {
 
 const TTS_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/elevenlabs-tts`;
 
-const AudioPlayer = ({ label, text, voiceId }: AudioPlayerProps) => {
+const AudioPlayer = ({ label, text, segments, voiceId }: AudioPlayerProps) => {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [playing, setPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
@@ -26,16 +34,20 @@ const AudioPlayer = ({ label, text, voiceId }: AudioPlayerProps) => {
   const progressRef = useRef<HTMLDivElement>(null);
 
   const generateAudio = useCallback(async () => {
-    if (!text) return;
+    if (!text && !segments?.length) return null;
     setLoading(true);
     try {
+      const body = segments?.length
+        ? { segments }
+        : { text, voiceId };
+
       const resp = await fetch(TTS_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
         },
-        body: JSON.stringify({ text, voiceId }),
+        body: JSON.stringify(body),
       });
       if (!resp.ok) {
         const err = await resp.json().catch(() => ({ error: "Unknown error" }));
@@ -52,16 +64,15 @@ const AudioPlayer = ({ label, text, voiceId }: AudioPlayerProps) => {
     } finally {
       setLoading(false);
     }
-  }, [text, voiceId]);
+  }, [text, segments, voiceId]);
 
   const toggle = useCallback(async () => {
     const audio = audioRef.current;
     if (!audio) return;
 
-    if (!audioUrl && text) {
+    if (!audioUrl && (text || segments?.length)) {
       const url = await generateAudio();
       if (!url) return;
-      // Audio element will pick up the new src via effect
       return;
     }
 
@@ -71,9 +82,8 @@ const AudioPlayer = ({ label, text, voiceId }: AudioPlayerProps) => {
       audio.play().catch(() => {});
     }
     setPlaying(!playing);
-  }, [playing, audioUrl, text, generateAudio]);
+  }, [playing, audioUrl, text, segments, generateAudio]);
 
-  // Auto-play when audioUrl is first set
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio || !audioUrl) return;
@@ -109,11 +119,9 @@ const AudioPlayer = ({ label, text, voiceId }: AudioPlayerProps) => {
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
-
     const onTime = () => setCurrentTime(audio.currentTime);
     const onMeta = () => setDuration(audio.duration || 0);
     const onEnd = () => setPlaying(false);
-
     audio.addEventListener("timeupdate", onTime);
     audio.addEventListener("loadedmetadata", onMeta);
     audio.addEventListener("ended", onEnd);
@@ -124,7 +132,6 @@ const AudioPlayer = ({ label, text, voiceId }: AudioPlayerProps) => {
     };
   }, []);
 
-  // Cleanup blob URL
   useEffect(() => {
     return () => {
       if (audioUrl) URL.revokeObjectURL(audioUrl);
