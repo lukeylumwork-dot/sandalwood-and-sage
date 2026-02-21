@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.39.3";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -12,6 +13,14 @@ interface Segment {
 }
 
 const DEFAULT_VOICE = "JBFqnCBsd6RMkjVDRZzb"; // George
+
+async function hashKey(input: string): Promise<string> {
+  const data = new TextEncoder().encode(input);
+  const digest = await crypto.subtle.digest("SHA-256", data);
+  return Array.from(new Uint8Array(digest))
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
+}
 
 async function generateSegment(
   text: string,
@@ -63,7 +72,7 @@ serve(async (req) => {
       );
     }
 
-    // Support both single text and multi-segment formats
+    // Build segments
     let segments: Segment[];
     if (body.segments && Array.isArray(body.segments)) {
       segments = body.segments;
@@ -76,7 +85,40 @@ serve(async (req) => {
       );
     }
 
-    // Generate audio for each segment (sequentially to respect rate limits)
+    // Generate cache key from segments content
+    const cacheInput = JSON.stringify(
+      segments.map((s) => ({ text: s.text, voiceId: s.voiceId || DEFAULT_VOICE }))
+    );
+    const cacheKey = await hashKey(cacheInput);
+    const cachePath = `${cacheKey}.mp3`;
+
+    // Check cache
+    const supabase = createClient(
+      Deno.env.get("SUPABASE_URL")!,
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
+    );
+
+    const { data: existing } = await supabase.storage
+      .from("audio-cache")
+      .createSignedUrl(cachePath, 86400);
+
+    if (existing?.signedUrl) {
+      // Serve from cache - redirect to the signed URL
+      const cached = await fetch(existing.signedUrl);
+      if (cached.ok) {
+        const audioData = await cached.arrayBuffer();
+        return new Response(audioData, {
+          headers: {
+            ...corsHeaders,
+            "Content-Type": "audio/mpeg",
+            "Cache-Control": "public, max-age=86400",
+            "X-Cache": "HIT",
+          },
+        });
+      }
+    }
+
+    // Generate audio for each segment
     const audioBuffers: ArrayBuffer[] = [];
     for (const seg of segments) {
       if (!seg.text || typeof seg.text !== "string") continue;
@@ -95,7 +137,7 @@ serve(async (req) => {
       );
     }
 
-    // Concatenate MP3 buffers (MP3 frames are independently decodable)
+    // Concatenate MP3 buffers
     const totalLength = audioBuffers.reduce((sum, b) => sum + b.byteLength, 0);
     const combined = new Uint8Array(totalLength);
     let offset = 0;
@@ -104,11 +146,24 @@ serve(async (req) => {
       offset += buf.byteLength;
     }
 
+    // Store in cache (fire-and-forget)
+    supabase.storage
+      .from("audio-cache")
+      .upload(cachePath, combined.buffer, {
+        contentType: "audio/mpeg",
+        upsert: false,
+      })
+      .then(({ error }) => {
+        if (error) console.log("Cache store skipped:", error.message);
+        else console.log("Cached audio:", cachePath);
+      });
+
     return new Response(combined.buffer, {
       headers: {
         ...corsHeaders,
         "Content-Type": "audio/mpeg",
         "Cache-Control": "public, max-age=86400",
+        "X-Cache": "MISS",
       },
     });
   } catch (e) {
