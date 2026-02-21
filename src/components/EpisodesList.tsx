@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Clock } from "lucide-react";
+import { Clock, Zap } from "lucide-react";
 import AudioPlayer, { type AudioSegment } from "@/components/AudioPlayer";
 import { VOICES } from "@/lib/voices";
+import { useCachedEpisodes } from "@/hooks/use-cached-episodes";
 import {
   Dialog,
   DialogContent,
@@ -157,6 +158,7 @@ function buildSegments(ep: Episode): AudioSegment[] {
 const EpisodesList = () => {
   const [activeFilter, setActiveFilter] = useState("All");
   const [selectedEpisode, setSelectedEpisode] = useState<Episode | null>(null);
+  const cachedSet = useCachedEpisodes(episodes);
 
   const filtered = activeFilter === "All"
     ? episodes
@@ -185,24 +187,35 @@ const EpisodesList = () => {
       </div>
 
       <div className="grid gap-4">
-        {filtered.map((ep, i) => (
-          <button
-            key={i}
-            onClick={() => setSelectedEpisode(ep)}
-            className="flex flex-col gap-1 rounded-lg border bg-card p-5 text-left transition-colors hover:border-primary/30 sm:flex-row sm:items-center sm:justify-between"
-          >
-            <div className="min-w-0">
-              <span className="text-xs font-medium text-primary">{ep.category}</span>
-              <h3 className="text-sm font-semibold text-card-foreground mt-0.5 leading-snug">
-                {ep.title}
-              </h3>
-              <p className="text-xs text-muted-foreground mt-1">{ep.premise}</p>
-            </div>
-            <p className="mt-2 flex shrink-0 items-center gap-1 text-xs text-muted-foreground sm:mt-0">
-              <Clock size={13} /> {ep.duration}
-            </p>
-          </button>
-        ))}
+        {filtered.map((ep, i) => {
+          const globalIndex = episodes.indexOf(ep);
+          const isCached = cachedSet.has(globalIndex);
+          return (
+            <button
+              key={i}
+              onClick={() => setSelectedEpisode(ep)}
+              className="flex flex-col gap-1 rounded-lg border bg-card p-5 text-left transition-colors hover:border-primary/30 sm:flex-row sm:items-center sm:justify-between"
+            >
+              <div className="min-w-0">
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-medium text-primary">{ep.category}</span>
+                  {isCached && (
+                    <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-medium text-primary">
+                      <Zap size={10} /> Instant
+                    </span>
+                  )}
+                </div>
+                <h3 className="text-sm font-semibold text-card-foreground mt-0.5 leading-snug">
+                  {ep.title}
+                </h3>
+                <p className="text-xs text-muted-foreground mt-1">{ep.premise}</p>
+              </div>
+              <p className="mt-2 flex shrink-0 items-center gap-1 text-xs text-muted-foreground sm:mt-0">
+                <Clock size={13} /> {ep.duration}
+              </p>
+            </button>
+          );
+        })}
         {filtered.length === 0 && (
           <p className="text-sm text-muted-foreground py-4">No episodes in this category yet.</p>
         )}
