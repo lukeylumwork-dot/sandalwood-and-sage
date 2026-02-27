@@ -6,7 +6,7 @@ const navLinks = [
   { label: "Latest", href: "#featured" },
   { label: "Episodes", href: "#episodes" },
   { label: "How it Works", href: "#how-it-works" },
-  { label: "About", href: "#about" },
+  
 ];
 
 const Header = () => {
