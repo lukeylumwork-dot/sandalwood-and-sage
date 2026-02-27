@@ -3,7 +3,7 @@ import Hero from "@/components/Hero";
 import FeaturedEpisode from "@/components/FeaturedEpisode";
 import HowItWorks from "@/components/HowItWorks";
 import EpisodesList from "@/components/EpisodesList";
-import About from "@/components/About";
+
 import TopicSubmission from "@/components/TopicSubmission";
 import DebateGenerator from "@/components/DebateGenerator";
 import Subscribe from "@/components/Subscribe";
@@ -18,7 +18,7 @@ const Index = () => {
         <FeaturedEpisode />
         <HowItWorks />
         <EpisodesList />
-        <About />
+        
         <DebateGenerator />
         <TopicSubmission />
         <Subscribe />
