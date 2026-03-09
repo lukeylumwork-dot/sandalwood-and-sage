@@ -32,6 +32,7 @@ const Header = () => {
               {link.label}
             </a>
           ))}
+          <ThemeToggle />
           <Button size="sm" asChild>
             <a href="#subscribe">Subscribe</a>
           </Button>
