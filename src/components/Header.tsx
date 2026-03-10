@@ -1,13 +1,14 @@
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Rss } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ThemeToggle from "@/components/ThemeToggle";
+
+const rssUrl = `https://${import.meta.env.VITE_SUPABASE_PROJECT_ID}.supabase.co/functions/v1/rss-feed`;
 
 const navLinks = [
   { label: "Latest", href: "#featured" },
   { label: "Episodes", href: "#episodes" },
   { label: "How it Works", href: "#how-it-works" },
-  
 ];
 
 const Header = () => {
