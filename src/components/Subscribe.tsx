@@ -1,11 +1,15 @@
 import { useState } from "react";
+import { Rss } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+
+const rssUrl = `https://${import.meta.env.VITE_SUPABASE_PROJECT_ID}.supabase.co/functions/v1/rss-feed`;
 
 const platforms = [
   { label: "Spotify", href: "#" },
   { label: "Apple Podcasts", href: "#" },
   { label: "YouTube", href: "#" },
+  { label: "RSS Feed", href: rssUrl, icon: Rss },
 ];
 
 const Subscribe = () => {
@@ -26,7 +30,10 @@ const Subscribe = () => {
       <div className="flex flex-wrap gap-3 mb-6">
         {platforms.map((p) => (
           <Button key={p.label} variant="outline" size="sm" asChild>
-            <a href={p.href}>{p.label}</a>
+            <a href={p.href} target={p.href.startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer" className="flex items-center gap-1.5">
+              {"icon" in p && p.icon && <p.icon size={14} />}
+              {p.label}
+            </a>
           </Button>
         ))}
       </div>

@@ -1,13 +1,14 @@
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Rss } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ThemeToggle from "@/components/ThemeToggle";
+
+const rssUrl = `https://${import.meta.env.VITE_SUPABASE_PROJECT_ID}.supabase.co/functions/v1/rss-feed`;
 
 const navLinks = [
   { label: "Latest", href: "#featured" },
   { label: "Episodes", href: "#episodes" },
   { label: "How it Works", href: "#how-it-works" },
-  
 ];
 
 const Header = () => {
@@ -32,6 +33,9 @@ const Header = () => {
               {link.label}
             </a>
           ))}
+          <a href={rssUrl} target="_blank" rel="noopener noreferrer" aria-label="RSS Feed" className="text-muted-foreground hover:text-foreground transition-colors">
+            <Rss size={16} />
+          </a>
           <ThemeToggle />
           <Button size="sm" asChild>
             <a href="#subscribe">Subscribe</a>
