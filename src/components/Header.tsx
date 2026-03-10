@@ -60,9 +60,12 @@ const Header = () => {
                 {link.label}
               </a>
             ))}
-            <Button size="sm" className="mt-1 w-fit" asChild>
-              <a href="#subscribe" onClick={() => setMobileOpen(false)}>Subscribe</a>
-            </Button>
+            <div className="flex items-center gap-3 mt-1">
+              <ThemeToggle />
+              <Button size="sm" className="w-fit" asChild>
+                <a href="#subscribe" onClick={() => setMobileOpen(false)}>Subscribe</a>
+              </Button>
+            </div>
           </div>
         </nav>
       )}
