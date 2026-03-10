@@ -29,7 +29,16 @@ serve(async (req) => {
   }
 
   try {
-    const { topic } = await req.json();
+    let body: { topic?: string };
+    try {
+      body = await req.json();
+    } catch {
+      return new Response(
+        JSON.stringify({ error: "Invalid JSON body" }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+    const { topic } = body;
     if (!topic || typeof topic !== "string") {
       return new Response(
         JSON.stringify({ error: "Missing 'topic' field" }),
