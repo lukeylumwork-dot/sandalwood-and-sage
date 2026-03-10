@@ -2,16 +2,35 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 const TopicSubmission = () => {
   const [submitted, setSubmitted] = useState(false);
   const [topic, setTopic] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [saving, setSaving] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (topic.trim()) setSubmitted(true);
+    if (!topic.trim()) return;
+    setSaving(true);
+    try {
+      const { error } = await supabase.from("submitted_topics").insert({
+        topic: topic.trim(),
+        name: name.trim() || null,
+        email: email.trim() || null,
+      });
+      if (error) throw error;
+      setSubmitted(true);
+      toast.success("Topic submitted!");
+    } catch (err) {
+      console.error("Submit error:", err);
+      toast.error("Failed to submit topic. Please try again.");
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -42,6 +61,7 @@ const TopicSubmission = () => {
                 required
                 rows={3}
                 className="text-sm"
+                disabled={saving}
               />
             </div>
             <div className="grid gap-3 sm:grid-cols-2">
@@ -55,6 +75,7 @@ const TopicSubmission = () => {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   className="text-sm"
+                  disabled={saving}
                 />
               </div>
               <div>
@@ -68,11 +89,12 @@ const TopicSubmission = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="text-sm"
+                  disabled={saving}
                 />
               </div>
             </div>
-            <Button type="submit" size="sm">
-              Submit
+            <Button type="submit" size="sm" disabled={saving || !topic.trim()}>
+              {saving ? "Submitting…" : "Submit"}
             </Button>
           </form>
         )}
