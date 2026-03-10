@@ -14,7 +14,72 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      generated_debates: {
+        Row: {
+          against_argument: string
+          category: string
+          created_at: string
+          for_argument: string
+          host_intro: string
+          id: string
+          key_points: Json
+          question: string
+          summary: string
+          title: string
+          topic: string
+        }
+        Insert: {
+          against_argument: string
+          category: string
+          created_at?: string
+          for_argument: string
+          host_intro: string
+          id?: string
+          key_points?: Json
+          question: string
+          summary: string
+          title: string
+          topic: string
+        }
+        Update: {
+          against_argument?: string
+          category?: string
+          created_at?: string
+          for_argument?: string
+          host_intro?: string
+          id?: string
+          key_points?: Json
+          question?: string
+          summary?: string
+          title?: string
+          topic?: string
+        }
+        Relationships: []
+      }
+      submitted_topics: {
+        Row: {
+          created_at: string
+          email: string | null
+          id: string
+          name: string | null
+          topic: string
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          id?: string
+          name?: string | null
+          topic: string
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          id?: string
+          name?: string | null
+          topic?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
