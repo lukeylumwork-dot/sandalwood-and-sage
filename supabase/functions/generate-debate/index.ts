@@ -144,7 +144,26 @@ serve(async (req) => {
       );
     }
 
-    const data = await response.json();
+    const responseText = await response.text();
+    if (!responseText) {
+      console.error("Empty response from AI gateway");
+      return new Response(
+        JSON.stringify({ error: "AI returned empty response. Please try again." }),
+        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    let data;
+    try {
+      data = JSON.parse(responseText);
+    } catch {
+      console.error("Invalid JSON from AI gateway:", responseText.slice(0, 200));
+      return new Response(
+        JSON.stringify({ error: "AI returned invalid response. Please try again." }),
+        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
     const toolCall = data.choices?.[0]?.message?.tool_calls?.[0];
     if (!toolCall?.function?.arguments) {
       console.error("No tool call in response:", JSON.stringify(data));
