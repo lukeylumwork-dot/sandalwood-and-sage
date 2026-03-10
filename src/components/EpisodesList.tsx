@@ -283,6 +283,55 @@ const EpisodesList = () => {
                     segments={buildSegments(selectedEpisode)}
                   />
                 </div>
+
+                {/* Share buttons */}
+                <div className="flex items-center gap-2 pt-3 border-t">
+                  <span className="text-xs text-muted-foreground mr-1">Share</span>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className="h-8 w-8"
+                    onClick={() => {
+                      navigator.clipboard.writeText(getShareUrl(selectedEpisode));
+                      toast.success("Link copied to clipboard!");
+                    }}
+                    aria-label="Copy share link"
+                  >
+                    <Link size={14} />
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className="h-8 w-8"
+                    asChild
+                  >
+                    <a
+                      href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(selectedEpisode.title + " — Split Decision")}&url=${encodeURIComponent(getShareUrl(selectedEpisode))}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="Share on Twitter"
+                    >
+                      <Twitter size={14} />
+                    </a>
+                  </Button>
+                  {typeof navigator !== "undefined" && "share" in navigator && (
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      className="h-8 w-8"
+                      onClick={() => {
+                        navigator.share({
+                          title: selectedEpisode.title,
+                          text: selectedEpisode.premise,
+                          url: getShareUrl(selectedEpisode),
+                        }).catch(() => {});
+                      }}
+                      aria-label="Share via system"
+                    >
+                      <Share2 size={14} />
+                    </Button>
+                  )}
+                </div>
               </div>
             </>
           )}
