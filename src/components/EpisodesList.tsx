@@ -149,6 +149,14 @@ const episodes: Episode[] = [
 
 const categories = ["All", "Tech", "Work", "Society", "Money", "Sport", "Politics"];
 
+function toSlug(title: string): string {
+  return title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+}
+
+function getShareUrl(ep: Episode): string {
+  return `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/share-episode?episode=${toSlug(ep.title)}`;
+}
+
 function buildSegments(ep: Episode): AudioSegment[] {
   return [
     { text: `${ep.title}. ${ep.question}`, voiceId: VOICES.HOST },
