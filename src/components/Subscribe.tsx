@@ -30,7 +30,10 @@ const Subscribe = () => {
       <div className="flex flex-wrap gap-3 mb-6">
         {platforms.map((p) => (
           <Button key={p.label} variant="outline" size="sm" asChild>
-            <a href={p.href}>{p.label}</a>
+            <a href={p.href} target={p.href.startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer" className="flex items-center gap-1.5">
+              {"icon" in p && p.icon && <p.icon size={14} />}
+              {p.label}
+            </a>
           </Button>
         ))}
       </div>
