@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { Clock, Zap } from "lucide-react";
+import { Clock, Zap, Share2, Link, Twitter } from "lucide-react";
 import AudioPlayer, { type AudioSegment } from "@/components/AudioPlayer";
 import { VOICES } from "@/lib/voices";
 import { useCachedEpisodes } from "@/hooks/use-cached-episodes";
+import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 import {
   Dialog,
   DialogContent,
