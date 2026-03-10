@@ -33,6 +33,9 @@ const Header = () => {
               {link.label}
             </a>
           ))}
+          <a href={rssUrl} target="_blank" rel="noopener noreferrer" aria-label="RSS Feed" className="text-muted-foreground hover:text-foreground transition-colors">
+            <Rss size={16} />
+          </a>
           <ThemeToggle />
           <Button size="sm" asChild>
             <a href="#subscribe">Subscribe</a>
