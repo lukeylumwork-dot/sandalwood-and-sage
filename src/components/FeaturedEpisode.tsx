@@ -40,14 +40,26 @@ const FeaturedEpisode = () => {
   const [episode, setEpisode] = useState(fallback);
 
   useEffect(() => {
+    // Try pinned featured first, then fall back to latest
     supabase
       .from("generated_debates")
-      .select("title, category, summary, question, for_argument, against_argument, video_url, side_a_label, side_b_label, side_a_summary, side_b_summary")
-      .order("created_at", { ascending: false })
+      .select("title, category, summary, question, for_argument, against_argument, video_url, side_a_label, side_b_label, side_a_summary, side_b_summary, is_featured")
+      .eq("is_featured", true)
       .limit(1)
-      .then(({ data }) => {
-        if (data && data.length > 0) {
-          const d = data[0] as any;
+      .then(async ({ data: pinned }) => {
+        let row = pinned && pinned.length > 0 ? pinned[0] : null;
+
+        if (!row) {
+          const { data: latest } = await supabase
+            .from("generated_debates")
+            .select("title, category, summary, question, for_argument, against_argument, video_url, side_a_label, side_b_label, side_a_summary, side_b_summary")
+            .order("created_at", { ascending: false })
+            .limit(1);
+          row = latest && latest.length > 0 ? latest[0] : null;
+        }
+
+        if (row) {
+          const d = row as any;
           setEpisode({
             title: d.title,
             category: d.category,

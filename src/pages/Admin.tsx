@@ -474,6 +474,26 @@ const Admin = () => {
     setEditFormData(EMPTY_FORM);
   };
 
+  const handleToggleFeatured = async (id: string, currentlyFeatured: boolean) => {
+    if (!currentlyFeatured) {
+      // Unset any existing featured episode first
+      await supabase
+        .from("generated_debates")
+        .update({ is_featured: false } as any)
+        .eq("is_featured", true);
+    }
+    const { error } = await supabase
+      .from("generated_debates")
+      .update({ is_featured: !currentlyFeatured } as any)
+      .eq("id", id);
+    if (error) {
+      toast.error("Failed to update featured status.");
+    } else {
+      toast.success(currentlyFeatured ? "Episode unpinned." : "Episode pinned as featured!");
+      fetchEpisodes();
+    }
+  };
+
   const handleLogout = () => {
     sessionStorage.removeItem("admin_auth");
     setAuthed(false);
