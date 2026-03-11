@@ -5,6 +5,7 @@ import VideoPlayer from "@/components/VideoPlayer";
 import SidesSplit from "@/components/SidesSplit";
 import { VOICES } from "@/lib/voices";
 import { useCachedEpisodes } from "@/hooks/use-cached-episodes";
+import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import {
