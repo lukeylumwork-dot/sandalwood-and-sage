@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { Clock, Zap, Share2, Link, Twitter, Video } from "lucide-react";
+import { useState, useEffect, useMemo } from "react";
+import { Clock, Zap, Share2, Link, Twitter, Video, Search } from "lucide-react";
 import AudioPlayer, { type AudioSegment } from "@/components/AudioPlayer";
 import VideoPlayer from "@/components/VideoPlayer";
 import SidesSplit from "@/components/SidesSplit";
