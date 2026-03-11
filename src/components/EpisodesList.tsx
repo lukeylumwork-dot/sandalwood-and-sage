@@ -263,6 +263,11 @@ const EpisodesList = () => {
                       <Video size={10} /> Video Debate
                     </span>
                   )}
+                  {ep._isFromDb && (
+                    <span className="inline-flex items-center rounded-full bg-primary/15 px-2 py-0.5 text-[10px] font-semibold text-primary">
+                      New
+                    </span>
+                  )}
                 </div>
                 <h3 className="text-sm font-semibold text-card-foreground mt-0.5 leading-snug">
                   {ep.title}
