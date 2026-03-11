@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { Clock, Zap, Share2, Link, Twitter, Video } from "lucide-react";
+import { useState, useEffect, useMemo } from "react";
+import { Clock, Zap, Share2, Link, Twitter, Video, Search } from "lucide-react";
 import AudioPlayer, { type AudioSegment } from "@/components/AudioPlayer";
 import VideoPlayer from "@/components/VideoPlayer";
 import SidesSplit from "@/components/SidesSplit";
@@ -180,6 +180,7 @@ function buildSegments(ep: Episode): AudioSegment[] {
 
 const EpisodesList = () => {
   const [activeFilter, setActiveFilter] = useState("All");
+  const [searchQuery, setSearchQuery] = useState("");
   const [selectedEpisode, setSelectedEpisode] = useState<Episode | null>(null);
   const [dbEpisodes, setDbEpisodes] = useState<Episode[]>([]);
 
@@ -214,15 +215,41 @@ const EpisodesList = () => {
   const allEpisodes = [...dbEpisodes, ...episodes];
   const cachedSet = useCachedEpisodes(allEpisodes);
 
-  const filtered = activeFilter === "All"
-    ? allEpisodes
-    : allEpisodes.filter((ep) => ep.category === activeFilter);
+  const filtered = useMemo(() => {
+    let result = activeFilter === "All"
+      ? allEpisodes
+      : allEpisodes.filter((ep) => ep.category === activeFilter);
+
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase().trim();
+      result = result.filter(
+        (ep) =>
+          ep.title.toLowerCase().includes(q) ||
+          ep.premise.toLowerCase().includes(q) ||
+          ep.question.toLowerCase().includes(q) ||
+          ep.summary.toLowerCase().includes(q)
+      );
+    }
+
+    return result;
+  }, [allEpisodes, activeFilter, searchQuery]);
 
   return (
     <section id="episodes" className="mx-auto max-w-4xl px-5 py-16">
       <p className="text-xs font-medium uppercase tracking-widest text-section-label mb-4">
         Episodes
       </p>
+
+      <div className="relative mb-4">
+        <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder="Search episodes…"
+          className="w-full rounded-lg border border-border bg-card pl-9 pr-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring"
+        />
+      </div>
 
       <div className="flex flex-wrap gap-2 mb-6">
         {categories.map((cat) => (
