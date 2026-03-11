@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
-import { Loader2, Trash2, Lock, LogOut } from "lucide-react";
+import { Loader2, Trash2, Lock, LogOut, Pencil, X } from "lucide-react";
 
 const CATEGORIES = ["Tech", "Work", "Society", "Money", "Sport", "Politics"];
 const VERIFY_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/verify-admin`;
@@ -15,6 +15,39 @@ interface Episode {
   category: string;
   created_at: string;
 }
+
+interface EpisodeFull {
+  id: string;
+  title: string;
+  topic: string;
+  category: string;
+  question: string;
+  summary: string;
+  host_intro: string;
+  for_argument: string;
+  against_argument: string;
+  video_url: string | null;
+  side_a_label: string | null;
+  side_b_label: string | null;
+  side_a_summary: string | null;
+  side_b_summary: string | null;
+}
+
+type FormData = {
+  title: string;
+  category: string;
+  summary: string;
+  duration: string;
+  question: string;
+  host_intro: string;
+  for_argument: string;
+  against_argument: string;
+  video_url: string;
+  side_a_label: string;
+  side_b_label: string;
+  side_a_summary: string;
+  side_b_summary: string;
+};
 
 /* ─── Password Gate ─── */
 function PasswordGate({ onAuth }: { onAuth: () => void }) {
@@ -82,8 +115,8 @@ function PasswordGate({ onAuth }: { onAuth: () => void }) {
   );
 }
 
-/* ─── Publish Form ─── */
-const EMPTY_FORM = {
+/* ─── Episode Form (create + edit) ─── */
+const EMPTY_FORM: FormData = {
   title: "",
   category: "Tech",
   summary: "",
@@ -99,9 +132,24 @@ const EMPTY_FORM = {
   side_b_summary: "",
 };
 
-function PublishForm({ onPublished }: { onPublished: () => void }) {
-  const [form, setForm] = useState(EMPTY_FORM);
+function EpisodeForm({
+  editingId,
+  initialData,
+  onSaved,
+  onCancel,
+}: {
+  editingId: string | null;
+  initialData: FormData;
+  onSaved: () => void;
+  onCancel: () => void;
+}) {
+  const [form, setForm] = useState<FormData>(initialData);
   const [saving, setSaving] = useState(false);
+  const isEditing = !!editingId;
+
+  useEffect(() => {
+    setForm(initialData);
+  }, [initialData]);
 
   const set = (key: string, value: string) => setForm((f) => ({ ...f, [key]: value }));
 
@@ -113,7 +161,8 @@ function PublishForm({ onPublished }: { onPublished: () => void }) {
     }
 
     setSaving(true);
-    const { error } = await supabase.from("generated_debates").insert({
+
+    const payload = {
       title: form.title.trim(),
       topic: form.title.trim(),
       category: form.category,
@@ -127,22 +176,41 @@ function PublishForm({ onPublished }: { onPublished: () => void }) {
       side_b_label: form.side_b_label.trim() || null,
       side_a_summary: form.side_a_summary.trim() || null,
       side_b_summary: form.side_b_summary.trim() || null,
-    });
+    };
+
+    let error;
+    if (isEditing) {
+      ({ error } = await supabase
+        .from("generated_debates")
+        .update(payload)
+        .eq("id", editingId));
+    } else {
+      ({ error } = await supabase.from("generated_debates").insert(payload));
+    }
 
     setSaving(false);
     if (error) {
       console.error("Save error:", error);
-      toast.error("Failed to save episode. Please try again.");
+      toast.error(`Failed to ${isEditing ? "update" : "save"} episode. Please try again.`);
     } else {
-      toast.success("Episode published!");
-      setForm(EMPTY_FORM);
-      onPublished();
+      toast.success(isEditing ? "Episode updated!" : "Episode published!");
+      if (!isEditing) setForm(EMPTY_FORM);
+      onSaved();
     }
   };
 
   return (
     <form onSubmit={handleSubmit} className="rounded-lg border bg-card p-6 space-y-4">
-      <h2 className="text-base font-semibold text-card-foreground">Publish New Episode</h2>
+      <div className="flex items-center justify-between">
+        <h2 className="text-base font-semibold text-card-foreground">
+          {isEditing ? "Edit Episode" : "Publish New Episode"}
+        </h2>
+        {isEditing && (
+          <Button type="button" variant="ghost" size="sm" onClick={onCancel}>
+            <X size={14} className="mr-1" /> Cancel
+          </Button>
+        )}
+      </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="sm:col-span-2">
@@ -234,14 +302,22 @@ function PublishForm({ onPublished }: { onPublished: () => void }) {
 
       <Button type="submit" disabled={saving} size="sm">
         {saving ? <Loader2 size={14} className="animate-spin mr-1.5" /> : null}
-        Publish Episode
+        {isEditing ? "Update Episode" : "Publish Episode"}
       </Button>
     </form>
   );
 }
 
 /* ─── Episode List ─── */
-function EpisodeList({ episodes, onDelete }: { episodes: Episode[]; onDelete: (id: string) => void }) {
+function EpisodeList({
+  episodes,
+  onDelete,
+  onEdit,
+}: {
+  episodes: Episode[];
+  onDelete: (id: string) => void;
+  onEdit: (id: string) => void;
+}) {
   const [confirmId, setConfirmId] = useState<string | null>(null);
 
   const handleDelete = (id: string) => {
@@ -273,16 +349,25 @@ function EpisodeList({ episodes, onDelete }: { episodes: Episode[]; onDelete: (i
                 {ep.title}
               </h4>
             </div>
-            <Button
-              variant={confirmId === ep.id ? "destructive" : "ghost"}
-              size="sm"
-              onClick={() => handleDelete(ep.id)}
-              onBlur={() => setConfirmId(null)}
-              className="shrink-0"
-            >
-              <Trash2 size={14} className="mr-1" />
-              {confirmId === ep.id ? "Confirm" : "Delete"}
-            </Button>
+            <div className="flex items-center gap-1 shrink-0">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => onEdit(ep.id)}
+              >
+                <Pencil size={14} className="mr-1" />
+                Edit
+              </Button>
+              <Button
+                variant={confirmId === ep.id ? "destructive" : "ghost"}
+                size="sm"
+                onClick={() => handleDelete(ep.id)}
+                onBlur={() => setConfirmId(null)}
+              >
+                <Trash2 size={14} className="mr-1" />
+                {confirmId === ep.id ? "Confirm" : "Delete"}
+              </Button>
+            </div>
           </div>
         ))}
       </div>
@@ -294,6 +379,8 @@ function EpisodeList({ episodes, onDelete }: { episodes: Episode[]; onDelete: (i
 const Admin = () => {
   const [authed, setAuthed] = useState(() => sessionStorage.getItem("admin_auth") === "true");
   const [episodes, setEpisodes] = useState<Episode[]>([]);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editFormData, setEditFormData] = useState<FormData>(EMPTY_FORM);
 
   const fetchEpisodes = useCallback(async () => {
     const { data } = await supabase
@@ -313,8 +400,56 @@ const Admin = () => {
       toast.error("Failed to delete episode.");
     } else {
       toast.success("Episode deleted.");
+      if (editingId === id) {
+        setEditingId(null);
+        setEditFormData(EMPTY_FORM);
+      }
       fetchEpisodes();
     }
+  };
+
+  const handleEdit = async (id: string) => {
+    const { data, error } = await supabase
+      .from("generated_debates")
+      .select("id, title, topic, category, question, summary, host_intro, for_argument, against_argument, video_url, side_a_label, side_b_label, side_a_summary, side_b_summary")
+      .eq("id", id)
+      .single();
+
+    if (error || !data) {
+      toast.error("Failed to load episode for editing.");
+      return;
+    }
+
+    const ep = data as unknown as EpisodeFull;
+    setEditingId(id);
+    setEditFormData({
+      title: ep.title,
+      category: ep.category,
+      summary: ep.summary,
+      duration: "",
+      question: ep.question,
+      host_intro: ep.host_intro,
+      for_argument: ep.for_argument,
+      against_argument: ep.against_argument,
+      video_url: ep.video_url || "",
+      side_a_label: ep.side_a_label || "",
+      side_b_label: ep.side_b_label || "",
+      side_a_summary: ep.side_a_summary || "",
+      side_b_summary: ep.side_b_summary || "",
+    });
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleSaved = () => {
+    setEditingId(null);
+    setEditFormData(EMPTY_FORM);
+    fetchEpisodes();
+  };
+
+  const handleCancel = () => {
+    setEditingId(null);
+    setEditFormData(EMPTY_FORM);
   };
 
   const handleLogout = () => {
@@ -335,8 +470,13 @@ const Admin = () => {
           </Button>
         </div>
         <div className="space-y-8">
-          <PublishForm onPublished={fetchEpisodes} />
-          <EpisodeList episodes={episodes} onDelete={handleDelete} />
+          <EpisodeForm
+            editingId={editingId}
+            initialData={editingId ? editFormData : EMPTY_FORM}
+            onSaved={handleSaved}
+            onCancel={handleCancel}
+          />
+          <EpisodeList episodes={episodes} onDelete={handleDelete} onEdit={handleEdit} />
         </div>
       </div>
     </div>
