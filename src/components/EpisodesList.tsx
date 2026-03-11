@@ -279,6 +279,14 @@ const EpisodesList = () => {
                   />
                 )}
 
+                {/* Audio player */}
+                <div className="pt-2">
+                  <AudioPlayer
+                    label={selectedEpisode.title}
+                    segments={buildSegments(selectedEpisode)}
+                  />
+                </div>
+
                 <div>
                   <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-1">
                     The question
@@ -309,14 +317,6 @@ const EpisodesList = () => {
                       </li>
                     ))}
                   </ul>
-                </div>
-
-                {/* Audio player — always shown as fallback */}
-                <div className="pt-2">
-                  <AudioPlayer
-                    label={selectedEpisode.title}
-                    segments={buildSegments(selectedEpisode)}
-                  />
                 </div>
 
                 {/* Share buttons */}
