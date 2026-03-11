@@ -8,6 +8,7 @@ import TopicSubmission from "@/components/TopicSubmission";
 import DebateGenerator from "@/components/DebateGenerator";
 import Subscribe from "@/components/Subscribe";
 import Footer from "@/components/Footer";
+import { Separator } from "@/components/ui/separator";
 
 const section = {
   hidden: { opacity: 0, y: 32 },
@@ -22,7 +23,31 @@ const Index = () => {
         <motion.div initial="hidden" animate="visible" variants={section}>
           <Hero />
         </motion.div>
-{[FeaturedEpisode, EpisodesList, HowItWorks, DebateGenerator, TopicSubmission, Subscribe].map(
+        {[FeaturedEpisode, EpisodesList, HowItWorks].map(
+          (Section, i) => (
+            <motion.div
+              key={i}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.15 }}
+              variants={section}
+            >
+              <Section />
+            </motion.div>
+          )
+        )}
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.15 }}
+          variants={section}
+        >
+          <div className="mt-16">
+            <Separator className="mb-16" />
+            <DebateGenerator />
+          </div>
+        </motion.div>
+        {[TopicSubmission, Subscribe].map(
           (Section, i) => (
             <motion.div
               key={i}

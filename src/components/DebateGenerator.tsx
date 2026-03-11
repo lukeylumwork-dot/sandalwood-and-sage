@@ -255,7 +255,7 @@ const DebateGenerator = () => {
 
       {/* Past generated debates */}
       {pastDebates.length > 0 && (
-        <div className="mt-8">
+        <div className="mt-6">
           <p className="text-xs font-medium uppercase tracking-widest text-section-label mb-3">
             Previously Generated
           </p>
@@ -264,7 +264,7 @@ const DebateGenerator = () => {
               <button
                 key={d.id}
                 onClick={() => setScript(toScript(d))}
-                className="flex flex-col gap-1 rounded-lg border bg-card p-4 text-left transition-colors hover:border-primary/30 sm:flex-row sm:items-center sm:justify-between"
+                className="flex flex-col gap-1 rounded-lg border bg-card p-3 text-left transition-colors hover:border-primary/30 sm:flex-row sm:items-center sm:justify-between"
               >
                 <div className="min-w-0">
                   <span className="text-xs font-medium text-primary">{d.category}</span>
