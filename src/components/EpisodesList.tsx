@@ -22,6 +22,11 @@ export interface Episode {
   forArgument: string;
   againstArgument: string;
   keyPoints: string[];
+  video_url?: string;
+  side_a_label?: string;
+  side_b_label?: string;
+  side_a_summary?: string;
+  side_b_summary?: string;
 }
 
 const episodes: Episode[] = [
