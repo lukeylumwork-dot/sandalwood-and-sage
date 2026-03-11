@@ -180,6 +180,7 @@ function buildSegments(ep: Episode): AudioSegment[] {
 
 const EpisodesList = () => {
   const [activeFilter, setActiveFilter] = useState("All");
+  const [searchQuery, setSearchQuery] = useState("");
   const [selectedEpisode, setSelectedEpisode] = useState<Episode | null>(null);
   const [dbEpisodes, setDbEpisodes] = useState<Episode[]>([]);
 
@@ -214,9 +215,24 @@ const EpisodesList = () => {
   const allEpisodes = [...dbEpisodes, ...episodes];
   const cachedSet = useCachedEpisodes(allEpisodes);
 
-  const filtered = activeFilter === "All"
-    ? allEpisodes
-    : allEpisodes.filter((ep) => ep.category === activeFilter);
+  const filtered = useMemo(() => {
+    let result = activeFilter === "All"
+      ? allEpisodes
+      : allEpisodes.filter((ep) => ep.category === activeFilter);
+
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase().trim();
+      result = result.filter(
+        (ep) =>
+          ep.title.toLowerCase().includes(q) ||
+          ep.premise.toLowerCase().includes(q) ||
+          ep.question.toLowerCase().includes(q) ||
+          ep.summary.toLowerCase().includes(q)
+      );
+    }
+
+    return result;
+  }, [allEpisodes, activeFilter, searchQuery]);
 
   return (
     <section id="episodes" className="mx-auto max-w-4xl px-5 py-16">
