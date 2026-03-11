@@ -226,6 +226,11 @@ const EpisodesList = () => {
                       <Zap size={10} /> Instant
                     </span>
                   )}
+                  {ep.video_url && (
+                    <span className="inline-flex items-center gap-1 rounded-full bg-accent/10 px-2 py-0.5 text-[10px] font-medium text-accent">
+                      <Video size={10} /> Video Debate
+                    </span>
+                  )}
                 </div>
                 <h3 className="text-sm font-semibold text-card-foreground mt-0.5 leading-snug">
                   {ep.title}
