@@ -51,7 +51,28 @@ const FeaturedEpisode = () => {
           innovation and concentrate advantage among less cautious states. Both draw on recent
           policy proposals and technical evidence.
         </p>
-        <div className="mt-5 max-w-sm">
+        {/* Video player (primary) */}
+        {featuredVideoUrl && (
+          <div className="mt-5">
+            <VideoPlayer
+              url={featuredVideoUrl}
+              title="Should Governments Regulate AI Development?"
+            />
+          </div>
+        )}
+
+        {/* Pro | Con split */}
+        <div className="mt-4">
+          <SidesSplit
+            sideALabel={featuredSideA.label}
+            sideBLabel={featuredSideB.label}
+            sideASummary={featuredSideA.summary}
+            sideBSummary={featuredSideB.summary}
+          />
+        </div>
+
+        {/* Audio fallback */}
+        <div className="mt-4 max-w-sm">
           <AudioPlayer
             label="Should Governments Regulate AI Development?"
             segments={featuredSegments}
