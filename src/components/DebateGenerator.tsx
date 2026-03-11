@@ -256,7 +256,7 @@ const DebateGenerator = () => {
       {/* Past generated debates */}
       {pastDebates.length > 0 && (
         <div className="mt-8">
-          <p className="text-xs font-medium uppercase tracking-widest text-primary mb-3">
+          <p className="text-xs font-medium uppercase tracking-widest text-section-label mb-3">
             Previously Generated
           </p>
           <div className="grid gap-3">
