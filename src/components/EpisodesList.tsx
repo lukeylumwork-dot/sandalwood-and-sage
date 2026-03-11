@@ -179,11 +179,41 @@ function buildSegments(ep: Episode): AudioSegment[] {
 const EpisodesList = () => {
   const [activeFilter, setActiveFilter] = useState("All");
   const [selectedEpisode, setSelectedEpisode] = useState<Episode | null>(null);
-  const cachedSet = useCachedEpisodes(episodes);
+  const [dbEpisodes, setDbEpisodes] = useState<Episode[]>([]);
+
+  useEffect(() => {
+    supabase
+      .from("generated_debates")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .then(({ data }) => {
+        if (!data) return;
+        const mapped: Episode[] = data.map((d: any) => ({
+          title: d.title,
+          category: d.category,
+          duration: "",
+          premise: d.summary?.slice(0, 120) + (d.summary?.length > 120 ? "…" : "") || "",
+          question: d.question,
+          summary: d.summary,
+          forArgument: d.for_argument,
+          againstArgument: d.against_argument,
+          keyPoints: Array.isArray(d.key_points) ? d.key_points : [],
+          video_url: d.video_url || undefined,
+          side_a_label: d.side_a_label || undefined,
+          side_b_label: d.side_b_label || undefined,
+          side_a_summary: d.side_a_summary || undefined,
+          side_b_summary: d.side_b_summary || undefined,
+        }));
+        setDbEpisodes(mapped);
+      });
+  }, []);
+
+  const allEpisodes = [...dbEpisodes, ...episodes];
+  const cachedSet = useCachedEpisodes(allEpisodes);
 
   const filtered = activeFilter === "All"
-    ? episodes
-    : episodes.filter((ep) => ep.category === activeFilter);
+    ? allEpisodes
+    : allEpisodes.filter((ep) => ep.category === activeFilter);
 
   return (
     <section id="episodes" className="mx-auto max-w-4xl px-5 py-16">
