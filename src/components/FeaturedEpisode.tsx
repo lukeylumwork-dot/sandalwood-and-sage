@@ -19,6 +19,16 @@ const featuredSegments = [
   },
 ];
 
+const featuredVideoUrl = "https://www.youtube.com/embed/dQw4w9WgXcQ";
+const featuredSideA = {
+  label: "For Regulation",
+  summary: "Unchecked AI development poses systemic risks that only coordinated government oversight can address before the technology outpaces democratic control.",
+};
+const featuredSideB = {
+  label: "Against Regulation",
+  summary: "Premature regulation entrenches incumbents, stifles innovation, and cannot keep pace with a technology that moves faster than any legislature.",
+};
+
 const FeaturedEpisode = () => {
   return (
     <section id="featured" className="mx-auto max-w-4xl px-5 pb-16">
