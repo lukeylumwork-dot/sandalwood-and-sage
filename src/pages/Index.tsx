@@ -22,7 +22,7 @@ const Index = () => {
         <motion.div initial="hidden" animate="visible" variants={section}>
           <Hero />
         </motion.div>
-        {[FeaturedEpisode, HowItWorks, EpisodesList, DebateGenerator, TopicSubmission, Subscribe].map(
+{[FeaturedEpisode, EpisodesList, HowItWorks, DebateGenerator, TopicSubmission, Subscribe].map(
           (Section, i) => (
             <motion.div
               key={i}
