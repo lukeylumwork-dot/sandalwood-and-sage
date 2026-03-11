@@ -30,6 +30,7 @@ export interface Episode {
   side_b_label?: string;
   side_a_summary?: string;
   side_b_summary?: string;
+  _isFromDb?: boolean;
 }
 
 const episodes: Episode[] = [
@@ -204,6 +205,7 @@ const EpisodesList = () => {
           side_b_label: d.side_b_label || undefined,
           side_a_summary: d.side_a_summary || undefined,
           side_b_summary: d.side_b_summary || undefined,
+          _isFromDb: true,
         }));
         setDbEpisodes(mapped);
       });
@@ -259,6 +261,11 @@ const EpisodesList = () => {
                   {ep.video_url && (
                     <span className="inline-flex items-center gap-1 rounded-full bg-accent/10 px-2 py-0.5 text-[10px] font-medium text-accent">
                       <Video size={10} /> Video Debate
+                    </span>
+                  )}
+                  {ep._isFromDb && (
+                    <span className="inline-flex items-center rounded-full bg-primary/15 px-2 py-0.5 text-[10px] font-semibold text-primary">
+                      New
                     </span>
                   )}
                 </div>
