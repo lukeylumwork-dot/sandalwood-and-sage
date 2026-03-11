@@ -46,7 +46,6 @@ const episodes: Episode[] = [
       "Opponents argue that heavy-handed rules slow progress and shift advantage to less regulated jurisdictions.",
       "Both sides reference the EU AI Act and voluntary industry commitments.",
     ],
-    video_url: "https://www.youtube.com/embed/dQw4w9WgXcQ",
     side_a_label: "For Regulation",
     side_b_label: "Against Regulation",
     side_a_summary: "Unchecked AI development poses systemic risks that only coordinated government oversight can address before the technology outpaces democratic control.",
