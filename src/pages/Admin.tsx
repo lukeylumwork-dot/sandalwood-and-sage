@@ -14,6 +14,7 @@ interface Episode {
   title: string;
   category: string;
   created_at: string;
+  is_featured: boolean;
 }
 
 interface EpisodeFull {
