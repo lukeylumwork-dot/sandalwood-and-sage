@@ -240,7 +240,7 @@ const EpisodesList = () => {
 
       <div className="grid gap-4">
         {filtered.map((ep, i) => {
-          const globalIndex = episodes.indexOf(ep);
+          const globalIndex = allEpisodes.indexOf(ep);
           const isCached = cachedSet.has(globalIndex);
           return (
             <button
