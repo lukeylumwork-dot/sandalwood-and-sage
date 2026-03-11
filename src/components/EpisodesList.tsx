@@ -30,6 +30,7 @@ export interface Episode {
   side_b_label?: string;
   side_a_summary?: string;
   side_b_summary?: string;
+  _isFromDb?: boolean;
 }
 
 const episodes: Episode[] = [
