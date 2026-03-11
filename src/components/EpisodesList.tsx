@@ -279,14 +279,14 @@ const EpisodesList = () => {
       </div>
 
       <Dialog open={!!selectedEpisode} onOpenChange={() => setSelectedEpisode(null)}>
-        <DialogContent className="max-w-lg">
+        <DialogContent className="max-w-lg dark bg-background border-border">
           {selectedEpisode && (
             <>
               <DialogHeader>
                 <span className="text-xs font-medium text-primary mb-1 block">
                   {selectedEpisode.category}
                 </span>
-                <DialogTitle className="text-lg leading-snug">
+                <DialogTitle className="text-lg leading-snug text-foreground">
                   {selectedEpisode.title}
                 </DialogTitle>
               </DialogHeader>
@@ -319,7 +319,7 @@ const EpisodesList = () => {
                 </div>
 
                 <div>
-                  <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-1">
+                  <p className="text-xs font-medium text-section-label uppercase tracking-wide mb-1">
                     The question
                   </p>
                   <p className="text-sm text-foreground leading-relaxed">
@@ -328,7 +328,7 @@ const EpisodesList = () => {
                 </div>
 
                 <div>
-                  <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-1">
+                  <p className="text-xs font-medium text-section-label uppercase tracking-wide mb-1">
                     Summary
                   </p>
                   <p className="text-sm text-muted-foreground leading-relaxed">
@@ -337,7 +337,7 @@ const EpisodesList = () => {
                 </div>
 
                 <div>
-                  <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-1">
+                  <p className="text-xs font-medium text-section-label uppercase tracking-wide mb-1">
                     Key points
                   </p>
                   <ul className="space-y-1.5">
@@ -351,7 +351,7 @@ const EpisodesList = () => {
                 </div>
 
                 {/* Share buttons */}
-                <div className="flex items-center gap-2 pt-3 border-t">
+                <div className="flex items-center gap-2 pt-3 border-t border-border">
                   <span className="text-xs text-muted-foreground mr-1">Share</span>
                   <Button
                     variant="outline"
