@@ -498,7 +498,7 @@ const Admin = () => {
             onSaved={handleSaved}
             onCancel={handleCancel}
           />
-          <EpisodeList episodes={episodes} onDelete={handleDelete} onEdit={handleEdit} />
+          <EpisodeList episodes={episodes} onDelete={handleDelete} onEdit={handleEdit} onToggleFeatured={handleToggleFeatured} />
         </div>
       </div>
     </div>
