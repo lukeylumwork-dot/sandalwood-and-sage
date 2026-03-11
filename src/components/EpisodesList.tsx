@@ -262,6 +262,24 @@ const EpisodesList = () => {
               </DialogHeader>
 
               <div className="space-y-4 mt-2">
+                {/* Video player if available */}
+                {selectedEpisode.video_url && (
+                  <VideoPlayer
+                    url={selectedEpisode.video_url}
+                    title={selectedEpisode.title}
+                  />
+                )}
+
+                {/* Pro | Con sides split */}
+                {selectedEpisode.side_a_label && selectedEpisode.side_b_label && (
+                  <SidesSplit
+                    sideALabel={selectedEpisode.side_a_label}
+                    sideBLabel={selectedEpisode.side_b_label}
+                    sideASummary={selectedEpisode.side_a_summary}
+                    sideBSummary={selectedEpisode.side_b_summary}
+                  />
+                )}
+
                 <div>
                   <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-1">
                     The question
@@ -294,6 +312,7 @@ const EpisodesList = () => {
                   </ul>
                 </div>
 
+                {/* Audio player — always shown as fallback */}
                 <div className="pt-2">
                   <AudioPlayer
                     label={selectedEpisode.title}
