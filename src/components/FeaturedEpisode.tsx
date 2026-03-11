@@ -1,5 +1,7 @@
 import { Clock } from "lucide-react";
 import AudioPlayer from "@/components/AudioPlayer";
+import VideoPlayer from "@/components/VideoPlayer";
+import SidesSplit from "@/components/SidesSplit";
 import { VOICES } from "@/lib/voices";
 
 const featuredSegments = [
@@ -16,6 +18,16 @@ const featuredSegments = [
     voiceId: VOICES.AGAINST,
   },
 ];
+
+const featuredVideoUrl = "https://www.youtube.com/embed/dQw4w9WgXcQ";
+const featuredSideA = {
+  label: "For Regulation",
+  summary: "Unchecked AI development poses systemic risks that only coordinated government oversight can address before the technology outpaces democratic control.",
+};
+const featuredSideB = {
+  label: "Against Regulation",
+  summary: "Premature regulation entrenches incumbents, stifles innovation, and cannot keep pace with a technology that moves faster than any legislature.",
+};
 
 const FeaturedEpisode = () => {
   return (
@@ -39,7 +51,28 @@ const FeaturedEpisode = () => {
           innovation and concentrate advantage among less cautious states. Both draw on recent
           policy proposals and technical evidence.
         </p>
-        <div className="mt-5 max-w-sm">
+        {/* Video player (primary) */}
+        {featuredVideoUrl && (
+          <div className="mt-5">
+            <VideoPlayer
+              url={featuredVideoUrl}
+              title="Should Governments Regulate AI Development?"
+            />
+          </div>
+        )}
+
+        {/* Pro | Con split */}
+        <div className="mt-4">
+          <SidesSplit
+            sideALabel={featuredSideA.label}
+            sideBLabel={featuredSideB.label}
+            sideASummary={featuredSideA.summary}
+            sideBSummary={featuredSideB.summary}
+          />
+        </div>
+
+        {/* Audio fallback */}
+        <div className="mt-4 max-w-sm">
           <AudioPlayer
             label="Should Governments Regulate AI Development?"
             segments={featuredSegments}

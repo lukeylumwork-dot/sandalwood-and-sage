@@ -1,6 +1,8 @@
 import { useState } from "react";
-import { Clock, Zap, Share2, Link, Twitter } from "lucide-react";
+import { Clock, Zap, Share2, Link, Twitter, Video } from "lucide-react";
 import AudioPlayer, { type AudioSegment } from "@/components/AudioPlayer";
+import VideoPlayer from "@/components/VideoPlayer";
+import SidesSplit from "@/components/SidesSplit";
 import { VOICES } from "@/lib/voices";
 import { useCachedEpisodes } from "@/hooks/use-cached-episodes";
 import { Button } from "@/components/ui/button";
@@ -224,6 +226,11 @@ const EpisodesList = () => {
                       <Zap size={10} /> Instant
                     </span>
                   )}
+                  {ep.video_url && (
+                    <span className="inline-flex items-center gap-1 rounded-full bg-accent/10 px-2 py-0.5 text-[10px] font-medium text-accent">
+                      <Video size={10} /> Video Debate
+                    </span>
+                  )}
                 </div>
                 <h3 className="text-sm font-semibold text-card-foreground mt-0.5 leading-snug">
                   {ep.title}
@@ -255,6 +262,24 @@ const EpisodesList = () => {
               </DialogHeader>
 
               <div className="space-y-4 mt-2">
+                {/* Video player if available */}
+                {selectedEpisode.video_url && (
+                  <VideoPlayer
+                    url={selectedEpisode.video_url}
+                    title={selectedEpisode.title}
+                  />
+                )}
+
+                {/* Pro | Con sides split */}
+                {selectedEpisode.side_a_label && selectedEpisode.side_b_label && (
+                  <SidesSplit
+                    sideALabel={selectedEpisode.side_a_label}
+                    sideBLabel={selectedEpisode.side_b_label}
+                    sideASummary={selectedEpisode.side_a_summary}
+                    sideBSummary={selectedEpisode.side_b_summary}
+                  />
+                )}
+
                 <div>
                   <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-1">
                     The question
@@ -287,6 +312,7 @@ const EpisodesList = () => {
                   </ul>
                 </div>
 
+                {/* Audio player — always shown as fallback */}
                 <div className="pt-2">
                   <AudioPlayer
                     label={selectedEpisode.title}
