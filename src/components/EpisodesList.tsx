@@ -205,6 +205,7 @@ const EpisodesList = () => {
           side_b_label: d.side_b_label || undefined,
           side_a_summary: d.side_a_summary || undefined,
           side_b_summary: d.side_b_summary || undefined,
+          _isFromDb: true,
         }));
         setDbEpisodes(mapped);
       });
