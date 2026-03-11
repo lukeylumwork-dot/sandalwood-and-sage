@@ -32,7 +32,7 @@ const featuredSideB = {
 const FeaturedEpisode = () => {
   return (
     <section id="featured" className="mx-auto max-w-4xl px-5 pb-16">
-      <p className="text-xs font-medium uppercase tracking-widest text-primary mb-4">
+      <p className="text-xs font-medium uppercase tracking-widest text-section-label mb-4">
         Latest Episode
       </p>
       <div className="rounded-lg border bg-card p-6 md:p-8">

@@ -23,7 +23,7 @@ const Subscribe = () => {
 
   return (
     <section id="subscribe" className="mx-auto max-w-4xl px-5 py-16">
-      <p className="text-xs font-medium uppercase tracking-widest text-primary mb-4">
+      <p className="text-xs font-medium uppercase tracking-widest text-section-label mb-4">
         Subscribe
       </p>
 

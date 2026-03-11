@@ -17,7 +17,7 @@ const steps = [
 ];
 const HowItWorks = () => (
   <section id="how-it-works" className="mx-auto max-w-4xl px-5 py-16">
-    <p className="text-xs font-medium uppercase tracking-widest text-primary mb-4">How it Works</p>
+    <p className="text-xs font-medium uppercase tracking-widest text-section-label mb-4">How it Works</p>
     <div className="grid gap-6 md:grid-cols-3">
       {steps.map((step) => (
         <div key={step.number} className="rounded-lg border bg-card p-6">
