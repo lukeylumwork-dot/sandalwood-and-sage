@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
-import { Loader2, Trash2, Lock, LogOut, Pencil, X } from "lucide-react";
+import { Loader2, Trash2, Lock, LogOut, Pencil, X, Star } from "lucide-react";
 
 const CATEGORIES = ["Tech", "Work", "Society", "Money", "Sport", "Politics"];
 const VERIFY_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/verify-admin`;
@@ -14,6 +14,7 @@ interface Episode {
   title: string;
   category: string;
   created_at: string;
+  is_featured: boolean;
 }
 
 interface EpisodeFull {
@@ -313,10 +314,12 @@ function EpisodeList({
   episodes,
   onDelete,
   onEdit,
+  onToggleFeatured,
 }: {
   episodes: Episode[];
   onDelete: (id: string) => void;
   onEdit: (id: string) => void;
+  onToggleFeatured: (id: string, current: boolean) => void;
 }) {
   const [confirmId, setConfirmId] = useState<string | null>(null);
 
@@ -341,13 +344,32 @@ function EpisodeList({
         {episodes.map((ep) => (
           <div
             key={ep.id}
-            className="flex items-center justify-between gap-3 rounded-lg border p-3"
+            className={`flex items-center justify-between gap-3 rounded-lg border p-3 ${ep.is_featured ? "border-primary/40" : ""}`}
           >
-            <div className="min-w-0">
-              <span className="text-xs font-medium text-primary">{ep.category}</span>
-              <h4 className="text-sm font-semibold text-card-foreground leading-snug truncate">
-                {ep.title}
-              </h4>
+            <div className="min-w-0 flex items-center gap-2">
+              <button
+                onClick={() => onToggleFeatured(ep.id, ep.is_featured)}
+                className="shrink-0"
+                title={ep.is_featured ? "Unpin from featured" : "Pin as featured"}
+              >
+                <Star
+                  size={16}
+                  className={ep.is_featured ? "text-primary fill-primary" : "text-muted-foreground hover:text-primary"}
+                />
+              </button>
+              <div className="min-w-0">
+                <div className="flex items-center gap-1.5">
+                  <span className="text-xs font-medium text-primary">{ep.category}</span>
+                  {ep.is_featured && (
+                    <span className="text-[10px] font-medium text-primary bg-primary/10 rounded-full px-1.5 py-0.5">
+                      Featured
+                    </span>
+                  )}
+                </div>
+                <h4 className="text-sm font-semibold text-card-foreground leading-snug truncate">
+                  {ep.title}
+                </h4>
+              </div>
             </div>
             <div className="flex items-center gap-1 shrink-0">
               <Button
@@ -385,9 +407,9 @@ const Admin = () => {
   const fetchEpisodes = useCallback(async () => {
     const { data } = await supabase
       .from("generated_debates")
-      .select("id, title, category, created_at")
+      .select("id, title, category, created_at, is_featured")
       .order("created_at", { ascending: false });
-    if (data) setEpisodes(data);
+    if (data) setEpisodes(data as unknown as Episode[]);
   }, []);
 
   useEffect(() => {
@@ -452,6 +474,26 @@ const Admin = () => {
     setEditFormData(EMPTY_FORM);
   };
 
+  const handleToggleFeatured = async (id: string, currentlyFeatured: boolean) => {
+    if (!currentlyFeatured) {
+      // Unset any existing featured episode first
+      await supabase
+        .from("generated_debates")
+        .update({ is_featured: false } as any)
+        .eq("is_featured", true);
+    }
+    const { error } = await supabase
+      .from("generated_debates")
+      .update({ is_featured: !currentlyFeatured } as any)
+      .eq("id", id);
+    if (error) {
+      toast.error("Failed to update featured status.");
+    } else {
+      toast.success(currentlyFeatured ? "Episode unpinned." : "Episode pinned as featured!");
+      fetchEpisodes();
+    }
+  };
+
   const handleLogout = () => {
     sessionStorage.removeItem("admin_auth");
     setAuthed(false);
@@ -476,7 +518,7 @@ const Admin = () => {
             onSaved={handleSaved}
             onCancel={handleCancel}
           />
-          <EpisodeList episodes={episodes} onDelete={handleDelete} onEdit={handleEdit} />
+          <EpisodeList episodes={episodes} onDelete={handleDelete} onEdit={handleEdit} onToggleFeatured={handleToggleFeatured} />
         </div>
       </div>
     </div>
