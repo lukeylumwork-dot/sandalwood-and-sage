@@ -14,7 +14,7 @@ const SidesSplit = ({
   return (
     <div className="grid grid-cols-2 gap-px rounded-lg overflow-hidden border">
       {/* Side A */}
-      <div className="bg-card p-4 flex flex-col gap-1.5">
+      <div className="bg-secondary p-4 flex flex-col gap-1.5">
         <span className="text-[10px] font-semibold uppercase tracking-widest text-primary">
           Pro
         </span>
@@ -29,7 +29,7 @@ const SidesSplit = ({
       </div>
 
       {/* Side B */}
-      <div className="bg-card p-4 flex flex-col gap-1.5 border-l">
+      <div className="bg-secondary p-4 flex flex-col gap-1.5 border-l">
         <span className="text-[10px] font-semibold uppercase tracking-widest text-primary">
           Con
         </span>
