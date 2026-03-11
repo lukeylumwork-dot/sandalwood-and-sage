@@ -24,9 +24,14 @@ export type Database = {
           id: string
           key_points: Json
           question: string
+          side_a_label: string | null
+          side_a_summary: string | null
+          side_b_label: string | null
+          side_b_summary: string | null
           summary: string
           title: string
           topic: string
+          video_url: string | null
         }
         Insert: {
           against_argument: string
@@ -37,9 +42,14 @@ export type Database = {
           id?: string
           key_points?: Json
           question: string
+          side_a_label?: string | null
+          side_a_summary?: string | null
+          side_b_label?: string | null
+          side_b_summary?: string | null
           summary: string
           title: string
           topic: string
+          video_url?: string | null
         }
         Update: {
           against_argument?: string
@@ -50,9 +60,14 @@ export type Database = {
           id?: string
           key_points?: Json
           question?: string
+          side_a_label?: string | null
+          side_a_summary?: string | null
+          side_b_label?: string | null
+          side_b_summary?: string | null
           summary?: string
           title?: string
           topic?: string
+          video_url?: string | null
         }
         Relationships: []
       }
