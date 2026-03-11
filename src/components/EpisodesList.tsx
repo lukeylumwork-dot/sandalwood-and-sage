@@ -240,6 +240,17 @@ const EpisodesList = () => {
         Episodes
       </p>
 
+      <div className="relative mb-4">
+        <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder="Search episodes…"
+          className="w-full rounded-lg border border-border bg-card pl-9 pr-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring"
+        />
+      </div>
+
       <div className="flex flex-wrap gap-2 mb-6">
         {categories.map((cat) => (
           <button
