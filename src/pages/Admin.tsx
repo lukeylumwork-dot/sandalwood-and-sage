@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
-import { Loader2, Trash2, Lock, LogOut, Pencil, X } from "lucide-react";
+import { Loader2, Trash2, Lock, LogOut, Pencil, X, Star } from "lucide-react";
 
 const CATEGORIES = ["Tech", "Work", "Society", "Money", "Sport", "Politics"];
 const VERIFY_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/verify-admin`;
