@@ -1,5 +1,7 @@
 import { Clock } from "lucide-react";
 import AudioPlayer from "@/components/AudioPlayer";
+import VideoPlayer from "@/components/VideoPlayer";
+import SidesSplit from "@/components/SidesSplit";
 import { VOICES } from "@/lib/voices";
 
 const featuredSegments = [
