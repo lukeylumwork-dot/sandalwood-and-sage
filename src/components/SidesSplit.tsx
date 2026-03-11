@@ -30,7 +30,7 @@ const SidesSplit = ({
 
       {/* Side B */}
       <div className="bg-card p-4 flex flex-col gap-1.5 border-l">
-        <span className="text-[10px] font-semibold uppercase tracking-widest text-destructive">
+        <span className="text-[10px] font-semibold uppercase tracking-widest text-primary">
           Con
         </span>
         <p className="text-xs font-semibold text-card-foreground leading-snug">
