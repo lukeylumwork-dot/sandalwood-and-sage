@@ -407,9 +407,9 @@ const Admin = () => {
   const fetchEpisodes = useCallback(async () => {
     const { data } = await supabase
       .from("generated_debates")
-      .select("id, title, category, created_at")
+      .select("id, title, category, created_at, is_featured")
       .order("created_at", { ascending: false });
-    if (data) setEpisodes(data);
+    if (data) setEpisodes(data as unknown as Episode[]);
   }, []);
 
   useEffect(() => {
