@@ -22,6 +22,7 @@ export type Database = {
           for_argument: string
           host_intro: string
           id: string
+          is_featured: boolean
           key_points: Json
           question: string
           side_a_label: string | null
@@ -40,6 +41,7 @@ export type Database = {
           for_argument: string
           host_intro: string
           id?: string
+          is_featured?: boolean
           key_points?: Json
           question: string
           side_a_label?: string | null
@@ -58,6 +60,7 @@ export type Database = {
           for_argument?: string
           host_intro?: string
           id?: string
+          is_featured?: boolean
           key_points?: Json
           question?: string
           side_a_label?: string | null
