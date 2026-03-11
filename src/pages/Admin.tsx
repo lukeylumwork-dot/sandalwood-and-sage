@@ -314,10 +314,12 @@ function EpisodeList({
   episodes,
   onDelete,
   onEdit,
+  onToggleFeatured,
 }: {
   episodes: Episode[];
   onDelete: (id: string) => void;
   onEdit: (id: string) => void;
+  onToggleFeatured: (id: string, current: boolean) => void;
 }) {
   const [confirmId, setConfirmId] = useState<string | null>(null);
 
@@ -342,13 +344,32 @@ function EpisodeList({
         {episodes.map((ep) => (
           <div
             key={ep.id}
-            className="flex items-center justify-between gap-3 rounded-lg border p-3"
+            className={`flex items-center justify-between gap-3 rounded-lg border p-3 ${ep.is_featured ? "border-primary/40" : ""}`}
           >
-            <div className="min-w-0">
-              <span className="text-xs font-medium text-primary">{ep.category}</span>
-              <h4 className="text-sm font-semibold text-card-foreground leading-snug truncate">
-                {ep.title}
-              </h4>
+            <div className="min-w-0 flex items-center gap-2">
+              <button
+                onClick={() => onToggleFeatured(ep.id, ep.is_featured)}
+                className="shrink-0"
+                title={ep.is_featured ? "Unpin from featured" : "Pin as featured"}
+              >
+                <Star
+                  size={16}
+                  className={ep.is_featured ? "text-primary fill-primary" : "text-muted-foreground hover:text-primary"}
+                />
+              </button>
+              <div className="min-w-0">
+                <div className="flex items-center gap-1.5">
+                  <span className="text-xs font-medium text-primary">{ep.category}</span>
+                  {ep.is_featured && (
+                    <span className="text-[10px] font-medium text-primary bg-primary/10 rounded-full px-1.5 py-0.5">
+                      Featured
+                    </span>
+                  )}
+                </div>
+                <h4 className="text-sm font-semibold text-card-foreground leading-snug truncate">
+                  {ep.title}
+                </h4>
+              </div>
             </div>
             <div className="flex items-center gap-1 shrink-0">
               <Button
