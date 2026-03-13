@@ -1,0 +1,1 @@
+ALTER TABLE public.generated_debates ADD COLUMN IF NOT EXISTS audio_url text;
