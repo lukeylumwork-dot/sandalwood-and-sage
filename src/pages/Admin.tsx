@@ -44,6 +44,7 @@ type FormData = {
   for_argument: string;
   against_argument: string;
   video_url: string;
+  audio_url: string;
   side_a_label: string;
   side_b_label: string;
   side_a_summary: string;
