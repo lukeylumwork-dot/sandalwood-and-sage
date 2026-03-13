@@ -175,6 +175,7 @@ function EpisodeForm({
       for_argument: form.for_argument.trim() || "No argument provided.",
       against_argument: form.against_argument.trim() || "No argument provided.",
       video_url: form.video_url.trim() || null,
+      audio_url: form.audio_url.trim() || null,
       side_a_label: form.side_a_label.trim() || null,
       side_b_label: form.side_b_label.trim() || null,
       side_a_summary: form.side_a_summary.trim() || null,
