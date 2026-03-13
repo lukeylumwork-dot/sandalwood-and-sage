@@ -3,23 +3,22 @@ import { Clock } from "lucide-react";
 import AudioPlayer from "@/components/AudioPlayer";
 import VideoPlayer from "@/components/VideoPlayer";
 import SidesSplit from "@/components/SidesSplit";
-import { VOICES } from "@/lib/voices";
 import { supabase } from "@/integrations/supabase/client";
 
-/* ─── Hardcoded fallback ─── */
 const fallback = {
   title: "Should Governments Regulate AI Development?",
   category: "Technology",
   duration: "14 min",
   summary:
-    "One side argues that unchecked artificial intelligence poses systemic risks demanding immediate oversight. The other contends that premature regulation could stifle innovation and concentrate advantage among less cautious states. Both draw on recent policy proposals and technical evidence.",
+    "One side argues that unchecked artificial intelligence poses systemic risks demanding immediate oversight. The other contends that premature regulation could stifle innovation and concentrate advantage among less cautious states.",
   question:
     "Is state-level regulation of AI necessary to prevent harm, or does it risk doing more damage than it prevents?",
   forArgument:
-    "Governments must regulate AI development now. Unchecked artificial intelligence poses existential risks, from autonomous weapons to mass surveillance and algorithmic discrimination. The EU AI Act demonstrates that proportionate regulation is possible. Without guardrails, a handful of corporations will shape society's future with no democratic accountability.",
+    "Governments must regulate AI development now. Unchecked artificial intelligence poses existential risks, from autonomous weapons to mass surveillance and algorithmic discrimination.",
   againstArgument:
-    "Government regulation of AI at this stage would be premature and counterproductive. Innovation moves faster than legislation, and rigid rules will lock in today's understanding of a rapidly evolving technology. Heavy regulation drives talent and investment to less cautious jurisdictions. We should foster innovation first and regulate specific harms as they emerge.",
+    "Government regulation of AI at this stage would be premature and counterproductive. Innovation moves faster than legislation, and rigid rules will lock in today's understanding of a rapidly evolving technology.",
   video_url: undefined as string | undefined,
+  audio_url: undefined as string | undefined,
   side_a_label: "For Regulation",
   side_b_label: "Against Regulation",
   side_a_summary:
@@ -28,22 +27,13 @@ const fallback = {
     "Premature regulation entrenches incumbents, stifles innovation, and cannot keep pace with a technology that moves faster than any legislature.",
 };
 
-function buildSegments(ep: typeof fallback) {
-  return [
-    { text: `${ep.title}. ${ep.question}`, voiceId: VOICES.HOST },
-    { text: `The case for. ${ep.forArgument}`, voiceId: VOICES.FOR },
-    { text: `The case against. ${ep.againstArgument}`, voiceId: VOICES.AGAINST },
-  ];
-}
-
 const FeaturedEpisode = () => {
   const [episode, setEpisode] = useState(fallback);
 
   useEffect(() => {
-    // Try pinned featured first, then fall back to latest
     supabase
       .from("generated_debates")
-      .select("title, category, summary, question, for_argument, against_argument, video_url, side_a_label, side_b_label, side_a_summary, side_b_summary, is_featured")
+      .select("title, category, summary, question, for_argument, against_argument, video_url, audio_url, side_a_label, side_b_label, side_a_summary, side_b_summary, is_featured")
       .eq("is_featured", true)
       .limit(1)
       .then(async ({ data: pinned }) => {
@@ -52,7 +42,7 @@ const FeaturedEpisode = () => {
         if (!row) {
           const { data: latest } = await supabase
             .from("generated_debates")
-            .select("title, category, summary, question, for_argument, against_argument, video_url, side_a_label, side_b_label, side_a_summary, side_b_summary, is_featured")
+            .select("title, category, summary, question, for_argument, against_argument, video_url, audio_url, side_a_label, side_b_label, side_a_summary, side_b_summary, is_featured")
             .order("created_at", { ascending: false })
             .limit(1);
           row = latest && latest.length > 0 ? latest[0] : null;
@@ -69,6 +59,7 @@ const FeaturedEpisode = () => {
             forArgument: d.for_argument,
             againstArgument: d.against_argument,
             video_url: d.video_url || undefined,
+            audio_url: d.audio_url || undefined,
             side_a_label: d.side_a_label || undefined,
             side_b_label: d.side_b_label || undefined,
             side_a_summary: d.side_a_summary || undefined,
@@ -99,14 +90,12 @@ const FeaturedEpisode = () => {
           {episode.summary}
         </p>
 
-        {/* Video player (primary) */}
         {episode.video_url && (
           <div className="mt-5">
             <VideoPlayer url={episode.video_url} title={episode.title} />
           </div>
         )}
 
-        {/* Pro | Con split */}
         {episode.side_a_label && episode.side_b_label && (
           <div className="mt-4">
             <SidesSplit
@@ -118,10 +107,11 @@ const FeaturedEpisode = () => {
           </div>
         )}
 
-        {/* Audio fallback */}
-        <div className="mt-4 max-w-sm">
-          <AudioPlayer label={episode.title} segments={buildSegments(episode)} />
-        </div>
+        {episode.audio_url && (
+          <div className="mt-4 max-w-sm">
+            <AudioPlayer label={episode.title} src={episode.audio_url} />
+          </div>
+        )}
       </div>
     </section>
   );
