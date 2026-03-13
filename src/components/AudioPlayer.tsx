@@ -1,19 +1,10 @@
 import { useState, useRef, useEffect, useCallback } from "react";
-import { Play, Pause, RotateCcw, Loader2 } from "lucide-react";
-import { toast } from "sonner";
-
-export interface AudioSegment {
-  text: string;
-  voiceId?: string;
-}
+import { Play, Pause, RotateCcw } from "lucide-react";
 
 interface AudioPlayerProps {
   label?: string;
-  /** Single text string (uses default voice) */
-  text?: string;
-  /** Multi-voice segments — takes precedence over text */
-  segments?: AudioSegment[];
-  voiceId?: string;
+  /** Direct URL to an audio file (e.g. from Supabase storage) */
+  src?: string;
 }
 
 const formatTime = (seconds: number) => {
@@ -22,86 +13,34 @@ const formatTime = (seconds: number) => {
   return `${m}:${s.toString().padStart(2, "0")}`;
 };
 
-const TTS_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/elevenlabs-tts`;
-
-const AudioPlayer = ({ label, text, segments, voiceId }: AudioPlayerProps) => {
+const AudioPlayer = ({ label, src }: AudioPlayerProps) => {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [playing, setPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
-  const [loading, setLoading] = useState(false);
-  const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const progressRef = useRef<HTMLDivElement>(null);
 
-  const generateAudio = useCallback(async () => {
-    if (!text && !segments?.length) return null;
-    setLoading(true);
-    try {
-      const body = segments?.length
-        ? { segments }
-        : { text, voiceId };
-
-      const resp = await fetch(TTS_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
-        },
-        body: JSON.stringify(body),
-      });
-      if (!resp.ok) {
-        const err = await resp.json().catch(() => ({ error: "Unknown error" }));
-        throw new Error(err.error || `HTTP ${resp.status}`);
-      }
-      const blob = await resp.blob();
-      const url = URL.createObjectURL(blob);
-      setAudioUrl(url);
-      return url;
-    } catch (e) {
-      console.error("TTS error:", e);
-      toast.error("Failed to generate audio. Please try again.");
-      return null;
-    } finally {
-      setLoading(false);
-    }
-  }, [text, segments, voiceId]);
-
-  const toggle = useCallback(async () => {
+  const toggle = useCallback(() => {
     const audio = audioRef.current;
-    if (!audio) return;
-
-    if (!audioUrl && (text || segments?.length)) {
-      const url = await generateAudio();
-      if (!url) return;
-      return;
-    }
-
+    if (!audio || !src) return;
     if (playing) {
       audio.pause();
     } else {
       audio.play().catch(() => {});
     }
     setPlaying(!playing);
-  }, [playing, audioUrl, text, segments, generateAudio]);
-
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio || !audioUrl) return;
-    audio.src = audioUrl;
-    audio.load();
-    audio.play().then(() => setPlaying(true)).catch(() => {});
-  }, [audioUrl]);
+  }, [playing, src]);
 
   const restart = useCallback(() => {
     const audio = audioRef.current;
-    if (!audio || !audioUrl) return;
+    if (!audio || !src) return;
     audio.currentTime = 0;
     setCurrentTime(0);
     if (!playing) {
       audio.play().catch(() => {});
       setPlaying(true);
     }
-  }, [playing, audioUrl]);
+  }, [playing, src]);
 
   const seek = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
@@ -132,11 +71,7 @@ const AudioPlayer = ({ label, text, segments, voiceId }: AudioPlayerProps) => {
     };
   }, []);
 
-  useEffect(() => {
-    return () => {
-      if (audioUrl) URL.revokeObjectURL(audioUrl);
-    };
-  }, [audioUrl]);
+  if (!src) return null;
 
   const progress = duration ? (currentTime / duration) * 100 : 0;
 
@@ -144,17 +79,10 @@ const AudioPlayer = ({ label, text, segments, voiceId }: AudioPlayerProps) => {
     <div className="flex items-center gap-3 rounded-md border bg-card px-3 py-2.5">
       <button
         onClick={toggle}
-        disabled={loading}
-        aria-label={loading ? "Generating audio" : playing ? "Pause" : "Play"}
-        className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-60"
+        aria-label={playing ? "Pause" : "Play"}
+        className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground transition-colors hover:bg-primary/90"
       >
-        {loading ? (
-          <Loader2 size={14} className="animate-spin" />
-        ) : playing ? (
-          <Pause size={14} />
-        ) : (
-          <Play size={14} className="ml-0.5" />
-        )}
+        {playing ? <Pause size={14} /> : <Play size={14} className="ml-0.5" />}
       </button>
 
       <div className="flex min-w-0 flex-1 flex-col gap-1">
@@ -185,14 +113,13 @@ const AudioPlayer = ({ label, text, segments, voiceId }: AudioPlayerProps) => {
 
       <button
         onClick={restart}
-        disabled={!audioUrl}
         aria-label="Restart"
-        className="shrink-0 text-muted-foreground transition-colors hover:text-foreground disabled:opacity-40"
+        className="shrink-0 text-muted-foreground transition-colors hover:text-foreground"
       >
         <RotateCcw size={14} />
       </button>
 
-      <audio ref={audioRef} preload="metadata" />
+      <audio ref={audioRef} src={src} preload="metadata" />
     </div>
   );
 };

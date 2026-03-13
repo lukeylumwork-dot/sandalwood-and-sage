@@ -44,6 +44,7 @@ type FormData = {
   for_argument: string;
   against_argument: string;
   video_url: string;
+  audio_url: string;
   side_a_label: string;
   side_b_label: string;
   side_a_summary: string;
@@ -127,6 +128,7 @@ const EMPTY_FORM: FormData = {
   for_argument: "",
   against_argument: "",
   video_url: "",
+  audio_url: "",
   side_a_label: "",
   side_b_label: "",
   side_a_summary: "",
@@ -173,6 +175,7 @@ function EpisodeForm({
       for_argument: form.for_argument.trim() || "No argument provided.",
       against_argument: form.against_argument.trim() || "No argument provided.",
       video_url: form.video_url.trim() || null,
+      audio_url: form.audio_url.trim() || null,
       side_a_label: form.side_a_label.trim() || null,
       side_b_label: form.side_b_label.trim() || null,
       side_a_summary: form.side_a_summary.trim() || null,
@@ -277,7 +280,7 @@ function EpisodeForm({
 
         <div>
           <label className="text-xs font-medium text-card-foreground block mb-1">Audio URL</label>
-          <Input disabled placeholder="(coming soon)" />
+          <Input value={form.audio_url} onChange={(e) => set("audio_url", e.target.value)} placeholder="URL to pre-generated audio file" />
         </div>
 
         <div>
@@ -454,6 +457,7 @@ const Admin = () => {
       for_argument: ep.for_argument,
       against_argument: ep.against_argument,
       video_url: ep.video_url || "",
+      audio_url: (ep as any).audio_url || "",
       side_a_label: ep.side_a_label || "",
       side_b_label: ep.side_b_label || "",
       side_a_summary: ep.side_a_summary || "",
