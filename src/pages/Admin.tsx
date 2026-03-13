@@ -457,6 +457,7 @@ const Admin = () => {
       for_argument: ep.for_argument,
       against_argument: ep.against_argument,
       video_url: ep.video_url || "",
+      audio_url: (ep as any).audio_url || "",
       side_a_label: ep.side_a_label || "",
       side_b_label: ep.side_b_label || "",
       side_a_summary: ep.side_a_summary || "",
