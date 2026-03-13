@@ -128,6 +128,7 @@ const EMPTY_FORM: FormData = {
   for_argument: "",
   against_argument: "",
   video_url: "",
+  audio_url: "",
   side_a_label: "",
   side_b_label: "",
   side_a_summary: "",
