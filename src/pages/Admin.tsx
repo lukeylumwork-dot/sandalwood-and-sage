@@ -277,7 +277,7 @@ function EpisodeForm({
 
         <div>
           <label className="text-xs font-medium text-card-foreground block mb-1">Audio URL</label>
-          <Input disabled placeholder="(coming soon)" />
+          <Input value={form.audio_url} onChange={(e) => set("audio_url", e.target.value)} placeholder="URL to pre-generated audio file" />
         </div>
 
         <div>
