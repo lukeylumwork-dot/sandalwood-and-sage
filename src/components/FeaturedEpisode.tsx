@@ -19,6 +19,7 @@ const fallback = {
     "Government regulation of AI at this stage would be premature and counterproductive. Innovation moves faster than legislation, and rigid rules will lock in today's understanding of a rapidly evolving technology.",
   video_url: undefined as string | undefined,
   audio_url: undefined as string | undefined,
+  cover_image_url: undefined as string | undefined,
   side_a_label: "For Regulation",
   side_b_label: "Against Regulation",
   side_a_summary:
