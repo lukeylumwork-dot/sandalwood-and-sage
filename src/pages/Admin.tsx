@@ -1,13 +1,14 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
-import { Loader2, Trash2, Lock, LogOut, Pencil, X, Star } from "lucide-react";
+import { Loader2, Trash2, Lock, LogOut, Pencil, X, Star, Upload, Music, Image } from "lucide-react";
 
 const CATEGORIES = ["Tech", "Work", "Society", "Money", "Sport", "Politics"];
 const VERIFY_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/verify-admin`;
+const STORAGE_BUCKET = "episode-media";
 
 interface Episode {
   id: string;
@@ -28,6 +29,8 @@ interface EpisodeFull {
   for_argument: string;
   against_argument: string;
   video_url: string | null;
+  audio_url: string | null;
+  cover_image_url: string | null;
   side_a_label: string | null;
   side_b_label: string | null;
   side_a_summary: string | null;
@@ -45,11 +48,108 @@ type FormData = {
   against_argument: string;
   video_url: string;
   audio_url: string;
+  cover_image_url: string;
   side_a_label: string;
   side_b_label: string;
   side_a_summary: string;
   side_b_summary: string;
 };
+
+/* ─── File Upload Helper ─── */
+async function uploadToStorage(
+  file: File,
+  folder: string
+): Promise<string | null> {
+  const ext = file.name.split(".").pop() || "bin";
+  const filePath = `${folder}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+
+  const { error } = await supabase.storage
+    .from(STORAGE_BUCKET)
+    .upload(filePath, file, { cacheControl: "3600", upsert: false });
+
+  if (error) {
+    console.error("Upload error:", error);
+    return null;
+  }
+
+  const { data } = supabase.storage
+    .from(STORAGE_BUCKET)
+    .getPublicUrl(filePath);
+
+  return data.publicUrl;
+}
+
+/* ─── File Upload Field ─── */
+function FileUploadField({
+  label,
+  accept,
+  icon: Icon,
+  currentUrl,
+  onUploaded,
+}: {
+  label: string;
+  accept: string;
+  icon: typeof Music;
+  currentUrl: string;
+  onUploaded: (url: string) => void;
+}) {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [uploading, setUploading] = useState(false);
+
+  const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploading(true);
+    const folder = accept.startsWith("audio") ? "audio" : "artwork";
+    const url = await uploadToStorage(file, folder);
+    setUploading(false);
+
+    if (url) {
+      onUploaded(url);
+      toast.success(`${label} uploaded!`);
+    } else {
+      toast.error(`Failed to upload ${label.toLowerCase()}.`);
+    }
+
+    if (inputRef.current) inputRef.current.value = "";
+  };
+
+  return (
+    <div>
+      <label className="text-xs font-medium text-card-foreground block mb-1">{label}</label>
+      <div className="flex items-center gap-2">
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          disabled={uploading}
+          onClick={() => inputRef.current?.click()}
+          className="shrink-0"
+        >
+          {uploading ? (
+            <Loader2 size={14} className="animate-spin mr-1.5" />
+          ) : (
+            <Icon size={14} className="mr-1.5" />
+          )}
+          {uploading ? "Uploading…" : currentUrl ? "Replace" : "Upload"}
+        </Button>
+        {currentUrl && (
+          <span className="text-xs text-muted-foreground truncate max-w-[200px]" title={currentUrl}>
+            ✓ {currentUrl.split("/").pop()}
+          </span>
+        )}
+        <input
+          ref={inputRef}
+          type="file"
+          accept={accept}
+          onChange={handleFile}
+          className="hidden"
+        />
+      </div>
+    </div>
+  );
+}
 
 /* ─── Password Gate ─── */
 function PasswordGate({ onAuth }: { onAuth: () => void }) {
@@ -129,6 +229,7 @@ const EMPTY_FORM: FormData = {
   against_argument: "",
   video_url: "",
   audio_url: "",
+  cover_image_url: "",
   side_a_label: "",
   side_b_label: "",
   side_a_summary: "",
@@ -158,8 +259,8 @@ function EpisodeForm({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.title.trim() || !form.summary.trim() || !form.duration.trim()) {
-      toast.error("Please fill in all required fields.");
+    if (!form.title.trim() || !form.summary.trim()) {
+      toast.error("Please fill in title and description.");
       return;
     }
 
@@ -176,6 +277,7 @@ function EpisodeForm({
       against_argument: form.against_argument.trim() || "No argument provided.",
       video_url: form.video_url.trim() || null,
       audio_url: form.audio_url.trim() || null,
+      cover_image_url: form.cover_image_url.trim() || null,
       side_a_label: form.side_a_label.trim() || null,
       side_b_label: form.side_b_label.trim() || null,
       side_a_summary: form.side_a_summary.trim() || null,
@@ -240,9 +342,7 @@ function EpisodeForm({
         </div>
 
         <div>
-          <label className="text-xs font-medium text-card-foreground block mb-1">
-            Duration <span className="text-primary">*</span>
-          </label>
+          <label className="text-xs font-medium text-card-foreground block mb-1">Duration</label>
           <Input value={form.duration} onChange={(e) => set("duration", e.target.value)} placeholder="e.g. 15 min" />
         </div>
 
@@ -273,14 +373,26 @@ function EpisodeForm({
           <Textarea value={form.against_argument} onChange={(e) => set("against_argument", e.target.value)} placeholder="The case against…" rows={4} />
         </div>
 
+        {/* Media uploads */}
+        <FileUploadField
+          label="Audio File"
+          accept="audio/*"
+          icon={Music}
+          currentUrl={form.audio_url}
+          onUploaded={(url) => set("audio_url", url)}
+        />
+
+        <FileUploadField
+          label="Cover Artwork"
+          accept="image/*"
+          icon={Image}
+          currentUrl={form.cover_image_url}
+          onUploaded={(url) => set("cover_image_url", url)}
+        />
+
         <div>
           <label className="text-xs font-medium text-card-foreground block mb-1">Video URL</label>
           <Input value={form.video_url} onChange={(e) => set("video_url", e.target.value)} placeholder="YouTube embed, Vimeo, MP4…" />
-        </div>
-
-        <div>
-          <label className="text-xs font-medium text-card-foreground block mb-1">Audio URL</label>
-          <Input value={form.audio_url} onChange={(e) => set("audio_url", e.target.value)} placeholder="URL to pre-generated audio file" />
         </div>
 
         <div>
@@ -375,13 +487,8 @@ function EpisodeList({
               </div>
             </div>
             <div className="flex items-center gap-1 shrink-0">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => onEdit(ep.id)}
-              >
-                <Pencil size={14} className="mr-1" />
-                Edit
+              <Button variant="ghost" size="sm" onClick={() => onEdit(ep.id)}>
+                <Pencil size={14} className="mr-1" /> Edit
               </Button>
               <Button
                 variant={confirmId === ep.id ? "destructive" : "ghost"}
@@ -436,7 +543,7 @@ const Admin = () => {
   const handleEdit = async (id: string) => {
     const { data, error } = await supabase
       .from("generated_debates")
-      .select("id, title, topic, category, question, summary, host_intro, for_argument, against_argument, video_url, side_a_label, side_b_label, side_a_summary, side_b_summary")
+      .select("id, title, topic, category, question, summary, host_intro, for_argument, against_argument, video_url, audio_url, cover_image_url, side_a_label, side_b_label, side_a_summary, side_b_summary")
       .eq("id", id)
       .single();
 
@@ -457,7 +564,8 @@ const Admin = () => {
       for_argument: ep.for_argument,
       against_argument: ep.against_argument,
       video_url: ep.video_url || "",
-      audio_url: (ep as any).audio_url || "",
+      audio_url: ep.audio_url || "",
+      cover_image_url: ep.cover_image_url || "",
       side_a_label: ep.side_a_label || "",
       side_b_label: ep.side_b_label || "",
       side_a_summary: ep.side_a_summary || "",
@@ -480,7 +588,6 @@ const Admin = () => {
 
   const handleToggleFeatured = async (id: string, currentlyFeatured: boolean) => {
     if (!currentlyFeatured) {
-      // Unset any existing featured episode first
       await supabase
         .from("generated_debates")
         .update({ is_featured: false } as any)
@@ -511,8 +618,7 @@ const Admin = () => {
         <div className="flex items-center justify-between mb-8">
           <h1 className="text-xl font-bold text-foreground">Episode Admin</h1>
           <Button variant="ghost" size="sm" onClick={handleLogout}>
-            <LogOut size={14} className="mr-1.5" />
-            Sign Out
+            <LogOut size={14} className="mr-1.5" /> Sign Out
           </Button>
         </div>
         <div className="space-y-8">

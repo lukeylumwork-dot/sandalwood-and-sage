@@ -19,6 +19,7 @@ const fallback = {
     "Government regulation of AI at this stage would be premature and counterproductive. Innovation moves faster than legislation, and rigid rules will lock in today's understanding of a rapidly evolving technology.",
   video_url: undefined as string | undefined,
   audio_url: undefined as string | undefined,
+  cover_image_url: undefined as string | undefined,
   side_a_label: "For Regulation",
   side_b_label: "Against Regulation",
   side_a_summary:
@@ -33,7 +34,7 @@ const FeaturedEpisode = () => {
   useEffect(() => {
     supabase
       .from("generated_debates")
-      .select("title, category, summary, question, for_argument, against_argument, video_url, audio_url, side_a_label, side_b_label, side_a_summary, side_b_summary, is_featured")
+    .select("title, category, summary, question, for_argument, against_argument, video_url, audio_url, cover_image_url, side_a_label, side_b_label, side_a_summary, side_b_summary, is_featured")
       .eq("is_featured", true)
       .limit(1)
       .then(async ({ data: pinned }) => {
@@ -42,7 +43,7 @@ const FeaturedEpisode = () => {
         if (!row) {
           const { data: latest } = await supabase
             .from("generated_debates")
-            .select("title, category, summary, question, for_argument, against_argument, video_url, audio_url, side_a_label, side_b_label, side_a_summary, side_b_summary, is_featured")
+            .select("title, category, summary, question, for_argument, against_argument, video_url, audio_url, cover_image_url, side_a_label, side_b_label, side_a_summary, side_b_summary, is_featured")
             .order("created_at", { ascending: false })
             .limit(1);
           row = latest && latest.length > 0 ? latest[0] : null;
@@ -60,6 +61,7 @@ const FeaturedEpisode = () => {
             againstArgument: d.against_argument,
             video_url: d.video_url || undefined,
             audio_url: d.audio_url || undefined,
+            cover_image_url: d.cover_image_url || undefined,
             side_a_label: d.side_a_label || undefined,
             side_b_label: d.side_b_label || undefined,
             side_a_summary: d.side_a_summary || undefined,
