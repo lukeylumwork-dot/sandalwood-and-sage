@@ -34,7 +34,7 @@ const FeaturedEpisode = () => {
   useEffect(() => {
     supabase
       .from("generated_debates")
-      .select("title, category, summary, question, for_argument, against_argument, video_url, audio_url, side_a_label, side_b_label, side_a_summary, side_b_summary, is_featured")
+    .select("title, category, summary, question, for_argument, against_argument, video_url, audio_url, cover_image_url, side_a_label, side_b_label, side_a_summary, side_b_summary, is_featured")
       .eq("is_featured", true)
       .limit(1)
       .then(async ({ data: pinned }) => {
