@@ -195,6 +195,7 @@ const EpisodesList = () => {
           keyPoints: Array.isArray(d.key_points) ? d.key_points : [],
           video_url: d.video_url || undefined,
           audio_url: d.audio_url || undefined,
+          cover_image_url: d.cover_image_url || undefined,
           side_a_label: d.side_a_label || undefined,
           side_b_label: d.side_b_label || undefined,
           side_a_summary: d.side_a_summary || undefined,
