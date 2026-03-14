@@ -19,6 +19,7 @@ export type Database = {
           against_argument: string
           audio_url: string | null
           category: string
+          cover_image_url: string | null
           created_at: string
           for_argument: string
           host_intro: string
@@ -39,6 +40,7 @@ export type Database = {
           against_argument: string
           audio_url?: string | null
           category: string
+          cover_image_url?: string | null
           created_at?: string
           for_argument: string
           host_intro: string
@@ -59,6 +61,7 @@ export type Database = {
           against_argument?: string
           audio_url?: string | null
           category?: string
+          cover_image_url?: string | null
           created_at?: string
           for_argument?: string
           host_intro?: string
