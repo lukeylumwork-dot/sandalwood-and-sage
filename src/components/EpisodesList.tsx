@@ -25,6 +25,7 @@ export interface Episode {
   keyPoints: string[];
   video_url?: string;
   audio_url?: string;
+  cover_image_url?: string;
   side_a_label?: string;
   side_b_label?: string;
   side_a_summary?: string;
