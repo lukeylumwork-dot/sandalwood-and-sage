@@ -68,7 +68,7 @@ Deno.serve(async (req) => {
     });
   }
 
-  const title = `${ep.title} — Split Decision`;
+  const title = `${ep.title} — Sandalwood & Sage`;
   const description = ep.description;
 
   const html = `<!DOCTYPE html>
