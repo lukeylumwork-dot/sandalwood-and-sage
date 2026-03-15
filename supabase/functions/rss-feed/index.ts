@@ -98,7 +98,7 @@ Deno.serve(async (req) => {
     return new Response(null, { headers: corsHeaders });
   }
 
-  const siteUrl = "https://splitdecision.fm";
+  const siteUrl = "https://sandalwoodandsage.fm";
 
   const items = episodes
     .map(
