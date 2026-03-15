@@ -88,7 +88,7 @@ Deno.serve(async (req) => {
   <meta http-equiv="refresh" content="0;url=${siteUrl}/#episodes" />
 </head>
 <body>
-  <p>Redirecting to <a href="${siteUrl}/#episodes">Split Decision</a>…</p>
+  <p>Redirecting to <a href="${siteUrl}/#episodes">Sandalwood & Sage</a>…</p>
 </body>
 </html>`;
 
