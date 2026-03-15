@@ -6,10 +6,10 @@ import { Input } from "@/components/ui/input";
 const rssUrl = `https://${import.meta.env.VITE_SUPABASE_PROJECT_ID}.supabase.co/functions/v1/rss-feed`;
 
 const platforms = [
-  { label: "Spotify", href: "#" },
-  { label: "Apple Podcasts", href: "#" },
-  { label: "YouTube", href: "#" },
-  { label: "RSS Feed", href: rssUrl, icon: Rss },
+  { label: "Spotify", href: "#", coming: true },
+  { label: "Apple Podcasts", href: "#", coming: true },
+  { label: "YouTube", href: "#", coming: true },
+  { label: "RSS Feed", href: rssUrl, icon: Rss, coming: false },
 ];
 
 const Subscribe = () => {
@@ -22,46 +22,73 @@ const Subscribe = () => {
   };
 
   return (
-    <section id="subscribe" className="mx-auto max-w-4xl px-5 py-16">
-      <p className="text-xs font-medium uppercase tracking-widest text-section-label mb-4">
+    <section id="subscribe" className="mx-auto max-w-4xl px-5 py-20">
+      <p className="text-xs font-medium uppercase tracking-widest text-section-label mb-2">
         Subscribe
       </p>
+      <h2 className="text-2xl md:text-3xl text-foreground mb-3">
+        Never miss an episode
+      </h2>
+      <p className="text-sm text-muted-foreground mb-8 max-w-lg">
+        Follow Sandalwood & Sage on your favourite platform, or join the mailing list to get new episodes delivered to your inbox.
+      </p>
 
-      <div className="flex flex-wrap gap-3 mb-6">
-        {platforms.map((p) => (
-          <Button key={p.label} variant="outline" size="sm" asChild>
-            <a href={p.href} target={p.href.startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer" className="flex items-center gap-1.5">
-              {"icon" in p && p.icon && <p.icon size={14} />}
-              {p.label}
-            </a>
-          </Button>
-        ))}
-      </div>
+      <div className="grid gap-8 md:grid-cols-2">
+        {/* Platforms */}
+        <div>
+          <p className="text-xs font-medium text-card-foreground mb-3 uppercase tracking-wide">Platforms</p>
+          <div className="flex flex-wrap gap-2">
+            {platforms.map((p) => (
+              <Button
+                key={p.label}
+                variant="outline"
+                size="sm"
+                asChild={!p.coming}
+                disabled={p.coming}
+                className={p.coming ? "opacity-60 cursor-default" : ""}
+              >
+                {p.coming ? (
+                  <span className="flex items-center gap-1.5">
+                    {p.label}
+                    <span className="text-[10px] text-muted-foreground font-normal ml-1">Soon</span>
+                  </span>
+                ) : (
+                  <a href={p.href} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5">
+                    {"icon" in p && p.icon && <p.icon size={14} />}
+                    {p.label}
+                  </a>
+                )}
+              </Button>
+            ))}
+          </div>
+        </div>
 
-      <div className="rounded-lg border bg-card p-6 max-w-md">
-        <h3 className="text-sm font-semibold text-card-foreground mb-1">
-          Join the mailing list
-        </h3>
-        <p className="text-xs text-muted-foreground mb-4">
-          Get new episodes delivered to your inbox.
-        </p>
-        {submitted ? (
-          <p className="text-sm text-primary font-medium">Thanks — you're on the list.</p>
-        ) : (
-          <form onSubmit={handleSubmit} className="flex gap-2">
-            <Input
-              type="email"
-              placeholder="you@example.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="text-sm"
-            />
-            <Button type="submit" size="sm">
-              Subscribe
-            </Button>
-          </form>
-        )}
+        {/* Mailing list */}
+        <div className="rounded-xl border bg-card p-6">
+          <h3 className="text-sm font-semibold text-card-foreground mb-1" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+            Join the mailing list
+          </h3>
+          <p className="text-xs text-muted-foreground mb-4">
+            New episodes, straight to your inbox. No spam.
+          </p>
+          {submitted ? (
+            <p className="text-sm text-primary font-medium">Thanks — you're on the list.</p>
+          ) : (
+            <form onSubmit={handleSubmit} className="flex gap-2">
+              <Input
+                type="email"
+                placeholder="you@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="text-sm"
+              />
+              <Button type="submit" size="sm">
+                Subscribe
+              </Button>
+            </form>
+          )}
+        </div>
       </div>
     </section>
   );

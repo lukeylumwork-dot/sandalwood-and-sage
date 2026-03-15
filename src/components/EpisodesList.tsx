@@ -229,9 +229,10 @@ const EpisodesList = () => {
 
   return (
     <section id="episodes" className="mx-auto max-w-4xl px-5 py-16">
-      <p className="text-xs font-medium uppercase tracking-widest text-section-label mb-4">
+      <p className="text-xs font-medium uppercase tracking-widest text-section-label mb-2">
         Episodes
       </p>
+      <h2 className="text-2xl md:text-3xl text-foreground mb-6">All episodes</h2>
 
       <div className="relative mb-4">
         <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
@@ -240,16 +241,17 @@ const EpisodesList = () => {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Search episodes…"
-          className="w-full rounded-lg border border-border bg-card pl-9 pr-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring"
+          className="w-full rounded-lg border border-border bg-card pl-9 pr-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring"
+          style={{ fontFamily: "'DM Sans', sans-serif" }}
         />
       </div>
 
-      <div className="flex flex-wrap gap-2 mb-6">
+      <div className="flex flex-wrap gap-2 mb-8">
         {categories.map((cat) => (
           <button
             key={cat}
             onClick={() => setActiveFilter(cat)}
-            className={`rounded-full border px-3.5 py-1.5 text-xs font-medium transition-colors ${
+            className={`rounded-full border px-4 py-1.5 text-xs font-medium transition-colors ${
               activeFilter === cat
                 ? "bg-primary text-primary-foreground border-primary"
                 : "bg-card text-muted-foreground border-border hover:text-foreground hover:border-foreground/30"
@@ -260,19 +262,19 @@ const EpisodesList = () => {
         ))}
       </div>
 
-      <div className="grid gap-4">
+      <div className="grid gap-3">
         {filtered.map((ep, i) => (
           <button
             key={i}
             onClick={() => setSelectedEpisode(ep)}
-            className="flex flex-col gap-1 rounded-lg border bg-card p-5 text-left transition-colors hover:border-primary/30 sm:flex-row sm:items-center sm:justify-between"
+            className="group flex flex-col gap-2 rounded-xl border bg-card p-5 text-left transition-all hover:border-primary/40 hover:shadow-sm sm:flex-row sm:items-start sm:justify-between"
           >
-            <div className="min-w-0">
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-medium text-primary">{ep.category}</span>
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center gap-2 mb-1.5">
+                <span className="text-[11px] font-semibold uppercase tracking-wide text-primary">{ep.category}</span>
                 {ep.video_url && (
                   <span className="inline-flex items-center gap-1 rounded-full bg-accent/10 px-2 py-0.5 text-[10px] font-medium text-accent">
-                    <Video size={10} /> Video Debate
+                    <Video size={10} /> Video
                   </span>
                 )}
                 {ep._isFromDb && (
@@ -281,20 +283,20 @@ const EpisodesList = () => {
                   </span>
                 )}
               </div>
-              <h3 className="text-sm font-semibold text-card-foreground mt-0.5 leading-snug">
+              <h3 className="text-sm font-semibold text-card-foreground leading-snug group-hover:text-primary transition-colors" style={{ fontFamily: "'DM Sans', sans-serif" }}>
                 {ep.title}
               </h3>
-              <p className="text-xs text-muted-foreground mt-1">{ep.premise}</p>
+              <p className="text-xs text-muted-foreground mt-1 leading-relaxed line-clamp-2">{ep.premise}</p>
             </div>
             {ep.duration && (
-              <p className="mt-2 flex shrink-0 items-center gap-1 text-xs text-muted-foreground sm:mt-0">
-                <Clock size={13} /> {ep.duration}
+              <p className="mt-1 flex shrink-0 items-center gap-1 text-xs text-muted-foreground sm:mt-0 sm:ml-4">
+                <Clock size={12} /> {ep.duration}
               </p>
             )}
           </button>
         ))}
         {filtered.length === 0 && (
-          <p className="text-sm text-muted-foreground py-4">No episodes in this category yet.</p>
+          <p className="text-sm text-muted-foreground py-8 text-center">No episodes found.</p>
         )}
       </div>
 
@@ -303,7 +305,7 @@ const EpisodesList = () => {
           {selectedEpisode && (
             <>
               <DialogHeader>
-                <span className="text-xs font-medium text-primary mb-1 block">
+                <span className="text-xs font-medium text-primary mb-1 block uppercase tracking-wide">
                   {selectedEpisode.category}
                 </span>
                 <DialogTitle className="text-lg leading-snug text-foreground">
@@ -390,7 +392,7 @@ const EpisodesList = () => {
                     asChild
                   >
                     <a
-                      href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(selectedEpisode.title + " — Split Decision")}&url=${encodeURIComponent(getShareUrl(selectedEpisode))}`}
+                      href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(selectedEpisode.title + " — Sandalwood & Sage")}&url=${encodeURIComponent(getShareUrl(selectedEpisode))}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label="Share on Twitter"
