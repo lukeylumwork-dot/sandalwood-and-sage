@@ -58,7 +58,7 @@ Deno.serve(async (req) => {
 
   const url = new URL(req.url);
   const slug = url.searchParams.get("episode") || "";
-  const siteUrl = "https://splitdecision.fm";
+  const siteUrl = "https://sandalwoodandsage.fm";
 
   const ep = episodes[slug];
   if (!ep) {
