@@ -98,7 +98,7 @@ Deno.serve(async (req) => {
     return new Response(null, { headers: corsHeaders });
   }
 
-  const siteUrl = "https://splitdecision.fm";
+  const siteUrl = "https://sandalwoodandsage.fm";
 
   const items = episodes
     .map(
@@ -119,12 +119,12 @@ Deno.serve(async (req) => {
   xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"
   xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>Split Decision</title>
+    <title>Sandalwood &amp; Sage</title>
     <link>${siteUrl}</link>
     <language>en</language>
-    <description>Two Sides. One Question. Short, structured debates grounded in evidence — not opinion. Each episode tackles one question from two perspectives in around fifteen minutes.</description>
-    <itunes:author>Split Decision</itunes:author>
-    <itunes:summary>Short, structured debates grounded in evidence — not opinion.</itunes:summary>
+    <description>A short-form debate podcast built for modern attention spans. Each episode tackles one question from two perspectives in under fifteen minutes.</description>
+    <itunes:author>Sandalwood &amp; Sage</itunes:author>
+    <itunes:summary>Two sides. One question. Fifteen minutes.</itunes:summary>
     <itunes:category text="Society &amp; Culture" />
     <itunes:explicit>false</itunes:explicit>
     ${items}

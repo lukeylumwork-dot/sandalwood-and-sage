@@ -58,7 +58,7 @@ Deno.serve(async (req) => {
 
   const url = new URL(req.url);
   const slug = url.searchParams.get("episode") || "";
-  const siteUrl = "https://splitdecision.fm";
+  const siteUrl = "https://sandalwoodandsage.fm";
 
   const ep = episodes[slug];
   if (!ep) {
@@ -68,7 +68,7 @@ Deno.serve(async (req) => {
     });
   }
 
-  const title = `${ep.title} — Split Decision`;
+  const title = `${ep.title} — Sandalwood & Sage`;
   const description = ep.description;
 
   const html = `<!DOCTYPE html>
@@ -81,14 +81,14 @@ Deno.serve(async (req) => {
   <meta property="og:description" content="${escapeHtml(description)}" />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="${siteUrl}/?episode=${escapeHtml(slug)}" />
-  <meta property="og:site_name" content="Split Decision" />
+  <meta property="og:site_name" content="Sandalwood & Sage" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="${escapeHtml(title)}" />
   <meta name="twitter:description" content="${escapeHtml(description)}" />
   <meta http-equiv="refresh" content="0;url=${siteUrl}/#episodes" />
 </head>
 <body>
-  <p>Redirecting to <a href="${siteUrl}/#episodes">Split Decision</a>…</p>
+  <p>Redirecting to <a href="${siteUrl}/#episodes">Sandalwood & Sage</a>…</p>
 </body>
 </html>`;
 
