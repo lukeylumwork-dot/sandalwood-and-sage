@@ -81,7 +81,7 @@ Deno.serve(async (req) => {
   <meta property="og:description" content="${escapeHtml(description)}" />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="${siteUrl}/?episode=${escapeHtml(slug)}" />
-  <meta property="og:site_name" content="Split Decision" />
+  <meta property="og:site_name" content="Sandalwood & Sage" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="${escapeHtml(title)}" />
   <meta name="twitter:description" content="${escapeHtml(description)}" />
