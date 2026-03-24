@@ -8,6 +8,22 @@ import { Loader2, Trash2, Lock, LogOut, Pencil, X, Star } from "lucide-react";
 
 const CATEGORIES = ["Tech", "Work", "Society", "Money", "Sport", "Politics"];
 const VERIFY_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/verify-admin`;
+const ADMIN_WRITE_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-write`;
+
+async function adminWrite(adminPassword: string, body: object) {
+  const res = await fetch(ADMIN_WRITE_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+      "x-admin-password": adminPassword,
+    },
+    body: JSON.stringify(body),
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.error || "Request failed");
+  return data;
+}
 
 interface Episode {
   id: string;
@@ -51,7 +67,7 @@ type FormData = {
 };
 
 /* ─── Password Gate ─── */
-function PasswordGate({ onAuth }: { onAuth: () => void }) {
+function PasswordGate({ onAuth }: { onAuth: (password: string) => void }) {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -71,8 +87,7 @@ function PasswordGate({ onAuth }: { onAuth: () => void }) {
         body: JSON.stringify({ password: password.trim() }),
       });
       if (res.ok) {
-        sessionStorage.setItem("admin_auth", "true");
-        onAuth();
+        onAuth(password.trim());
       } else {
         setError("Incorrect password. Please try again.");
       }
@@ -136,11 +151,13 @@ const EMPTY_FORM: FormData = {
 function EpisodeForm({
   editingId,
   initialData,
+  adminPassword,
   onSaved,
   onCancel,
 }: {
   editingId: string | null;
   initialData: FormData;
+  adminPassword: string;
   onSaved: () => void;
   onCancel: () => void;
 }) {
@@ -179,24 +196,20 @@ function EpisodeForm({
       side_b_summary: form.side_b_summary.trim() || null,
     };
 
-    let error;
-    if (isEditing) {
-      ({ error } = await supabase
-        .from("generated_debates")
-        .update(payload)
-        .eq("id", editingId));
-    } else {
-      ({ error } = await supabase.from("generated_debates").insert(payload));
-    }
-
-    setSaving(false);
-    if (error) {
-      console.error("Save error:", error);
-      toast.error(`Failed to ${isEditing ? "update" : "save"} episode. Please try again.`);
-    } else {
+    try {
+      if (isEditing) {
+        await adminWrite(adminPassword, { operation: "update", id: editingId, payload });
+      } else {
+        await adminWrite(adminPassword, { operation: "insert", payload });
+      }
       toast.success(isEditing ? "Episode updated!" : "Episode published!");
       if (!isEditing) setForm(EMPTY_FORM);
       onSaved();
+    } catch (err) {
+      console.error("Save error:", err);
+      toast.error(`Failed to ${isEditing ? "update" : "save"} episode. Please try again.`);
+    } finally {
+      setSaving(false);
     }
   };
 
@@ -399,7 +412,8 @@ function EpisodeList({
 
 /* ─── Admin Page ─── */
 const Admin = () => {
-  const [authed, setAuthed] = useState(() => sessionStorage.getItem("admin_auth") === "true");
+  const [authed, setAuthed] = useState(false);
+  const [adminPassword, setAdminPassword] = useState("");
   const [episodes, setEpisodes] = useState<Episode[]>([]);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editFormData, setEditFormData] = useState<FormData>(EMPTY_FORM);
@@ -417,16 +431,16 @@ const Admin = () => {
   }, [authed, fetchEpisodes]);
 
   const handleDelete = async (id: string) => {
-    const { error } = await supabase.from("generated_debates").delete().eq("id", id);
-    if (error) {
-      toast.error("Failed to delete episode.");
-    } else {
+    try {
+      await adminWrite(adminPassword, { operation: "delete", id });
       toast.success("Episode deleted.");
       if (editingId === id) {
         setEditingId(null);
         setEditFormData(EMPTY_FORM);
       }
       fetchEpisodes();
+    } catch {
+      toast.error("Failed to delete episode.");
     }
   };
 
@@ -475,31 +489,25 @@ const Admin = () => {
   };
 
   const handleToggleFeatured = async (id: string, currentlyFeatured: boolean) => {
-    if (!currentlyFeatured) {
-      // Unset any existing featured episode first
-      await supabase
-        .from("generated_debates")
-        .update({ is_featured: false } as any)
-        .eq("is_featured", true);
-    }
-    const { error } = await supabase
-      .from("generated_debates")
-      .update({ is_featured: !currentlyFeatured } as any)
-      .eq("id", id);
-    if (error) {
-      toast.error("Failed to update featured status.");
-    } else {
+    try {
+      await adminWrite(adminPassword, {
+        operation: "update-featured",
+        id,
+        payload: { is_featured: !currentlyFeatured },
+      });
       toast.success(currentlyFeatured ? "Episode unpinned." : "Episode pinned as featured!");
       fetchEpisodes();
+    } catch {
+      toast.error("Failed to update featured status.");
     }
   };
 
   const handleLogout = () => {
-    sessionStorage.removeItem("admin_auth");
+    setAdminPassword("");
     setAuthed(false);
   };
 
-  if (!authed) return <PasswordGate onAuth={() => setAuthed(true)} />;
+  if (!authed) return <PasswordGate onAuth={(pw) => { setAdminPassword(pw); setAuthed(true); }} />;
 
   return (
     <div className="min-h-screen bg-background">
@@ -515,6 +523,7 @@ const Admin = () => {
           <EpisodeForm
             editingId={editingId}
             initialData={editingId ? editFormData : EMPTY_FORM}
+            adminPassword={adminPassword}
             onSaved={handleSaved}
             onCancel={handleCancel}
           />

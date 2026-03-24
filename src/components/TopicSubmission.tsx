@@ -15,6 +15,18 @@ const TopicSubmission = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!topic.trim()) return;
+    if (topic.trim().length > 500) {
+      toast.error("Topic must be 500 characters or less.");
+      return;
+    }
+    if (name.trim().length > 100) {
+      toast.error("Name must be 100 characters or less.");
+      return;
+    }
+    if (email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+      toast.error("Please enter a valid email address.");
+      return;
+    }
     setSaving(true);
     try {
       const { error } = await supabase.from("submitted_topics").insert({
