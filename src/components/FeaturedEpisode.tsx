@@ -1,10 +1,14 @@
 import { useState, useEffect } from "react";
-import { Play } from "lucide-react";
 import AudioPlayer from "@/components/AudioPlayer";
 import VideoPlayer from "@/components/VideoPlayer";
 import SidesSplit from "@/components/SidesSplit";
-import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 const fallback = {
   title: "Should Governments Regulate AI Development?",
@@ -31,7 +35,7 @@ const fallback = {
 
 const FeaturedEpisode = () => {
   const [episode, setEpisode] = useState(fallback);
-  const [showPlayer, setShowPlayer] = useState(false);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     supabase
@@ -79,8 +83,10 @@ const FeaturedEpisode = () => {
         Latest Episode
       </p>
 
-      <div className="rounded-xl border bg-card overflow-hidden">
-        {/* Cover image banner */}
+      <button
+        onClick={() => setOpen(true)}
+        className="w-full rounded-xl border bg-card overflow-hidden text-left transition-all hover:border-primary/40 hover:shadow-sm cursor-pointer"
+      >
         {episode.cover_image_url && (
           <div className="aspect-[3/1] w-full overflow-hidden">
             <img
@@ -91,7 +97,6 @@ const FeaturedEpisode = () => {
             />
           </div>
         )}
-
         <div className="p-8 md:p-10">
           <span className="inline-block text-xs font-medium text-primary mb-2 uppercase tracking-wide">
             {episode.category}
@@ -102,40 +107,60 @@ const FeaturedEpisode = () => {
           <p className="mt-4 text-base text-muted-foreground leading-relaxed max-w-2xl">
             {episode.summary}
           </p>
+        </div>
+      </button>
 
-          {/* Play CTA */}
-          {episode.audio_url && !showPlayer && (
-            <div className="mt-6">
-              <Button size="lg" onClick={() => setShowPlayer(true)} className="gap-2">
-                <Play size={18} /> Listen now
-              </Button>
-            </div>
-          )}
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className="max-w-lg dark bg-background border-border">
+          <DialogHeader>
+            <span className="text-xs font-medium text-primary mb-1 block uppercase tracking-wide">
+              {episode.category}
+            </span>
+            <DialogTitle className="text-lg leading-snug text-foreground">
+              {episode.title}
+            </DialogTitle>
+          </DialogHeader>
 
-          {episode.audio_url && showPlayer && (
-            <div className="mt-6 max-w-md">
-              <AudioPlayer label={episode.title} src={episode.audio_url} />
-            </div>
-          )}
-
-          {episode.video_url && (
-            <div className="mt-6">
+          <div className="space-y-4 mt-2">
+            {episode.video_url && (
               <VideoPlayer url={episode.video_url} title={episode.title} />
-            </div>
-          )}
+            )}
 
-          {episode.side_a_label && episode.side_b_label && (
-            <div className="mt-6">
+            {episode.side_a_label && episode.side_b_label && (
               <SidesSplit
                 sideALabel={episode.side_a_label}
                 sideBLabel={episode.side_b_label}
                 sideASummary={episode.side_a_summary}
                 sideBSummary={episode.side_b_summary}
               />
+            )}
+
+            {episode.audio_url && (
+              <div className="pt-2">
+                <AudioPlayer label={episode.title} src={episode.audio_url} />
+              </div>
+            )}
+
+            <div>
+              <p className="text-xs font-medium text-section-label uppercase tracking-wide mb-1">
+                The question
+              </p>
+              <p className="text-sm text-foreground leading-relaxed">
+                {episode.question}
+              </p>
             </div>
-          )}
-        </div>
-      </div>
+
+            <div>
+              <p className="text-xs font-medium text-section-label uppercase tracking-wide mb-1">
+                Summary
+              </p>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                {episode.summary}
+              </p>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };
