@@ -73,6 +73,10 @@ const AudioPlayer = ({ label, text, segments, voiceId }: AudioPlayerProps) => {
     if (!audioUrl && (text || segments?.length)) {
       const url = await generateAudio();
       if (!url) return;
+      // Play immediately while still in the user-gesture context
+      audio.src = url;
+      audio.load();
+      audio.play().then(() => setPlaying(true)).catch(() => {});
       return;
     }
 
@@ -83,14 +87,6 @@ const AudioPlayer = ({ label, text, segments, voiceId }: AudioPlayerProps) => {
     }
     setPlaying(!playing);
   }, [playing, audioUrl, text, segments, generateAudio]);
-
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio || !audioUrl) return;
-    audio.src = audioUrl;
-    audio.load();
-    audio.play().then(() => setPlaying(true)).catch(() => {});
-  }, [audioUrl]);
 
   const restart = useCallback(() => {
     const audio = audioRef.current;

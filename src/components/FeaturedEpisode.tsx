@@ -5,6 +5,12 @@ import VideoPlayer from "@/components/VideoPlayer";
 import SidesSplit from "@/components/SidesSplit";
 import { VOICES } from "@/lib/voices";
 import { supabase } from "@/integrations/supabase/client";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 /* ─── Hardcoded fallback ─── */
 const fallback = {
@@ -38,6 +44,7 @@ function buildSegments(ep: typeof fallback) {
 
 const FeaturedEpisode = () => {
   const [episode, setEpisode] = useState(fallback);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     // Try pinned featured first, then fall back to latest
@@ -83,7 +90,10 @@ const FeaturedEpisode = () => {
       <p className="text-xs font-medium uppercase tracking-widest text-section-label mb-6">
         Latest Episode
       </p>
-      <div className="rounded-lg border bg-card p-8 md:p-12">
+      <button
+        onClick={() => setOpen(true)}
+        className="w-full rounded-lg border bg-card p-8 md:p-12 text-left transition-colors hover:border-primary/30 cursor-pointer"
+      >
         <span className="inline-block text-xs font-medium text-primary mb-3">
           {episode.category}
         </span>
@@ -98,31 +108,57 @@ const FeaturedEpisode = () => {
         <p className="mt-4 text-sm text-muted-foreground leading-relaxed max-w-2xl">
           {episode.summary}
         </p>
+      </button>
 
-        {/* Video player (primary) */}
-        {episode.video_url && (
-          <div className="mt-5">
-            <VideoPlayer url={episode.video_url} title={episode.title} />
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className="max-w-lg dark bg-background border-border">
+          <DialogHeader>
+            <span className="text-xs font-medium text-primary mb-1 block">
+              {episode.category}
+            </span>
+            <DialogTitle className="text-lg leading-snug text-foreground">
+              {episode.title}
+            </DialogTitle>
+          </DialogHeader>
+
+          <div className="space-y-4 mt-2">
+            {episode.video_url && (
+              <VideoPlayer url={episode.video_url} title={episode.title} />
+            )}
+
+            {episode.side_a_label && episode.side_b_label && (
+              <SidesSplit
+                sideALabel={episode.side_a_label}
+                sideBLabel={episode.side_b_label}
+                sideASummary={episode.side_a_summary}
+                sideBSummary={episode.side_b_summary}
+              />
+            )}
+
+            <div className="pt-2">
+              <AudioPlayer label={episode.title} segments={buildSegments(episode)} />
+            </div>
+
+            <div>
+              <p className="text-xs font-medium text-section-label uppercase tracking-wide mb-1">
+                The question
+              </p>
+              <p className="text-sm text-foreground leading-relaxed">
+                {episode.question}
+              </p>
+            </div>
+
+            <div>
+              <p className="text-xs font-medium text-section-label uppercase tracking-wide mb-1">
+                Summary
+              </p>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                {episode.summary}
+              </p>
+            </div>
           </div>
-        )}
-
-        {/* Pro | Con split */}
-        {episode.side_a_label && episode.side_b_label && (
-          <div className="mt-4">
-            <SidesSplit
-              sideALabel={episode.side_a_label}
-              sideBLabel={episode.side_b_label}
-              sideASummary={episode.side_a_summary}
-              sideBSummary={episode.side_b_summary}
-            />
-          </div>
-        )}
-
-        {/* Audio fallback */}
-        <div className="mt-4 max-w-sm">
-          <AudioPlayer label={episode.title} segments={buildSegments(episode)} />
-        </div>
-      </div>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };
