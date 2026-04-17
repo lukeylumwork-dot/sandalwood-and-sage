@@ -1,19 +1,22 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-const ALLOWED_ORIGINS = [
-  "https://sandalwoodandsage.fm",
-  "http://localhost:5173",
-  "http://localhost:3000",
-  "http://127.0.0.1:5173",
+const ALLOWED_ORIGIN_PATTERNS = [
+  /^https:\/\/sandalwoodandsage\.fm$/,
+  /^https:\/\/([a-z0-9-]+\.)*lovable\.app$/,
+  /^https:\/\/([a-z0-9-]+\.)*lovableproject\.com$/,
+  /^http:\/\/localhost(:\d+)?$/,
+  /^http:\/\/127\.0\.0\.1(:\d+)?$/,
 ];
 
 function corsHeaders(origin: string | null) {
-  const allowed = origin && ALLOWED_ORIGINS.includes(origin);
+  const allowed = origin && ALLOWED_ORIGIN_PATTERNS.some((re) => re.test(origin));
   return {
-    "Access-Control-Allow-Origin": allowed ? origin : "https://sandalwoodandsage.fm",
+    "Access-Control-Allow-Origin": allowed ? origin! : "https://sandalwoodandsage.fm",
     "Access-Control-Allow-Headers":
       "authorization, x-client-info, apikey, content-type, x-admin-password",
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Vary": "Origin",
   };
 }
 
