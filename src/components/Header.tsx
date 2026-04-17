@@ -18,8 +18,18 @@ const Header = () => {
     <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
       <div className="mx-auto flex max-w-4xl items-center justify-between px-5 py-4">
         <a href="#" className="flex items-center gap-2 text-lg tracking-tight text-foreground" style={{ fontFamily: "'DM Serif Display', Georgia, serif" }}>
-          <img src="/logo.png" alt="Sandalwood & Sage logo" className="h-8 w-auto block dark:hidden" />
-          <img src="/logo-light.svg" alt="Sandalwood & Sage logo" className="h-8 w-auto hidden dark:block" />
+          <span className="relative inline-block h-7 w-16 overflow-hidden">
+            <img
+              src="/logo.png"
+              alt="Sandalwood & Sage logo"
+              className="absolute left-1/2 top-1/2 h-[280%] w-auto max-w-none -translate-x-1/2 -translate-y-1/2 block dark:hidden"
+            />
+            <img
+              src="/logo-light.svg"
+              alt="Sandalwood & Sage logo"
+              className="absolute left-1/2 top-1/2 h-[280%] w-auto max-w-none -translate-x-1/2 -translate-y-1/2 hidden dark:block"
+            />
+          </span>
           <span>Sandalwood</span>
           <span className="text-primary font-normal">&</span>
           <span>Sage</span>
