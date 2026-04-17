@@ -16,6 +16,19 @@ const steps = [
   },
 ];
 
+const credo = [
+  "Democratic citizenship thrives on deliberation.",
+  "Deliberation is the process of generative debate.",
+  "Deliberation serves democracy when it is easily accessible.",
+  "Generative debate is a process of discovery through argument.",
+  "We build Arguments by organising evidence.",
+  "We communicate clearly so that they are easily accessible.",
+  "We make our Arguments and Judgements transparently.",
+  "We listen attentively to other points of view.",
+  "We look for common ground even if there's not much of it to be found.",
+  "We sometimes change our minds.",
+];
+
 const HowItWorks = () => (
   <section id="how-it-works" className="mx-auto max-w-4xl px-5 py-20">
     <p className="text-xs font-medium uppercase tracking-widest text-section-label mb-2">
@@ -34,6 +47,28 @@ const HowItWorks = () => (
           <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{step.description}</p>
         </div>
       ))}
+    </div>
+
+    <div className="mt-12">
+      <p className="text-xs font-medium uppercase tracking-widest text-section-label mb-2">
+        Our Credo
+      </p>
+      <h3 className="font-serif text-2xl md:text-3xl text-foreground mb-6">
+        What we believe.
+      </h3>
+      <div className="rounded-xl border bg-card p-6 md:p-8">
+        <ul className="space-y-3">
+          {credo.map((line, i) => (
+            <li
+              key={i}
+              className="flex gap-3 text-sm md:text-base text-card-foreground leading-relaxed"
+            >
+              <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" aria-hidden />
+              <span>{line}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   </section>
 );
