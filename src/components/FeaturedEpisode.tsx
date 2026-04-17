@@ -74,8 +74,8 @@ const FeaturedEpisode = () => {
   if (!episode) return null;
 
   return (
-    <section id="featured" className="mx-auto max-w-4xl px-5 pt-4 pb-12 sm:pt-6 sm:pb-16">
-      <p className="text-[11px] sm:text-xs font-medium uppercase tracking-[0.18em] text-section-label mb-4">
+    <section id="featured" className="mx-auto max-w-4xl px-5 pt-2 pb-8 sm:pt-3 sm:pb-10">
+      <p className="text-[11px] sm:text-xs font-medium uppercase tracking-[0.18em] text-section-label mb-3">
         Latest Episode
       </p>
 
