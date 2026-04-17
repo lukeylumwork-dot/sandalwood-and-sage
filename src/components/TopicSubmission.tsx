@@ -54,7 +54,7 @@ const TopicSubmission = () => {
         Have a question you think deserves two sides? Send it through and it may feature in a future episode.
       </p>
 
-      <div className="rounded-xl border bg-card p-5 sm:p-6 max-w-md">
+      <div className="rounded-xl border bg-card p-4 sm:p-6 max-w-md">
         {submitted ? (
           <p className="text-sm text-primary font-medium">
             Thanks — we've received your suggestion.
