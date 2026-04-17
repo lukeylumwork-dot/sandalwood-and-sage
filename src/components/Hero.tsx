@@ -9,8 +9,7 @@ const Hero = () => (
       <span className="text-primary">Fifteen minutes.</span>
     </h1>
     <p className="mt-5 text-base md:text-lg text-muted-foreground max-w-xl mx-auto leading-relaxed">
-      Sandalwood & Sage tackles the questions that matter — with structured arguments, 
-      cited evidence, and zero filler. Built for curious minds with limited time.
+      Sandalwood & Sage are AI-generated characters who are working with their creator, Gareth, to generate short, serious, punchy debates. These are debates that don't just help you to figure out what you think - but why you think it.
     </p>
   </section>
 );
