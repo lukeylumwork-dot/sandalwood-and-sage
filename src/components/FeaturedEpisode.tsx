@@ -10,31 +10,25 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
-const fallback = {
-  title: "Should Governments Regulate AI Development?",
-  category: "Technology",
-  duration: "14 min",
-  summary:
-    "One side argues that unchecked artificial intelligence poses systemic risks demanding immediate oversight. The other contends that premature regulation could stifle innovation and concentrate advantage among less cautious states.",
-  question:
-    "Is state-level regulation of AI necessary to prevent harm, or does it risk doing more damage than it prevents?",
-  forArgument:
-    "Governments must regulate AI development now. Unchecked artificial intelligence poses existential risks, from autonomous weapons to mass surveillance and algorithmic discrimination.",
-  againstArgument:
-    "Government regulation of AI at this stage would be premature and counterproductive. Innovation moves faster than legislation, and rigid rules will lock in today's understanding of a rapidly evolving technology.",
-  video_url: undefined as string | undefined,
-  audio_url: undefined as string | undefined,
-  cover_image_url: undefined as string | undefined,
-  side_a_label: "For Regulation",
-  side_b_label: "Against Regulation",
-  side_a_summary:
-    "Unchecked AI development poses systemic risks that only coordinated government oversight can address before the technology outpaces democratic control.",
-  side_b_summary:
-    "Premature regulation entrenches incumbents, stifles innovation, and cannot keep pace with a technology that moves faster than any legislature.",
+type FeaturedEpisodeData = {
+  title: string;
+  category: string;
+  duration: string;
+  summary: string;
+  question: string;
+  forArgument: string;
+  againstArgument: string;
+  video_url?: string;
+  audio_url?: string;
+  cover_image_url?: string;
+  side_a_label?: string;
+  side_b_label?: string;
+  side_a_summary?: string;
+  side_b_summary?: string;
 };
 
 const FeaturedEpisode = () => {
-  const [episode, setEpisode] = useState(fallback);
+  const [episode, setEpisode] = useState<FeaturedEpisodeData | null>(null);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -76,6 +70,8 @@ const FeaturedEpisode = () => {
         }
       });
   }, []);
+
+  if (!episode) return null;
 
   return (
     <section id="featured" className="mx-auto max-w-4xl px-5 pt-8 pb-20">
