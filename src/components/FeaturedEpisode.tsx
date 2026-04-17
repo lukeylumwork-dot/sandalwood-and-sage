@@ -74,8 +74,8 @@ const FeaturedEpisode = () => {
   if (!episode) return null;
 
   return (
-    <section id="featured" className="mx-auto max-w-4xl px-5 pt-8 pb-20">
-      <p className="text-xs font-medium uppercase tracking-widest text-section-label mb-6">
+    <section id="featured" className="mx-auto max-w-4xl px-5 pt-4 pb-12 sm:pt-6 sm:pb-16">
+      <p className="text-[11px] sm:text-xs font-medium uppercase tracking-[0.18em] text-section-label mb-4">
         Latest Episode
       </p>
 
@@ -84,7 +84,7 @@ const FeaturedEpisode = () => {
         className="w-full rounded-xl border bg-card overflow-hidden text-left transition-all hover:border-primary/40 hover:shadow-sm cursor-pointer"
       >
         {episode.cover_image_url && (
-          <div className="aspect-[3/1] w-full overflow-hidden">
+          <div className="aspect-[16/7] sm:aspect-[3/1] w-full overflow-hidden">
             <img
               src={episode.cover_image_url}
               alt={episode.title}
@@ -93,31 +93,31 @@ const FeaturedEpisode = () => {
             />
           </div>
         )}
-        <div className="p-8 md:p-10">
-          <span className="inline-block text-xs font-medium text-primary mb-2 uppercase tracking-wide">
+        <div className="p-5 sm:p-7 md:p-9">
+          <span className="inline-block text-[11px] font-semibold text-primary mb-2 uppercase tracking-[0.14em]">
             {episode.category}
           </span>
-          <h2 className="text-2xl md:text-3xl lg:text-4xl text-card-foreground leading-tight">
+          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-[2.25rem] text-card-foreground leading-[1.15] text-balance">
             {episode.title}
           </h2>
-          <p className="mt-4 text-base text-muted-foreground leading-relaxed max-w-2xl">
+          <p className="mt-3 sm:mt-4 text-sm sm:text-base text-muted-foreground leading-relaxed max-w-2xl text-pretty">
             {episode.summary}
           </p>
         </div>
       </button>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-w-lg dark bg-background border-border">
-          <DialogHeader>
-            <span className="text-xs font-medium text-primary mb-1 block uppercase tracking-wide">
+        <DialogContent className="max-w-lg dark bg-background border-border max-h-[90vh] overflow-y-auto p-5 sm:p-6">
+          <DialogHeader className="space-y-1.5">
+            <span className="text-[11px] font-semibold text-primary block uppercase tracking-[0.14em]">
               {episode.category}
             </span>
-            <DialogTitle className="text-lg leading-snug text-foreground">
+            <DialogTitle className="text-xl sm:text-2xl leading-[1.2] text-foreground text-balance">
               {episode.title}
             </DialogTitle>
           </DialogHeader>
 
-          <div className="space-y-4 mt-2">
+          <div className="space-y-5 mt-4">
             {episode.video_url && (
               <VideoPlayer url={episode.video_url} title={episode.title} />
             )}
@@ -132,22 +132,20 @@ const FeaturedEpisode = () => {
             )}
 
             {episode.audio_url && (
-              <div className="pt-2">
-                <AudioPlayer label={episode.title} src={episode.audio_url} />
-              </div>
+              <AudioPlayer label={episode.title} src={episode.audio_url} />
             )}
 
-            <div>
-              <p className="text-xs font-medium text-section-label uppercase tracking-wide mb-1">
+            <div className="space-y-1.5">
+              <p className="text-[10px] font-semibold text-section-label uppercase tracking-[0.16em]">
                 The question
               </p>
-              <p className="text-sm text-foreground leading-relaxed">
+              <p className="text-sm sm:text-[0.95rem] text-foreground leading-relaxed">
                 {episode.question}
               </p>
             </div>
 
-            <div>
-              <p className="text-xs font-medium text-section-label uppercase tracking-wide mb-1">
+            <div className="space-y-1.5">
+              <p className="text-[10px] font-semibold text-section-label uppercase tracking-[0.16em]">
                 Summary
               </p>
               <p className="text-sm text-muted-foreground leading-relaxed">

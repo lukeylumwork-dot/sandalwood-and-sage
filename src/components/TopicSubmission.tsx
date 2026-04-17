@@ -46,23 +46,23 @@ const TopicSubmission = () => {
   };
 
   return (
-    <section id="suggest" className="mx-auto max-w-4xl px-5 py-16">
-      <p className="text-xs font-medium uppercase tracking-widest text-section-label mb-4">
+    <section id="suggest" className="mx-auto max-w-4xl px-5 py-12 sm:py-14">
+      <p className="text-[11px] sm:text-xs font-medium uppercase tracking-[0.18em] text-section-label mb-2">
         Suggest a Topic
       </p>
-      <p className="text-sm text-muted-foreground mb-5 max-w-lg">
+      <p className="text-sm sm:text-[0.95rem] text-muted-foreground mb-5 sm:mb-6 max-w-lg leading-relaxed">
         Have a question you think deserves two sides? Send it through and it may feature in a future episode.
       </p>
 
-      <div className="rounded-lg border bg-card p-6 max-w-md">
+      <div className="rounded-xl border bg-card p-5 sm:p-6 max-w-md">
         {submitted ? (
           <p className="text-sm text-primary font-medium">
             Thanks — we've received your suggestion.
           </p>
         ) : (
-          <form onSubmit={handleSubmit} className="space-y-3">
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label htmlFor="topic" className="text-xs font-medium text-card-foreground block mb-1">
+              <label htmlFor="topic" className="text-xs font-medium text-card-foreground block mb-1.5">
                 Debate question <span className="text-primary">*</span>
               </label>
               <Textarea
@@ -78,7 +78,7 @@ const TopicSubmission = () => {
             </div>
             <div className="grid gap-3 sm:grid-cols-2">
               <div>
-                <label htmlFor="suggest-name" className="text-xs font-medium text-card-foreground block mb-1">
+                <label htmlFor="suggest-name" className="text-xs font-medium text-card-foreground block mb-1.5">
                   Name <span className="text-muted-foreground">(optional)</span>
                 </label>
                 <Input
@@ -91,7 +91,7 @@ const TopicSubmission = () => {
                 />
               </div>
               <div>
-                <label htmlFor="suggest-email" className="text-xs font-medium text-card-foreground block mb-1">
+                <label htmlFor="suggest-email" className="text-xs font-medium text-card-foreground block mb-1.5">
                   Email <span className="text-muted-foreground">(optional)</span>
                 </label>
                 <Input

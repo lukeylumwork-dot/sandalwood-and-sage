@@ -103,13 +103,13 @@ const EpisodesList = () => {
   }, [allEpisodes, activeFilter, searchQuery]);
 
   return (
-    <section id="episodes" className="mx-auto max-w-4xl px-5 py-16">
-      <p className="text-xs font-medium uppercase tracking-widest text-section-label mb-2">
+    <section id="episodes" className="mx-auto max-w-4xl px-5 py-12 sm:py-14">
+      <p className="text-[11px] sm:text-xs font-medium uppercase tracking-[0.18em] text-section-label mb-2">
         Episodes
       </p>
-      <h2 className="text-2xl md:text-3xl text-foreground mb-6">All episodes</h2>
+      <h2 className="text-2xl sm:text-3xl text-foreground mb-5 sm:mb-6 leading-tight">All episodes</h2>
 
-      <div className="relative mb-4">
+      <div className="relative mb-3">
         <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
         <input
           type="text"
@@ -121,12 +121,12 @@ const EpisodesList = () => {
         />
       </div>
 
-      <div className="flex flex-wrap gap-2 mb-8">
+      <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-6 sm:mb-7">
         {categories.map((cat) => (
           <button
             key={cat}
             onClick={() => setActiveFilter(cat)}
-            className={`rounded-full border px-4 py-1.5 text-xs font-medium transition-colors ${
+            className={`rounded-full border px-3 sm:px-4 py-1.5 text-xs font-medium transition-colors ${
               activeFilter === cat
                 ? "bg-primary text-primary-foreground border-primary"
                 : "bg-card text-muted-foreground border-border hover:text-foreground hover:border-foreground/30"
@@ -137,16 +137,16 @@ const EpisodesList = () => {
         ))}
       </div>
 
-      <div className="grid gap-3">
+      <div className="grid gap-2.5">
         {filtered.map((ep, i) => (
           <button
             key={i}
             onClick={() => setSelectedEpisode(ep)}
-            className="group flex flex-col gap-2 rounded-xl border bg-card p-5 text-left transition-all hover:border-primary/40 hover:shadow-sm sm:flex-row sm:items-start sm:justify-between"
+            className="group flex flex-col gap-2 rounded-xl border bg-card p-4 sm:p-5 text-left transition-all hover:border-primary/40 hover:shadow-sm sm:flex-row sm:items-start sm:justify-between"
           >
             <div className="min-w-0 flex-1">
-              <div className="flex items-center gap-2 mb-1.5">
-                <span className="text-[11px] font-semibold uppercase tracking-wide text-primary">{ep.category}</span>
+              <div className="flex flex-wrap items-center gap-1.5 mb-2">
+                <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.14em] text-primary">{ep.category}</span>
                 {ep.video_url && (
                   <span className="inline-flex items-center gap-1 rounded-full bg-accent/10 px-2 py-0.5 text-[10px] font-medium text-accent">
                     <Video size={10} /> Video
@@ -158,10 +158,10 @@ const EpisodesList = () => {
                   </span>
                 )}
               </div>
-              <h3 className="text-sm font-semibold text-card-foreground leading-snug group-hover:text-primary transition-colors" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+              <h3 className="text-[0.95rem] sm:text-base font-semibold text-card-foreground leading-snug group-hover:text-primary transition-colors text-pretty" style={{ fontFamily: "'DM Sans', sans-serif" }}>
                 {ep.title}
               </h3>
-              <p className="text-xs text-muted-foreground mt-1 leading-relaxed line-clamp-2">{ep.premise}</p>
+              <p className="text-xs sm:text-[0.8rem] text-muted-foreground mt-1 leading-relaxed line-clamp-2">{ep.premise}</p>
             </div>
             {ep.duration && (
               <p className="mt-1 flex shrink-0 items-center gap-1 text-xs text-muted-foreground sm:mt-0 sm:ml-4">
@@ -176,19 +176,19 @@ const EpisodesList = () => {
       </div>
 
       <Dialog open={!!selectedEpisode} onOpenChange={() => setSelectedEpisode(null)}>
-        <DialogContent className="max-w-lg dark bg-background border-border">
+        <DialogContent className="max-w-lg dark bg-background border-border max-h-[90vh] overflow-y-auto p-5 sm:p-6">
           {selectedEpisode && (
             <>
-              <DialogHeader>
-                <span className="text-xs font-medium text-primary mb-1 block uppercase tracking-wide">
+              <DialogHeader className="space-y-1.5">
+                <span className="text-[11px] font-semibold text-primary block uppercase tracking-[0.14em]">
                   {selectedEpisode.category}
                 </span>
-                <DialogTitle className="text-lg leading-snug text-foreground">
+                <DialogTitle className="text-xl sm:text-2xl leading-[1.2] text-foreground text-balance">
                   {selectedEpisode.title}
                 </DialogTitle>
               </DialogHeader>
 
-              <div className="space-y-4 mt-2">
+              <div className="space-y-5 mt-4">
                 {selectedEpisode.video_url && (
                   <VideoPlayer
                     url={selectedEpisode.video_url}
@@ -206,25 +206,23 @@ const EpisodesList = () => {
                 )}
 
                 {selectedEpisode.audio_url && (
-                  <div className="pt-2">
-                    <AudioPlayer
-                      label={selectedEpisode.title}
-                      src={selectedEpisode.audio_url}
-                    />
-                  </div>
+                  <AudioPlayer
+                    label={selectedEpisode.title}
+                    src={selectedEpisode.audio_url}
+                  />
                 )}
 
-                <div>
-                  <p className="text-xs font-medium text-section-label uppercase tracking-wide mb-1">
+                <div className="space-y-1.5">
+                  <p className="text-[10px] font-semibold text-section-label uppercase tracking-[0.16em]">
                     The question
                   </p>
-                  <p className="text-sm text-foreground leading-relaxed">
+                  <p className="text-sm sm:text-[0.95rem] text-foreground leading-relaxed">
                     {selectedEpisode.question}
                   </p>
                 </div>
 
-                <div>
-                  <p className="text-xs font-medium text-section-label uppercase tracking-wide mb-1">
+                <div className="space-y-1.5">
+                  <p className="text-[10px] font-semibold text-section-label uppercase tracking-[0.16em]">
                     Summary
                   </p>
                   <p className="text-sm text-muted-foreground leading-relaxed">
@@ -232,21 +230,21 @@ const EpisodesList = () => {
                   </p>
                 </div>
 
-                <div>
-                  <p className="text-xs font-medium text-section-label uppercase tracking-wide mb-1">
+                <div className="space-y-2">
+                  <p className="text-[10px] font-semibold text-section-label uppercase tracking-[0.16em]">
                     Key points
                   </p>
                   <ul className="space-y-1.5">
                     {selectedEpisode.keyPoints.map((point, idx) => (
                       <li key={idx} className="text-sm text-muted-foreground leading-relaxed flex gap-2">
                         <span className="text-primary mt-0.5 shrink-0">•</span>
-                        {point}
+                        <span>{point}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
 
-                <div className="flex items-center gap-2 pt-3 border-t border-border">
+                <div className="flex items-center gap-2 pt-4 border-t border-border">
                   <span className="text-xs text-muted-foreground mr-1">Share</span>
                   <Button
                     variant="outline"
