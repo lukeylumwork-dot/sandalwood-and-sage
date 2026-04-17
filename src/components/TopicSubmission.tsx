@@ -46,7 +46,7 @@ const TopicSubmission = () => {
   };
 
   return (
-    <section id="suggest" className="mx-auto max-w-4xl px-5 py-8 sm:py-10">
+    <section id="suggest" className="mx-auto max-w-4xl px-4 py-7 sm:px-5 sm:py-10">
       <p className="text-[11px] sm:text-xs font-medium uppercase tracking-[0.18em] text-section-label mb-2">
         Suggest a Topic
       </p>
@@ -54,7 +54,7 @@ const TopicSubmission = () => {
         Have a question you think deserves two sides? Send it through and it may feature in a future episode.
       </p>
 
-      <div className="rounded-xl border bg-card p-5 sm:p-6 max-w-md">
+      <div className="rounded-xl border bg-card p-4 sm:p-6 max-w-md">
         {submitted ? (
           <p className="text-sm text-primary font-medium">
             Thanks — we've received your suggestion.

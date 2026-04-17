@@ -74,8 +74,8 @@ const FeaturedEpisode = () => {
   if (!episode) return null;
 
   return (
-    <section id="featured" className="mx-auto max-w-4xl px-5 pt-2 pb-8 sm:pt-3 sm:pb-10">
-      <p className="text-[11px] sm:text-xs font-medium uppercase tracking-[0.18em] text-section-label mb-3">
+    <section id="featured" className="mx-auto max-w-4xl px-4 pt-1 pb-7 sm:px-5 sm:pt-3 sm:pb-10">
+      <p className="text-[10px] sm:text-xs font-medium uppercase tracking-[0.22em] text-section-label mb-2.5 sm:mb-3">
         Latest Episode
       </p>
 
@@ -84,7 +84,7 @@ const FeaturedEpisode = () => {
         className="w-full rounded-xl border bg-card overflow-hidden text-left transition-all hover:border-primary/40 hover:shadow-sm cursor-pointer"
       >
         {episode.cover_image_url && (
-          <div className="aspect-[16/7] sm:aspect-[3/1] w-full overflow-hidden">
+          <div className="aspect-[16/9] sm:aspect-[3/1] w-full overflow-hidden">
             <img
               src={episode.cover_image_url}
               alt={episode.title}
@@ -93,37 +93,37 @@ const FeaturedEpisode = () => {
             />
           </div>
         )}
-        <div className="p-5 sm:p-7 md:p-9">
-          <span className="inline-block text-[11px] font-semibold text-primary mb-2 uppercase tracking-[0.14em]">
+        <div className="p-4 sm:p-7 md:p-9">
+          <span className="inline-block text-[10px] sm:text-[11px] font-semibold text-primary mb-1.5 sm:mb-2 uppercase tracking-[0.18em]">
             {episode.category}
           </span>
-          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-[2.25rem] text-card-foreground leading-[1.15] text-balance">
+          <h2 className="text-[1.15rem] sm:text-2xl md:text-3xl lg:text-[2.25rem] text-card-foreground leading-[1.18] text-balance">
             {episode.title}
           </h2>
-          <p className="mt-3 sm:mt-4 text-sm sm:text-base text-muted-foreground leading-relaxed max-w-2xl text-pretty">
+          <p className="mt-2 sm:mt-4 text-[0.85rem] sm:text-base text-muted-foreground leading-[1.6] sm:leading-relaxed max-w-2xl text-pretty line-clamp-3 sm:line-clamp-none">
             {episode.summary}
           </p>
         </div>
       </button>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-w-xl dark bg-background border-border max-h-[92vh] overflow-y-auto p-0 gap-0 sm:rounded-xl">
+        <DialogContent className="w-[calc(100vw-1rem)] sm:w-full max-w-xl dark bg-background border-border max-h-[92vh] overflow-y-auto p-0 gap-0 rounded-xl">
           <article>
-            <DialogHeader className="px-5 sm:px-7 pt-6 sm:pt-7 pb-5 border-b border-border/70 space-y-2 text-left">
-              <span className="text-[10px] font-semibold text-primary block uppercase tracking-[0.2em]">
+            <DialogHeader className="px-4 sm:px-7 pt-5 sm:pt-7 pb-4 sm:pb-5 border-b border-border/70 space-y-1.5 sm:space-y-2 text-left">
+              <span className="text-[10px] font-semibold text-primary block uppercase tracking-[0.22em]">
                 {episode.category}
               </span>
               <DialogTitle
-                className="font-serif text-[1.5rem] sm:text-[1.75rem] leading-[1.15] text-foreground text-balance font-normal tracking-tight"
+                className="font-serif text-[1.25rem] sm:text-[1.75rem] leading-[1.2] sm:leading-[1.15] text-foreground text-balance font-normal tracking-tight pr-6"
                 style={{ fontFamily: "'DM Serif Display', Georgia, serif" }}
               >
                 {episode.title}
               </DialogTitle>
             </DialogHeader>
 
-            <div className="px-5 sm:px-7 py-6 space-y-7">
+            <div className="px-4 sm:px-7 py-5 sm:py-6 space-y-6 sm:space-y-7">
               {episode.video_url && (
-                <div className="-mx-5 sm:mx-0 sm:rounded-lg overflow-hidden sm:border sm:border-border/70">
+                <div className="-mx-4 sm:mx-0 sm:rounded-lg overflow-hidden sm:border sm:border-border/70">
                   <VideoPlayer url={episode.video_url} title={episode.title} />
                 </div>
               )}
@@ -142,19 +142,19 @@ const FeaturedEpisode = () => {
               )}
 
               <div className="space-y-2">
-                <p className="text-[10px] font-semibold text-section-label uppercase tracking-[0.2em]">
+                <p className="text-[10px] font-semibold text-section-label uppercase tracking-[0.22em]">
                   The question
                 </p>
-                <p className="text-[0.95rem] sm:text-base text-foreground leading-[1.65] text-pretty">
+                <p className="text-[0.9rem] sm:text-base text-foreground leading-[1.6] sm:leading-[1.65] text-pretty">
                   {episode.question}
                 </p>
               </div>
 
               <div className="space-y-2">
-                <p className="text-[10px] font-semibold text-section-label uppercase tracking-[0.2em]">
+                <p className="text-[10px] font-semibold text-section-label uppercase tracking-[0.22em]">
                   Summary
                 </p>
-                <p className="text-[0.9rem] sm:text-[0.95rem] text-muted-foreground leading-[1.7] text-pretty">
+                <p className="text-[0.875rem] sm:text-[0.95rem] text-muted-foreground leading-[1.65] sm:leading-[1.7] text-pretty">
                   {episode.summary}
                 </p>
               </div>

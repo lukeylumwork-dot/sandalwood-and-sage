@@ -103,11 +103,11 @@ const EpisodesList = () => {
   }, [allEpisodes, activeFilter, searchQuery]);
 
   return (
-    <section id="episodes" className="mx-auto max-w-4xl px-5 py-8 sm:py-10">
-      <p className="text-[11px] sm:text-xs font-medium uppercase tracking-[0.18em] text-section-label mb-2">
+    <section id="episodes" className="mx-auto max-w-4xl px-4 py-7 sm:px-5 sm:py-10">
+      <p className="text-[10px] sm:text-xs font-medium uppercase tracking-[0.22em] text-section-label mb-2">
         Episodes
       </p>
-      <h2 className="text-2xl sm:text-3xl text-foreground mb-5 sm:mb-6 leading-tight">All episodes</h2>
+      <h2 className="text-[1.5rem] sm:text-3xl text-foreground mb-4 sm:mb-6 leading-tight">All episodes</h2>
 
       <div className="relative mb-3">
         <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
@@ -116,17 +116,17 @@ const EpisodesList = () => {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Search episodes…"
-          className="w-full rounded-lg border border-border bg-card pl-9 pr-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring"
+          className="w-full rounded-lg border border-border bg-card pl-9 pr-3 py-2.5 text-[0.9rem] sm:text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring"
           style={{ fontFamily: "'DM Sans', sans-serif" }}
         />
       </div>
 
-      <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-6 sm:mb-7">
+      <div className="-mx-4 sm:mx-0 px-4 sm:px-0 flex gap-1.5 sm:gap-2 mb-5 sm:mb-7 overflow-x-auto scrollbar-hide sm:flex-wrap">
         {categories.map((cat) => (
           <button
             key={cat}
             onClick={() => setActiveFilter(cat)}
-            className={`rounded-full border px-3 sm:px-4 py-1.5 text-xs font-medium transition-colors ${
+            className={`shrink-0 rounded-full border px-3 sm:px-4 py-1.5 text-[11px] sm:text-xs font-medium transition-colors ${
               activeFilter === cat
                 ? "bg-primary text-primary-foreground border-primary"
                 : "bg-card text-muted-foreground border-border hover:text-foreground hover:border-foreground/30"
@@ -137,31 +137,31 @@ const EpisodesList = () => {
         ))}
       </div>
 
-      <div className="grid gap-2.5">
+      <div className="grid gap-2 sm:gap-2.5">
         {filtered.map((ep, i) => (
           <button
             key={i}
             onClick={() => setSelectedEpisode(ep)}
-            className="group flex flex-col gap-2 rounded-xl border bg-card p-4 sm:p-5 text-left transition-all hover:border-primary/40 hover:shadow-sm sm:flex-row sm:items-start sm:justify-between"
+            className="group flex flex-col gap-2 rounded-xl border bg-card p-3.5 sm:p-5 text-left transition-all hover:border-primary/40 hover:shadow-sm sm:flex-row sm:items-start sm:justify-between active:scale-[0.995]"
           >
             <div className="min-w-0 flex-1">
-              <div className="flex flex-wrap items-center gap-1.5 mb-2">
-                <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.14em] text-primary">{ep.category}</span>
+              <div className="flex flex-wrap items-center gap-1.5 mb-1.5 sm:mb-2">
+                <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.16em] text-primary">{ep.category}</span>
                 {ep.video_url && (
-                  <span className="inline-flex items-center gap-1 rounded-full bg-accent/10 px-2 py-0.5 text-[10px] font-medium text-accent">
-                    <Video size={10} /> Video
+                  <span className="inline-flex items-center gap-1 rounded-full bg-accent/10 px-1.5 sm:px-2 py-0.5 text-[9px] sm:text-[10px] font-medium text-accent">
+                    <Video size={9} /> Video
                   </span>
                 )}
                 {ep._isFromDb && (
-                  <span className="inline-flex items-center rounded-full bg-primary/15 px-2 py-0.5 text-[10px] font-semibold text-primary">
+                  <span className="inline-flex items-center rounded-full bg-primary/15 px-1.5 sm:px-2 py-0.5 text-[9px] sm:text-[10px] font-semibold text-primary">
                     New
                   </span>
                 )}
               </div>
-              <h3 className="text-[0.95rem] sm:text-base font-semibold text-card-foreground leading-snug group-hover:text-primary transition-colors text-pretty" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+              <h3 className="text-[0.95rem] sm:text-base font-semibold text-card-foreground leading-[1.3] group-hover:text-primary transition-colors text-pretty" style={{ fontFamily: "'DM Sans', sans-serif" }}>
                 {ep.title}
               </h3>
-              <p className="text-xs sm:text-[0.8rem] text-muted-foreground mt-1 leading-relaxed line-clamp-2">{ep.premise}</p>
+              <p className="text-[0.8rem] text-muted-foreground mt-1 leading-[1.5] line-clamp-2">{ep.premise}</p>
             </div>
             {ep.duration && (
               <p className="mt-1 flex shrink-0 items-center gap-1 text-xs text-muted-foreground sm:mt-0 sm:ml-4">
@@ -176,24 +176,24 @@ const EpisodesList = () => {
       </div>
 
       <Dialog open={!!selectedEpisode} onOpenChange={() => setSelectedEpisode(null)}>
-        <DialogContent className="max-w-xl dark bg-background border-border max-h-[92vh] overflow-y-auto p-0 gap-0 sm:rounded-xl">
+        <DialogContent className="w-[calc(100vw-1rem)] sm:w-full max-w-xl dark bg-background border-border max-h-[92vh] overflow-y-auto overscroll-contain p-0 gap-0 rounded-xl">
           {selectedEpisode && (
             <article>
-              <DialogHeader className="px-5 sm:px-7 pt-6 sm:pt-7 pb-5 border-b border-border/70 space-y-2 text-left">
-                <span className="text-[10px] font-semibold text-primary block uppercase tracking-[0.2em]">
+              <DialogHeader className="px-4 sm:px-7 pt-5 sm:pt-7 pb-4 sm:pb-5 border-b border-border/70 space-y-1.5 sm:space-y-2 text-left">
+                <span className="text-[10px] font-semibold text-primary block uppercase tracking-[0.22em]">
                   {selectedEpisode.category}
                 </span>
                 <DialogTitle
-                  className="font-serif text-[1.5rem] sm:text-[1.75rem] leading-[1.15] text-foreground text-balance font-normal tracking-tight"
+                  className="font-serif text-[1.25rem] sm:text-[1.75rem] leading-[1.2] sm:leading-[1.15] text-foreground text-balance font-normal tracking-tight pr-6"
                   style={{ fontFamily: "'DM Serif Display', Georgia, serif" }}
                 >
                   {selectedEpisode.title}
                 </DialogTitle>
               </DialogHeader>
 
-              <div className="px-5 sm:px-7 py-6 space-y-7">
+              <div className="px-4 sm:px-7 py-5 sm:py-6 space-y-6 sm:space-y-7">
                 {selectedEpisode.video_url && (
-                  <div className="-mx-5 sm:mx-0 sm:rounded-lg overflow-hidden sm:border sm:border-border/70">
+                  <div className="-mx-4 sm:mx-0 sm:rounded-lg overflow-hidden sm:border sm:border-border/70">
                     <VideoPlayer
                       url={selectedEpisode.video_url}
                       title={selectedEpisode.title}
@@ -218,32 +218,32 @@ const EpisodesList = () => {
                 )}
 
                 <div className="space-y-2">
-                  <p className="text-[10px] font-semibold text-section-label uppercase tracking-[0.2em]">
+                  <p className="text-[10px] font-semibold text-section-label uppercase tracking-[0.22em]">
                     The question
                   </p>
-                  <p className="text-[0.95rem] sm:text-base text-foreground leading-[1.65] text-pretty">
+                  <p className="text-[0.9rem] sm:text-base text-foreground leading-[1.6] sm:leading-[1.65] text-pretty">
                     {selectedEpisode.question}
                   </p>
                 </div>
 
                 <div className="space-y-2">
-                  <p className="text-[10px] font-semibold text-section-label uppercase tracking-[0.2em]">
+                  <p className="text-[10px] font-semibold text-section-label uppercase tracking-[0.22em]">
                     Summary
                   </p>
-                  <p className="text-[0.9rem] sm:text-[0.95rem] text-muted-foreground leading-[1.7] text-pretty">
+                  <p className="text-[0.875rem] sm:text-[0.95rem] text-muted-foreground leading-[1.65] sm:leading-[1.7] text-pretty">
                     {selectedEpisode.summary}
                   </p>
                 </div>
 
                 {selectedEpisode.keyPoints.length > 0 && (
                   <div className="space-y-2.5">
-                    <p className="text-[10px] font-semibold text-section-label uppercase tracking-[0.2em]">
+                    <p className="text-[10px] font-semibold text-section-label uppercase tracking-[0.22em]">
                       Key points
                     </p>
                     <ul className="space-y-2">
                       {selectedEpisode.keyPoints.map((point, idx) => (
-                        <li key={idx} className="text-[0.9rem] sm:text-[0.95rem] text-muted-foreground leading-[1.65] flex gap-2.5">
-                          <span className="text-primary mt-[0.55rem] h-1 w-1 rounded-full bg-primary shrink-0" aria-hidden />
+                        <li key={idx} className="text-[0.875rem] sm:text-[0.95rem] text-muted-foreground leading-[1.6] sm:leading-[1.65] flex gap-2.5">
+                          <span className="mt-[0.55rem] h-1 w-1 rounded-full bg-primary shrink-0" aria-hidden />
                           <span>{point}</span>
                         </li>
                       ))}
@@ -252,12 +252,12 @@ const EpisodesList = () => {
                 )}
               </div>
 
-              <div className="flex items-center gap-2 px-5 sm:px-7 py-4 border-t border-border/70 bg-secondary/30">
-                <span className="text-[10px] font-semibold text-section-label uppercase tracking-[0.2em] mr-1">Share</span>
+              <div className="flex items-center gap-2 px-4 sm:px-7 py-3.5 sm:py-4 border-t border-border/70 bg-secondary/40 sticky bottom-0 backdrop-blur">
+                <span className="text-[10px] font-semibold text-section-label uppercase tracking-[0.22em] mr-1">Share</span>
                 <Button
                   variant="outline"
                   size="icon"
-                  className="h-8 w-8"
+                  className="h-9 w-9 sm:h-8 sm:w-8"
                   onClick={() => {
                     navigator.clipboard.writeText(getShareUrl(selectedEpisode));
                     toast.success("Link copied to clipboard!");
@@ -269,7 +269,7 @@ const EpisodesList = () => {
                 <Button
                   variant="outline"
                   size="icon"
-                  className="h-8 w-8"
+                  className="h-9 w-9 sm:h-8 sm:w-8"
                   asChild
                 >
                   <a
@@ -285,7 +285,7 @@ const EpisodesList = () => {
                   <Button
                     variant="outline"
                     size="icon"
-                    className="h-8 w-8"
+                    className="h-9 w-9 sm:h-8 sm:w-8"
                     onClick={() => {
                       navigator.share({
                         title: selectedEpisode.title,
