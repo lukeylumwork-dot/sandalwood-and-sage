@@ -2,17 +2,17 @@ const steps = [
   {
     number: "01",
     title: "One question",
-    description: "Each episode starts with a single, clearly stated question — no ambiguity, no bait.",
+    description: "Each episode starts with an urgent or important question — from politics, sport, or current affairs. ",
   },
   {
     number: "02",
     title: "Two perspectives",
-    description: "Two sides make their strongest case, drawing on research, data, and reasoned argument.",
+    description: "Sandalwood & Sage make their strongest cases For and Against, drawing on research, data, and reasoned argument.",
   },
   {
     number: "03",
     title: "You decide",
-    description: "Claims are examined on merit. Sources are cited. The listener decides what holds up.",
+    description: "Weigh up the arguments and facts and decide not just what you think, but why you think it.",
   },
 ];
 
@@ -35,7 +35,7 @@ const HowItWorks = () => (
       How it Works
     </p>
     <h2 className="text-2xl md:text-3xl text-foreground mb-8">
-      Evidence first. Always.
+      Argue. Substantiate. Listen. Evolve. 
     </h2>
     <div className="grid gap-6 md:grid-cols-3">
       {steps.map((step) => (
