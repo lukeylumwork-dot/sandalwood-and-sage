@@ -71,6 +71,8 @@ const FeaturedEpisode = () => {
       });
   }, []);
 
+  if (!episode) return null;
+
   return (
     <section id="featured" className="mx-auto max-w-4xl px-5 pt-8 pb-20">
       <p className="text-xs font-medium uppercase tracking-widest text-section-label mb-6">
