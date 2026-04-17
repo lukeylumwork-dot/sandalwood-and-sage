@@ -18,7 +18,7 @@ const Header = () => {
     <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
       <div className="mx-auto flex max-w-4xl items-center justify-between px-5 py-4">
         <a href="#" className="flex items-center gap-2 text-lg tracking-tight text-foreground" style={{ fontFamily: "'DM Serif Display', Georgia, serif" }}>
-          <span className="relative inline-block h-7 w-16 overflow-hidden">
+          <span className="logo-halo relative inline-block h-7 w-16 overflow-hidden">
             <img
               src="/logo.png"
               alt="Sandalwood & Sage logo"
