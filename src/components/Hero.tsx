@@ -1,7 +1,7 @@
 const Hero = () => (
   <section className="mx-auto max-w-3xl px-5 py-24 text-center md:py-[20px]">
     <p className="text-xs font-medium uppercase tracking-widest text-primary mb-4">
-      Short-form debate podcast
+      Quality Debates in Under 15 Minutes
     </p>
     <h1 className="text-4xl font-bold md:text-5xl lg:text-6xl text-foreground leading-[1.1]">
       Two sides. One question.
