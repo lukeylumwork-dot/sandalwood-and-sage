@@ -107,52 +107,59 @@ const FeaturedEpisode = () => {
       </button>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-w-lg dark bg-background border-border max-h-[90vh] overflow-y-auto p-5 sm:p-6">
-          <DialogHeader className="space-y-1.5">
-            <span className="text-[11px] font-semibold text-primary block uppercase tracking-[0.14em]">
-              {episode.category}
-            </span>
-            <DialogTitle className="text-xl sm:text-2xl leading-[1.2] text-foreground text-balance">
-              {episode.title}
-            </DialogTitle>
-          </DialogHeader>
+        <DialogContent className="max-w-xl dark bg-background border-border max-h-[92vh] overflow-y-auto p-0 gap-0 sm:rounded-xl">
+          <article>
+            <DialogHeader className="px-5 sm:px-7 pt-6 sm:pt-7 pb-5 border-b border-border/70 space-y-2 text-left">
+              <span className="text-[10px] font-semibold text-primary block uppercase tracking-[0.2em]">
+                {episode.category}
+              </span>
+              <DialogTitle
+                className="font-serif text-[1.5rem] sm:text-[1.75rem] leading-[1.15] text-foreground text-balance font-normal tracking-tight"
+                style={{ fontFamily: "'DM Serif Display', Georgia, serif" }}
+              >
+                {episode.title}
+              </DialogTitle>
+            </DialogHeader>
 
-          <div className="space-y-5 mt-4">
-            {episode.video_url && (
-              <VideoPlayer url={episode.video_url} title={episode.title} />
-            )}
+            <div className="px-5 sm:px-7 py-6 space-y-7">
+              {episode.video_url && (
+                <div className="-mx-5 sm:mx-0 sm:rounded-lg overflow-hidden sm:border sm:border-border/70">
+                  <VideoPlayer url={episode.video_url} title={episode.title} />
+                </div>
+              )}
 
-            {episode.side_a_label && episode.side_b_label && (
-              <SidesSplit
-                sideALabel={episode.side_a_label}
-                sideBLabel={episode.side_b_label}
-                sideASummary={episode.side_a_summary}
-                sideBSummary={episode.side_b_summary}
-              />
-            )}
+              {episode.side_a_label && episode.side_b_label && (
+                <SidesSplit
+                  sideALabel={episode.side_a_label}
+                  sideBLabel={episode.side_b_label}
+                  sideASummary={episode.side_a_summary}
+                  sideBSummary={episode.side_b_summary}
+                />
+              )}
 
-            {episode.audio_url && (
-              <AudioPlayer label={episode.title} src={episode.audio_url} />
-            )}
+              {episode.audio_url && (
+                <AudioPlayer label={episode.title} src={episode.audio_url} />
+              )}
 
-            <div className="space-y-1.5">
-              <p className="text-[10px] font-semibold text-section-label uppercase tracking-[0.16em]">
-                The question
-              </p>
-              <p className="text-sm sm:text-[0.95rem] text-foreground leading-relaxed">
-                {episode.question}
-              </p>
+              <div className="space-y-2">
+                <p className="text-[10px] font-semibold text-section-label uppercase tracking-[0.2em]">
+                  The question
+                </p>
+                <p className="text-[0.95rem] sm:text-base text-foreground leading-[1.65] text-pretty">
+                  {episode.question}
+                </p>
+              </div>
+
+              <div className="space-y-2">
+                <p className="text-[10px] font-semibold text-section-label uppercase tracking-[0.2em]">
+                  Summary
+                </p>
+                <p className="text-[0.9rem] sm:text-[0.95rem] text-muted-foreground leading-[1.7] text-pretty">
+                  {episode.summary}
+                </p>
+              </div>
             </div>
-
-            <div className="space-y-1.5">
-              <p className="text-[10px] font-semibold text-section-label uppercase tracking-[0.16em]">
-                Summary
-              </p>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                {episode.summary}
-              </p>
-            </div>
-          </div>
+          </article>
         </DialogContent>
       </Dialog>
     </section>

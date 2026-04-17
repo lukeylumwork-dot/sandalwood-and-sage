@@ -176,24 +176,29 @@ const EpisodesList = () => {
       </div>
 
       <Dialog open={!!selectedEpisode} onOpenChange={() => setSelectedEpisode(null)}>
-        <DialogContent className="max-w-lg dark bg-background border-border max-h-[90vh] overflow-y-auto p-5 sm:p-6">
+        <DialogContent className="max-w-xl dark bg-background border-border max-h-[92vh] overflow-y-auto p-0 gap-0 sm:rounded-xl">
           {selectedEpisode && (
-            <>
-              <DialogHeader className="space-y-1.5">
-                <span className="text-[11px] font-semibold text-primary block uppercase tracking-[0.14em]">
+            <article>
+              <DialogHeader className="px-5 sm:px-7 pt-6 sm:pt-7 pb-5 border-b border-border/70 space-y-2 text-left">
+                <span className="text-[10px] font-semibold text-primary block uppercase tracking-[0.2em]">
                   {selectedEpisode.category}
                 </span>
-                <DialogTitle className="text-xl sm:text-2xl leading-[1.2] text-foreground text-balance">
+                <DialogTitle
+                  className="font-serif text-[1.5rem] sm:text-[1.75rem] leading-[1.15] text-foreground text-balance font-normal tracking-tight"
+                  style={{ fontFamily: "'DM Serif Display', Georgia, serif" }}
+                >
                   {selectedEpisode.title}
                 </DialogTitle>
               </DialogHeader>
 
-              <div className="space-y-5 mt-4">
+              <div className="px-5 sm:px-7 py-6 space-y-7">
                 {selectedEpisode.video_url && (
-                  <VideoPlayer
-                    url={selectedEpisode.video_url}
-                    title={selectedEpisode.title}
-                  />
+                  <div className="-mx-5 sm:mx-0 sm:rounded-lg overflow-hidden sm:border sm:border-border/70">
+                    <VideoPlayer
+                      url={selectedEpisode.video_url}
+                      title={selectedEpisode.title}
+                    />
+                  </div>
                 )}
 
                 {selectedEpisode.side_a_label && selectedEpisode.side_b_label && (
@@ -212,87 +217,89 @@ const EpisodesList = () => {
                   />
                 )}
 
-                <div className="space-y-1.5">
-                  <p className="text-[10px] font-semibold text-section-label uppercase tracking-[0.16em]">
+                <div className="space-y-2">
+                  <p className="text-[10px] font-semibold text-section-label uppercase tracking-[0.2em]">
                     The question
                   </p>
-                  <p className="text-sm sm:text-[0.95rem] text-foreground leading-relaxed">
+                  <p className="text-[0.95rem] sm:text-base text-foreground leading-[1.65] text-pretty">
                     {selectedEpisode.question}
                   </p>
                 </div>
 
-                <div className="space-y-1.5">
-                  <p className="text-[10px] font-semibold text-section-label uppercase tracking-[0.16em]">
+                <div className="space-y-2">
+                  <p className="text-[10px] font-semibold text-section-label uppercase tracking-[0.2em]">
                     Summary
                   </p>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
+                  <p className="text-[0.9rem] sm:text-[0.95rem] text-muted-foreground leading-[1.7] text-pretty">
                     {selectedEpisode.summary}
                   </p>
                 </div>
 
-                <div className="space-y-2">
-                  <p className="text-[10px] font-semibold text-section-label uppercase tracking-[0.16em]">
-                    Key points
-                  </p>
-                  <ul className="space-y-1.5">
-                    {selectedEpisode.keyPoints.map((point, idx) => (
-                      <li key={idx} className="text-sm text-muted-foreground leading-relaxed flex gap-2">
-                        <span className="text-primary mt-0.5 shrink-0">•</span>
-                        <span>{point}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                {selectedEpisode.keyPoints.length > 0 && (
+                  <div className="space-y-2.5">
+                    <p className="text-[10px] font-semibold text-section-label uppercase tracking-[0.2em]">
+                      Key points
+                    </p>
+                    <ul className="space-y-2">
+                      {selectedEpisode.keyPoints.map((point, idx) => (
+                        <li key={idx} className="text-[0.9rem] sm:text-[0.95rem] text-muted-foreground leading-[1.65] flex gap-2.5">
+                          <span className="text-primary mt-[0.55rem] h-1 w-1 rounded-full bg-primary shrink-0" aria-hidden />
+                          <span>{point}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
 
-                <div className="flex items-center gap-2 pt-4 border-t border-border">
-                  <span className="text-xs text-muted-foreground mr-1">Share</span>
+              <div className="flex items-center gap-2 px-5 sm:px-7 py-4 border-t border-border/70 bg-secondary/30">
+                <span className="text-[10px] font-semibold text-section-label uppercase tracking-[0.2em] mr-1">Share</span>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="h-8 w-8"
+                  onClick={() => {
+                    navigator.clipboard.writeText(getShareUrl(selectedEpisode));
+                    toast.success("Link copied to clipboard!");
+                  }}
+                  aria-label="Copy share link"
+                >
+                  <Link size={14} />
+                </Button>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="h-8 w-8"
+                  asChild
+                >
+                  <a
+                    href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(selectedEpisode.title + " — Sandalwood & Sage")}&url=${encodeURIComponent(getShareUrl(selectedEpisode))}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Share on Twitter"
+                  >
+                    <Twitter size={14} />
+                  </a>
+                </Button>
+                {typeof navigator !== "undefined" && "share" in navigator && (
                   <Button
                     variant="outline"
                     size="icon"
                     className="h-8 w-8"
                     onClick={() => {
-                      navigator.clipboard.writeText(getShareUrl(selectedEpisode));
-                      toast.success("Link copied to clipboard!");
+                      navigator.share({
+                        title: selectedEpisode.title,
+                        text: selectedEpisode.premise,
+                        url: getShareUrl(selectedEpisode),
+                      }).catch(() => {});
                     }}
-                    aria-label="Copy share link"
+                    aria-label="Share via system"
                   >
-                    <Link size={14} />
+                    <Share2 size={14} />
                   </Button>
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    className="h-8 w-8"
-                    asChild
-                  >
-                    <a
-                      href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(selectedEpisode.title + " — Sandalwood & Sage")}&url=${encodeURIComponent(getShareUrl(selectedEpisode))}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label="Share on Twitter"
-                    >
-                      <Twitter size={14} />
-                    </a>
-                  </Button>
-                  {typeof navigator !== "undefined" && "share" in navigator && (
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      className="h-8 w-8"
-                      onClick={() => {
-                        navigator.share({
-                          title: selectedEpisode.title,
-                          text: selectedEpisode.premise,
-                          url: getShareUrl(selectedEpisode),
-                        }).catch(() => {});
-                      }}
-                      aria-label="Share via system"
-                    >
-                      <Share2 size={14} />
-                    </Button>
-                  )}
-                </div>
+                )}
               </div>
-            </>
+            </article>
           )}
         </DialogContent>
       </Dialog>
