@@ -103,7 +103,7 @@ const EpisodesList = () => {
   }, [allEpisodes, activeFilter, searchQuery]);
 
   return (
-    <section id="episodes" className="mx-auto max-w-4xl px-5 py-12 sm:py-14">
+    <section id="episodes" className="mx-auto max-w-4xl px-5 py-8 sm:py-10">
       <p className="text-[11px] sm:text-xs font-medium uppercase tracking-[0.18em] text-section-label mb-2">
         Episodes
       </p>

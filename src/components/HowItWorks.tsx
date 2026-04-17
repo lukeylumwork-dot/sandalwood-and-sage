@@ -30,7 +30,7 @@ const credo = [
 ];
 
 const HowItWorks = () => (
-  <section id="how-it-works" className="mx-auto max-w-4xl px-5 py-12 sm:py-14">
+  <section id="how-it-works" className="mx-auto max-w-4xl px-5 py-8 sm:py-10">
     <p className="text-[11px] sm:text-xs font-medium uppercase tracking-[0.18em] text-section-label mb-2">
       How it Works
     </p>
@@ -49,7 +49,7 @@ const HowItWorks = () => (
       ))}
     </div>
 
-    <div className="mt-10 sm:mt-12 grid gap-8 md:grid-cols-2">
+    <div className="mt-8 sm:mt-10 grid gap-6 md:grid-cols-2">
       <div className="flex flex-col">
         <p className="text-[11px] sm:text-xs font-medium uppercase tracking-[0.18em] text-section-label mb-2">
           Our Credo
