@@ -74,8 +74,8 @@ const FeaturedEpisode = () => {
   if (!episode) return null;
 
   return (
-    <section id="featured" className="mx-auto max-w-4xl px-5 pt-8 pb-20">
-      <p className="text-xs font-medium uppercase tracking-widest text-section-label mb-6">
+    <section id="featured" className="mx-auto max-w-4xl px-4 pt-1 pb-7 sm:px-5 sm:pt-3 sm:pb-10">
+      <p className="text-[10px] sm:text-xs font-medium uppercase tracking-[0.22em] text-section-label mb-2.5 sm:mb-3">
         Latest Episode
       </p>
 
@@ -84,7 +84,7 @@ const FeaturedEpisode = () => {
         className="w-full rounded-xl border bg-card overflow-hidden text-left transition-all hover:border-primary/40 hover:shadow-sm cursor-pointer"
       >
         {episode.cover_image_url && (
-          <div className="aspect-[3/1] w-full overflow-hidden">
+          <div className="aspect-[16/9] sm:aspect-[3/1] w-full overflow-hidden">
             <img
               src={episode.cover_image_url}
               alt={episode.title}
@@ -93,68 +93,73 @@ const FeaturedEpisode = () => {
             />
           </div>
         )}
-        <div className="p-8 md:p-10">
-          <span className="inline-block text-xs font-medium text-primary mb-2 uppercase tracking-wide">
+        <div className="p-4 sm:p-7 md:p-9">
+          <span className="inline-block text-[10px] sm:text-[11px] font-semibold text-primary mb-1.5 sm:mb-2 uppercase tracking-[0.18em]">
             {episode.category}
           </span>
-          <h2 className="text-2xl md:text-3xl lg:text-4xl text-card-foreground leading-tight">
+          <h2 className="text-[1.15rem] sm:text-2xl md:text-3xl lg:text-[2.25rem] text-card-foreground leading-[1.18] text-balance">
             {episode.title}
           </h2>
-          <p className="mt-4 text-base text-muted-foreground leading-relaxed max-w-2xl">
+          <p className="mt-2 sm:mt-4 text-[0.85rem] sm:text-base text-muted-foreground leading-[1.6] sm:leading-relaxed max-w-2xl text-pretty line-clamp-3 sm:line-clamp-none">
             {episode.summary}
           </p>
         </div>
       </button>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-w-lg dark bg-background border-border">
-          <DialogHeader>
-            <span className="text-xs font-medium text-primary mb-1 block uppercase tracking-wide">
-              {episode.category}
-            </span>
-            <DialogTitle className="text-lg leading-snug text-foreground">
-              {episode.title}
-            </DialogTitle>
-          </DialogHeader>
+        <DialogContent className="w-[calc(100vw-1rem)] sm:w-full max-w-xl dark bg-background border-border max-h-[92vh] overflow-y-auto p-0 gap-0 rounded-xl">
+          <article>
+            <DialogHeader className="px-4 sm:px-7 pt-5 sm:pt-7 pb-4 sm:pb-5 border-b border-border/70 space-y-1.5 sm:space-y-2 text-left">
+              <span className="text-[10px] font-semibold text-primary block uppercase tracking-[0.22em]">
+                {episode.category}
+              </span>
+              <DialogTitle
+                className="font-serif text-[1.25rem] sm:text-[1.75rem] leading-[1.2] sm:leading-[1.15] text-foreground text-balance font-normal tracking-tight pr-6"
+                style={{ fontFamily: "'DM Serif Display', Georgia, serif" }}
+              >
+                {episode.title}
+              </DialogTitle>
+            </DialogHeader>
 
-          <div className="space-y-4 mt-2">
-            {episode.video_url && (
-              <VideoPlayer url={episode.video_url} title={episode.title} />
-            )}
+            <div className="px-4 sm:px-7 py-5 sm:py-6 space-y-6 sm:space-y-7">
+              {episode.video_url && (
+                <div className="-mx-4 sm:mx-0 sm:rounded-lg overflow-hidden sm:border sm:border-border/70">
+                  <VideoPlayer url={episode.video_url} title={episode.title} />
+                </div>
+              )}
 
-            {episode.side_a_label && episode.side_b_label && (
-              <SidesSplit
-                sideALabel={episode.side_a_label}
-                sideBLabel={episode.side_b_label}
-                sideASummary={episode.side_a_summary}
-                sideBSummary={episode.side_b_summary}
-              />
-            )}
+              {episode.side_a_label && episode.side_b_label && (
+                <SidesSplit
+                  sideALabel={episode.side_a_label}
+                  sideBLabel={episode.side_b_label}
+                  sideASummary={episode.side_a_summary}
+                  sideBSummary={episode.side_b_summary}
+                />
+              )}
 
-            {episode.audio_url && (
-              <div className="pt-2">
+              {episode.audio_url && (
                 <AudioPlayer label={episode.title} src={episode.audio_url} />
+              )}
+
+              <div className="space-y-2">
+                <p className="text-[10px] font-semibold text-section-label uppercase tracking-[0.22em]">
+                  The question
+                </p>
+                <p className="text-[0.9rem] sm:text-base text-foreground leading-[1.6] sm:leading-[1.65] text-pretty">
+                  {episode.question}
+                </p>
               </div>
-            )}
 
-            <div>
-              <p className="text-xs font-medium text-section-label uppercase tracking-wide mb-1">
-                The question
-              </p>
-              <p className="text-sm text-foreground leading-relaxed">
-                {episode.question}
-              </p>
+              <div className="space-y-2">
+                <p className="text-[10px] font-semibold text-section-label uppercase tracking-[0.22em]">
+                  Summary
+                </p>
+                <p className="text-[0.875rem] sm:text-[0.95rem] text-muted-foreground leading-[1.65] sm:leading-[1.7] text-pretty">
+                  {episode.summary}
+                </p>
+              </div>
             </div>
-
-            <div>
-              <p className="text-xs font-medium text-section-label uppercase tracking-wide mb-1">
-                Summary
-              </p>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                {episode.summary}
-              </p>
-            </div>
-          </div>
+          </article>
         </DialogContent>
       </Dialog>
     </section>

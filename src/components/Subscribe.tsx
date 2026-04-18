@@ -22,21 +22,21 @@ const Subscribe = () => {
   };
 
   return (
-    <section id="subscribe" className="mx-auto max-w-4xl px-5 py-20">
-      <p className="text-xs font-medium uppercase tracking-widest text-section-label mb-2">
+    <section id="subscribe" className="mx-auto max-w-4xl px-4 py-7 sm:px-5 sm:py-10">
+      <p className="text-[11px] sm:text-xs font-medium uppercase tracking-[0.18em] text-section-label mb-2">
         Subscribe
       </p>
-      <h2 className="text-2xl md:text-3xl text-foreground mb-3">
+      <h2 className="text-2xl sm:text-3xl text-foreground mb-2 leading-tight">
         Never miss an episode
       </h2>
-      <p className="text-sm text-muted-foreground mb-8 max-w-lg">
+      <p className="text-sm sm:text-[0.95rem] text-muted-foreground mb-6 sm:mb-8 max-w-lg leading-relaxed">
         Follow Sandalwood & Sage on your favourite platform, or join the mailing list to get new episodes delivered to your inbox.
       </p>
 
-      <div className="grid gap-8 md:grid-cols-2">
+      <div className="grid gap-6 sm:gap-8 md:grid-cols-2">
         {/* Platforms */}
         <div>
-          <p className="text-xs font-medium text-card-foreground mb-3 uppercase tracking-wide">Platforms</p>
+          <p className="text-[10px] font-semibold text-section-label mb-3 uppercase tracking-[0.16em]">Platforms</p>
           <div className="flex flex-wrap gap-2">
             {platforms.map((p) => (
               <Button
@@ -64,17 +64,17 @@ const Subscribe = () => {
         </div>
 
         {/* Mailing list */}
-        <div className="rounded-xl border bg-card p-6">
+        <div className="rounded-xl border bg-card p-5 sm:p-6">
           <h3 className="text-sm font-semibold text-card-foreground mb-1" style={{ fontFamily: "'DM Sans', sans-serif" }}>
             Join the mailing list
           </h3>
-          <p className="text-xs text-muted-foreground mb-4">
+          <p className="text-xs text-muted-foreground mb-4 leading-relaxed">
             New episodes, straight to your inbox. No spam.
           </p>
           {submitted ? (
             <p className="text-sm text-primary font-medium">Thanks — you're on the list.</p>
           ) : (
-            <form onSubmit={handleSubmit} className="flex gap-2">
+            <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2">
               <Input
                 type="email"
                 placeholder="you@example.com"
@@ -83,7 +83,7 @@ const Subscribe = () => {
                 required
                 className="text-sm"
               />
-              <Button type="submit" size="sm">
+              <Button type="submit" size="sm" className="sm:shrink-0">
                 Subscribe
               </Button>
             </form>
