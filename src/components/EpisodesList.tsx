@@ -30,10 +30,7 @@ export interface Episode {
   side_b_label?: string;
   side_a_summary?: string;
   side_b_summary?: string;
-  _isFromDb?: boolean;
 }
-
-const episodes: Episode[] = [];
 
 const categories = ["All", "Tech", "Work", "Society", "Money", "Sport", "Politics"];
 
@@ -75,13 +72,12 @@ const EpisodesList = () => {
           side_b_label: d.side_b_label || undefined,
           side_a_summary: d.side_a_summary || undefined,
           side_b_summary: d.side_b_summary || undefined,
-          _isFromDb: true,
         }));
         setDbEpisodes(mapped);
       });
   }, []);
 
-  const allEpisodes = [...dbEpisodes, ...episodes];
+  const allEpisodes = dbEpisodes;
 
   const filtered = useMemo(() => {
     let result = activeFilter === "All"
@@ -138,9 +134,9 @@ const EpisodesList = () => {
       </div>
 
       <div className="grid gap-2 sm:gap-2.5">
-        {filtered.map((ep, i) => (
+        {filtered.map((ep) => (
           <button
-            key={i}
+            key={ep.title}
             onClick={() => setSelectedEpisode(ep)}
             className="group flex flex-col gap-2 rounded-xl border bg-card p-3.5 sm:p-5 text-left transition-all hover:border-primary/40 hover:shadow-sm sm:flex-row sm:items-start sm:justify-between active:scale-[0.995]"
           >
@@ -150,11 +146,6 @@ const EpisodesList = () => {
                 {ep.video_url && (
                   <span className="inline-flex items-center gap-1 rounded-full bg-accent/10 px-1.5 sm:px-2 py-0.5 text-[9px] sm:text-[10px] font-medium text-accent">
                     <Video size={9} /> Video
-                  </span>
-                )}
-                {ep._isFromDb && (
-                  <span className="inline-flex items-center rounded-full bg-primary/15 px-1.5 sm:px-2 py-0.5 text-[9px] sm:text-[10px] font-semibold text-primary">
-                    New
                   </span>
                 )}
               </div>

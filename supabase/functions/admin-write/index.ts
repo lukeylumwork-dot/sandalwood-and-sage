@@ -5,6 +5,7 @@ const ALLOWED_ORIGIN_PATTERNS = [
   /^https:\/\/sandalwoodandsage\.fm$/,
   /^https:\/\/([a-z0-9-]+\.)*lovable\.app$/,
   /^https:\/\/([a-z0-9-]+\.)*lovableproject\.com$/,
+  /^https:\/\/([a-z0-9-]+\.)*vercel\.app$/,
   /^http:\/\/localhost(:\d+)?$/,
   /^http:\/\/127\.0\.0\.1(:\d+)?$/,
 ];
