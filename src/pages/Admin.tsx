@@ -57,7 +57,6 @@ type FormData = {
   title: string;
   category: string;
   summary: string;
-  duration: string;
   question: string;
   host_intro: string;
   for_argument: string;
@@ -237,7 +236,6 @@ const EMPTY_FORM: FormData = {
   title: "",
   category: "Tech",
   summary: "",
-  duration: "",
   question: "",
   host_intro: "",
   for_argument: "",
@@ -352,11 +350,6 @@ function EpisodeForm({
               <option key={c} value={c}>{c}</option>
             ))}
           </select>
-        </div>
-
-        <div>
-          <label className="text-xs font-medium text-card-foreground block mb-1">Duration</label>
-          <Input value={form.duration} onChange={(e) => set("duration", e.target.value)} placeholder="e.g. 15 min" />
         </div>
 
         <div className="sm:col-span-2">
@@ -529,10 +522,15 @@ const Admin = () => {
   const [editFormData, setEditFormData] = useState<FormData>(EMPTY_FORM);
 
   const fetchEpisodes = useCallback(async () => {
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from("generated_debates")
       .select("id, title, category, created_at, is_featured")
       .order("created_at", { ascending: false });
+    if (error) {
+      console.error("Failed to fetch episodes:", error);
+      toast.error("Failed to load episodes. Please refresh.");
+      return;
+    }
     if (data) setEpisodes(data as unknown as Episode[]);
   }, []);
 
@@ -572,7 +570,6 @@ const Admin = () => {
       title: ep.title,
       category: ep.category,
       summary: ep.summary,
-      duration: "",
       question: ep.question,
       host_intro: ep.host_intro,
       for_argument: ep.for_argument,
