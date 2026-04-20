@@ -2,6 +2,7 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
 const ALLOWED_ORIGIN_PATTERNS = [
   /^https:\/\/sandalwoodandsage\.fm$/,
+  /^https:\/\/www\.sandalwoodandsage\.fm$/,
   /^https:\/\/([a-z0-9-]+\.)*lovable\.app$/,
   /^https:\/\/([a-z0-9-]+\.)*lovableproject\.com$/,
   /^https:\/\/([a-z0-9-]+\.)*vercel\.app$/,
@@ -64,6 +65,13 @@ serve(async (req) => {
 
   if (req.method === "OPTIONS") {
     return new Response("ok", { headers });
+  }
+
+  if (req.method !== "POST") {
+    return new Response(
+      JSON.stringify({ error: "Method not allowed" }),
+      { status: 405, headers: { ...headers, "Content-Type": "application/json" } },
+    );
   }
 
   const ip = getClientIp(req);

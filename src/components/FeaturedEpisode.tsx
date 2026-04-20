@@ -3,6 +3,7 @@ import AudioPlayer from "@/components/AudioPlayer";
 import VideoPlayer from "@/components/VideoPlayer";
 import SidesSplit from "@/components/SidesSplit";
 import { supabase } from "@/integrations/supabase/client";
+import type { Tables } from "@/integrations/supabase/types";
 import {
   Dialog,
   DialogContent,
@@ -27,6 +28,23 @@ type FeaturedEpisodeData = {
   side_b_summary?: string;
 };
 
+type DebateRow = Pick<
+  Tables<"generated_debates">,
+  | "title"
+  | "category"
+  | "summary"
+  | "question"
+  | "for_argument"
+  | "against_argument"
+  | "video_url"
+  | "audio_url"
+  | "cover_image_url"
+  | "side_a_label"
+  | "side_b_label"
+  | "side_a_summary"
+  | "side_b_summary"
+>;
+
 const FeaturedEpisode = () => {
   const [episode, setEpisode] = useState<FeaturedEpisodeData | null>(null);
   const [open, setOpen] = useState(false);
@@ -50,7 +68,7 @@ const FeaturedEpisode = () => {
         }
 
         if (row) {
-          const d = row as any;
+          const d = row as DebateRow;
           setEpisode({
             title: d.title,
             category: d.category,
