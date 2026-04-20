@@ -42,7 +42,7 @@ The dev server defaults to port `8080`.
 Vercel or frontend hosting variables:
 
 ```sh
-VITE_SUPABASE_URL="https://tboprfkeksspinywexea.supabase.co"
+VITE_SUPABASE_URL="https://svtwzufbwajdolcgqdqf.supabase.co"
 VITE_SUPABASE_PUBLISHABLE_KEY="your-anon-key"
 ```
 
@@ -50,7 +50,7 @@ Supabase Edge Function secrets, set with `supabase secrets set`:
 
 ```sh
 ADMIN_PASSWORD="admin-password"
-SUPABASE_URL="https://tboprfkeksspinywexea.supabase.co"
+SUPABASE_URL="https://svtwzufbwajdolcgqdqf.supabase.co"
 SUPABASE_SERVICE_ROLE_KEY="your-service-role-key"
 ```
 

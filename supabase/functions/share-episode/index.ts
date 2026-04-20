@@ -37,7 +37,7 @@ Deno.serve(async (req) => {
   const url = new URL(req.url);
   const id = url.searchParams.get("id") || "";
   const slug = url.searchParams.get("episode") || "";
-  const siteUrl = "https://sandalwoodandsage.fm";
+  const siteUrl = "https://sandalwood-and-sage.com";
   const supabaseUrl = Deno.env.get("SUPABASE_URL");
   const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
 
