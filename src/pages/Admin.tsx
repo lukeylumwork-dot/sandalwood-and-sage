@@ -9,7 +9,7 @@ import { Loader2, Trash2, Lock, LogOut, Pencil, X, Star, Upload, Music, Image } 
 const CATEGORIES = ["Tech", "Work", "Society", "Money", "Sport", "Politics"];
 const VERIFY_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/verify-admin`;
 const ADMIN_WRITE_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-write`;
-const STORAGE_BUCKET = "episode-media";
+const ADMIN_UPLOAD_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-upload`;
 
 async function adminWrite(adminPassword: string, body: object) {
   const res = await fetch(ADMIN_WRITE_URL, {
@@ -24,6 +24,10 @@ async function adminWrite(adminPassword: string, body: object) {
   const data = await res.json().catch(() => ({}));
   if (!res.ok) throw new Error(data.error || "Request failed");
   return data;
+}
+
+function getErrorMessage(err: unknown, fallback: string): string {
+  return err instanceof Error && err.message ? err.message : fallback;
 }
 
 interface Episode {
@@ -73,23 +77,26 @@ type FormData = {
 /* ─── File Upload Helper ─── */
 async function uploadToStorage(
   file: File,
-  folder: string
-): Promise<string | null> {
-  const ext = file.name.split(".").pop() || "bin";
-  const filePath = `${folder}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+  folder: string,
+  adminPassword: string
+): Promise<string> {
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("folder", folder);
 
-  const { error } = await supabase.storage
-    .from(STORAGE_BUCKET)
-    .upload(filePath, file, { cacheControl: "3600", upsert: false });
+  const res = await fetch(ADMIN_UPLOAD_URL, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+      "x-admin-password": adminPassword,
+    },
+    body: formData,
+  });
 
-  if (error) {
-    console.error("Upload error:", error);
-    return null;
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok || typeof data.publicUrl !== "string") {
+    throw new Error(data.error || "Upload failed");
   }
-
-  const { data } = supabase.storage
-    .from(STORAGE_BUCKET)
-    .getPublicUrl(filePath);
 
   return data.publicUrl;
 }
@@ -101,12 +108,14 @@ function FileUploadField({
   icon: Icon,
   currentUrl,
   onUploaded,
+  adminPassword,
 }: {
   label: string;
   accept: string;
   icon: typeof Music;
   currentUrl: string;
   onUploaded: (url: string) => void;
+  adminPassword: string;
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
@@ -117,17 +126,17 @@ function FileUploadField({
 
     setUploading(true);
     const folder = accept.startsWith("audio") ? "audio" : "artwork";
-    const url = await uploadToStorage(file, folder);
-    setUploading(false);
-
-    if (url) {
+    try {
+      const url = await uploadToStorage(file, folder, adminPassword);
       onUploaded(url);
       toast.success(`${label} uploaded!`);
-    } else {
-      toast.error(`Failed to upload ${label.toLowerCase()}.`);
+    } catch (err) {
+      console.error("Upload error:", err);
+      toast.error(getErrorMessage(err, `Failed to upload ${label.toLowerCase()}.`));
+    } finally {
+      setUploading(false);
+      if (inputRef.current) inputRef.current.value = "";
     }
-
-    if (inputRef.current) inputRef.current.value = "";
   };
 
   return (
@@ -186,10 +195,11 @@ function PasswordGate({ onAuth }: { onAuth: (password: string) => void }) {
         },
         body: JSON.stringify({ password: password.trim() }),
       });
+      const data = await res.json().catch(() => ({}));
       if (res.ok) {
         onAuth(password.trim());
       } else {
-        setError("Incorrect password. Please try again.");
+        setError(data.error || "Incorrect password. Please try again.");
       }
     } catch {
       setError("Could not verify password. Please try again.");
@@ -310,7 +320,7 @@ function EpisodeForm({
       onSaved();
     } catch (err) {
       console.error("Save error:", err);
-      toast.error(`Failed to ${isEditing ? "update" : "save"} episode. Please try again.`);
+      toast.error(getErrorMessage(err, `Failed to ${isEditing ? "update" : "save"} episode.`));
     } finally {
       setSaving(false);
     }
@@ -385,6 +395,7 @@ function EpisodeForm({
           accept="audio/*"
           icon={Music}
           currentUrl={form.audio_url}
+          adminPassword={adminPassword}
           onUploaded={(url) => set("audio_url", url)}
         />
 
@@ -393,6 +404,7 @@ function EpisodeForm({
           accept="image/*"
           icon={Image}
           currentUrl={form.cover_image_url}
+          adminPassword={adminPassword}
           onUploaded={(url) => set("cover_image_url", url)}
         />
 
@@ -547,8 +559,8 @@ const Admin = () => {
         setEditFormData(EMPTY_FORM);
       }
       fetchEpisodes();
-    } catch {
-      toast.error("Failed to delete episode.");
+    } catch (err) {
+      toast.error(getErrorMessage(err, "Failed to delete episode."));
     }
   };
 
@@ -606,8 +618,8 @@ const Admin = () => {
       });
       toast.success(currentlyFeatured ? "Episode unpinned." : "Episode pinned as featured!");
       fetchEpisodes();
-    } catch {
-      toast.error("Failed to update featured status.");
+    } catch (err) {
+      toast.error(getErrorMessage(err, "Failed to update featured status."));
     }
   };
 

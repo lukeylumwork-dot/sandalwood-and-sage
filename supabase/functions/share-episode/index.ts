@@ -14,35 +14,68 @@ function toSlug(title: string): string {
   return title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 }
 
+type Episode = {
+  id: string;
+  title: string;
+  summary: string | null;
+  category: string | null;
+  cover_image_url: string | null;
+};
+
+function jsonError(message: string, status: number) {
+  return new Response(JSON.stringify({ error: message }), {
+    status,
+    headers: { ...corsHeaders, "Content-Type": "application/json" },
+  });
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
   const url = new URL(req.url);
+  const id = url.searchParams.get("id") || "";
   const slug = url.searchParams.get("episode") || "";
   const siteUrl = "https://sandalwoodandsage.fm";
+  const supabaseUrl = Deno.env.get("SUPABASE_URL");
+  const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+
+  if (!id && !slug) {
+    return jsonError("Episode id is required", 400);
+  }
+
+  if (!supabaseUrl || !serviceRoleKey) {
+    return jsonError("Server configuration error", 500);
+  }
 
   const supabase = createClient(
-    Deno.env.get("SUPABASE_URL") ?? "",
-    Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "",
+    supabaseUrl,
+    serviceRoleKey,
   );
 
-  const { data } = await supabase
+  const { data, error } = await supabase
     .from("generated_debates")
-    .select("title, summary, category");
+    .select("id, title, summary, category, cover_image_url");
 
-  const ep = (data ?? []).find((d: any) => toSlug(d.title) === slug);
+  if (error) {
+    return jsonError("Failed to load episodes", 500);
+  }
+
+  const episodes = (data ?? []) as Episode[];
+  const ep = episodes.find((d) => (id ? d.id === id : toSlug(d.title) === slug));
 
   if (!ep) {
-    return new Response(JSON.stringify({ error: "Episode not found" }), {
-      status: 404,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-    });
+    return jsonError("Episode not found", 404);
   }
 
   const title = `${ep.title} — Sandalwood & Sage`;
   const description = ep.summary ?? "";
+  const appUrl = `${siteUrl}/?episode=${encodeURIComponent(ep.id)}#episodes`;
+  const imageMeta = ep.cover_image_url
+    ? `  <meta property="og:image" content="${escapeHtml(ep.cover_image_url)}" />
+  <meta name="twitter:image" content="${escapeHtml(ep.cover_image_url)}" />`
+    : "";
 
   const html = `<!DOCTYPE html>
 <html lang="en">
@@ -53,15 +86,16 @@ Deno.serve(async (req) => {
   <meta property="og:title" content="${escapeHtml(title)}" />
   <meta property="og:description" content="${escapeHtml(description)}" />
   <meta property="og:type" content="article" />
-  <meta property="og:url" content="${siteUrl}/?episode=${escapeHtml(slug)}" />
+  <meta property="og:url" content="${escapeHtml(appUrl)}" />
   <meta property="og:site_name" content="Sandalwood & Sage" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="${escapeHtml(title)}" />
   <meta name="twitter:description" content="${escapeHtml(description)}" />
-  <meta http-equiv="refresh" content="0;url=${siteUrl}/#episodes" />
+${imageMeta}
+  <meta http-equiv="refresh" content="0;url=${escapeHtml(appUrl)}" />
 </head>
 <body>
-  <p>Redirecting to <a href="${siteUrl}/#episodes">Sandalwood & Sage</a>…</p>
+  <p>Redirecting to <a href="${escapeHtml(appUrl)}">Sandalwood & Sage</a>...</p>
 </body>
 </html>`;
 

@@ -1,73 +1,86 @@
-# Welcome to your Lovable project
+# Sandalwood & Sage
 
-## Project info
+Sandalwood & Sage is a Vite, React, and Supabase site for publishing short debate podcast episodes. The public app displays the latest episode, an episode archive, topic submissions, subscription links, RSS, and share metadata. A hidden `/admin` route lets an editor publish, update, feature, delete, and upload media for episodes.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## Architecture
 
-## How can I edit this code?
+- `src/` contains the Vite React app.
+- `src/pages/Index.tsx` composes the public page.
+- `src/pages/Admin.tsx` contains the admin publishing UI.
+- `src/components/EpisodesList.tsx` reads public episodes and handles episode deep links.
+- `src/integrations/supabase/` contains the browser Supabase client and generated database types.
+- `supabase/migrations/` defines tables, storage buckets, RLS policies, and policy hardening.
+- `supabase/functions/` contains Supabase Edge Functions:
+  - `verify-admin`: verifies the admin password.
+  - `admin-write`: performs validated service-role episode writes.
+  - `admin-upload`: performs validated service-role media uploads.
+  - `rss-feed`: emits the public RSS feed.
+  - `share-episode`: emits episode-specific share metadata and redirects into the app.
+- `vercel.json` rewrites all routes to the Vite app entry so React Router routes work on refresh.
 
-There are several ways of editing your application.
+## Data Flow
 
-**Use Lovable**
+Public visitors read `generated_debates` directly through the anon Supabase client. Topic suggestions insert into `submitted_topics` through the anon client, with RLS enforcing basic shape limits and no public read policy.
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+Admin users enter the shared admin password in `/admin`. The browser verifies it with `verify-admin`, then sends episode writes to `admin-write` and media uploads to `admin-upload`. Those functions validate the request and use the Supabase service role key server-side.
 
-Changes made via Lovable will be committed automatically to this repo.
+RSS and share URLs are public Supabase Edge Functions. Share URLs use stable episode IDs and redirect to `/?episode=<id>#episodes`, where the React app opens the matching episode modal.
 
-**Use your preferred IDE**
+## Setup
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
+Use npm as the package manager for this repo.
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+npm ci
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+The dev server defaults to port `8080`.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Environment Variables
 
-**Use GitHub Codespaces**
+Vercel or frontend hosting variables:
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+```sh
+VITE_SUPABASE_URL="https://tboprfkeksspinywexea.supabase.co"
+VITE_SUPABASE_PUBLISHABLE_KEY="your-anon-key"
+```
 
-## What technologies are used for this project?
+Supabase Edge Function secrets, set with `supabase secrets set`:
 
-This project is built with:
+```sh
+ADMIN_PASSWORD="admin-password"
+SUPABASE_URL="https://tboprfkeksspinywexea.supabase.co"
+SUPABASE_SERVICE_ROLE_KEY="your-service-role-key"
+```
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+Never expose `SUPABASE_SERVICE_ROLE_KEY` in Vite, Vercel client env vars, or browser code.
 
-## How can I deploy this project?
+## Verification
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+```sh
+npm run lint
+npx tsc --noEmit
+npm test
+npm run build
+```
 
-## Can I connect a custom domain to my Lovable project?
+`npm test` currently has only lightweight coverage. Add focused tests around episode mapping, share links, RSS generation, and admin flows before relying on it as a release gate.
 
-Yes, you can!
+## Deployment Notes
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+- Deploy the frontend to Vercel or Lovable-compatible static hosting.
+- Apply Supabase migrations before using admin publishing.
+- Deploy all Supabase Edge Functions after changing `supabase/functions`.
+- `rss-feed` and `share-episode` are configured as public functions in `supabase/config.toml`.
+- `admin-write`, `admin-upload`, and `verify-admin` expect the admin password and anon Authorization header from the browser.
+- The `episode-media` bucket should remain public-read but must not allow anonymous direct writes. Uploads should go through `admin-upload`.
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+## Known Limitations
+
+- RSS enclosure lengths are read with a short `HEAD` request when possible and fall back to `0`; storing file sizes with episodes would be more reliable.
+- Topic submission has basic RLS validation but no CAPTCHA or durable rate limiting.
+- Admin access is password-based rather than per-user Supabase Auth.
+- There is no draft/published column yet; creating an episode makes it publicly visible, and deleting removes it.
+- The app still has a broad generated shadcn/ui surface area and dependency footprint.
+- Test coverage is minimal.
