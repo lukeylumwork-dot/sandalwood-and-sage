@@ -1,4 +1,13 @@
-project_id = "svtwzufbwajdolcgqdqf"
+project_id = "svtwzufbwajdolcgdqdf"
+
+[functions.verify-admin]
+verify_jwt = false
+
+[functions.admin-write]
+verify_jwt = false
+
+[functions.admin-upload]
+verify_jwt = false
 
 [functions.rss-feed]
 verify_jwt = false
