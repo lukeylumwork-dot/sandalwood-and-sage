@@ -59,7 +59,7 @@ Deno.serve(async (req) => {
     return new Response(null, { headers: corsHeaders });
   }
 
-  const siteUrl = "https://sandalwoodandsage.fm";
+  const siteUrl = "https://sandalwood-and-sage.com";
   const supabaseUrl = Deno.env.get("SUPABASE_URL");
   const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
 

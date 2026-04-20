@@ -6,6 +6,8 @@ const MAX_AUDIO_BYTES = 100 * 1024 * 1024;
 const MAX_IMAGE_BYTES = 10 * 1024 * 1024;
 
 const ALLOWED_ORIGIN_PATTERNS = [
+  /^https:\/\/sandalwood-and-sage\.com$/,
+  /^https:\/\/www\.sandalwood-and-sage\.com$/,
   /^https:\/\/sandalwoodandsage\.fm$/,
   /^https:\/\/www\.sandalwoodandsage\.fm$/,
   /^https:\/\/([a-z0-9-]+\.)*lovable\.app$/,
@@ -18,7 +20,7 @@ const ALLOWED_ORIGIN_PATTERNS = [
 function corsHeaders(origin: string | null) {
   const allowed = origin && ALLOWED_ORIGIN_PATTERNS.some((re) => re.test(origin));
   return {
-    "Access-Control-Allow-Origin": allowed ? origin! : "https://sandalwoodandsage.fm",
+    "Access-Control-Allow-Origin": allowed ? origin! : "https://sandalwood-and-sage.com",
     "Access-Control-Allow-Headers":
       "authorization, x-client-info, apikey, content-type, x-admin-password",
     "Access-Control-Allow-Methods": "POST, OPTIONS",

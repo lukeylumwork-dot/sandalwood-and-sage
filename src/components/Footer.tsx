@@ -10,8 +10,8 @@ const Footer = () => (
         <p>© {new Date().getFullYear()} All rights reserved.</p>
       </div>
       <div className="flex gap-4">
-        <a href="mailto:hello@sandalwoodandsage.fm" className="hover:text-foreground transition-colors break-all">
-          hello@sandalwoodandsage.fm
+        <a href="mailto:hello@sandalwood-and-sage.com" className="hover:text-foreground transition-colors break-all">
+          hello@sandalwood-and-sage.com
         </a>
       </div>
     </div>

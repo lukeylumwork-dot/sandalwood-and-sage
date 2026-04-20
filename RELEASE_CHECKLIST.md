@@ -74,7 +74,7 @@ SUPABASE_SERVICE_ROLE_KEY="your-service-role-key"
 
 ## Post-Deploy Verification
 
-- Visit `https://sandalwoodandsage.fm` and confirm the home page loads without console errors.
+- Visit `https://sandalwood-and-sage.com` and confirm the home page loads without console errors.
 - Visit `/admin`, log in with `ADMIN_PASSWORD`, and confirm the episode list loads.
 - Create a test episode with title, description, question, arguments, and category. Confirm it appears publicly immediately.
 - Edit the test episode title or summary and confirm the public episode updates.
@@ -85,7 +85,7 @@ SUPABASE_SERVICE_ROLE_KEY="your-service-role-key"
 - Copy the share link from the episode modal. Open it in a private window and confirm it redirects to the site and opens the correct episode.
 - Open `https://tboprfkeksspinywexea.supabase.co/functions/v1/rss-feed`. Confirm XML loads publicly and includes `<item>`, `<guid>`, `<link>`, and `<enclosure>` for episodes with audio.
 - Delete the test episode. Confirm it disappears from admin and public views.
-- Confirm live links and metadata use `https://sandalwoodandsage.fm`, not a Vercel preview URL or old domain.
+- Confirm live links and metadata use `https://sandalwood-and-sage.com`, not a Vercel preview URL or old domain.
 
 ## Known Release Limitations
 
