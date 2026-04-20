@@ -7,7 +7,7 @@ Use this checklist for the real Supabase and Vercel release. The current content
 Vercel:
 
 ```sh
-VITE_SUPABASE_URL="https://tboprfkeksspinywexea.supabase.co"
+VITE_SUPABASE_URL="https://svtwzufbwajdolcgqdqf.supabase.co"
 VITE_SUPABASE_PUBLISHABLE_KEY="your-anon-key"
 ```
 
@@ -15,7 +15,7 @@ Supabase Edge Function secrets:
 
 ```sh
 ADMIN_PASSWORD="your-admin-password"
-SUPABASE_URL="https://tboprfkeksspinywexea.supabase.co"
+SUPABASE_URL="https://svtwzufbwajdolcgqdqf.supabase.co"
 SUPABASE_SERVICE_ROLE_KEY="your-service-role-key"
 ```
 
@@ -36,7 +36,7 @@ SUPABASE_SERVICE_ROLE_KEY="your-service-role-key"
 3. Link to the Supabase project if needed:
 
    ```sh
-   supabase link --project-ref tboprfkeksspinywexea
+   supabase link --project-ref svtwzufbwajdolcgqdqf
    ```
 
 4. Apply any unapplied migrations:
@@ -56,7 +56,7 @@ SUPABASE_SERVICE_ROLE_KEY="your-service-role-key"
 
    ```sh
    supabase secrets set ADMIN_PASSWORD="..."
-   supabase secrets set SUPABASE_URL="https://tboprfkeksspinywexea.supabase.co"
+   supabase secrets set SUPABASE_URL="https://svtwzufbwajdolcgqdqf.supabase.co"
    supabase secrets set SUPABASE_SERVICE_ROLE_KEY="..."
    ```
 
@@ -83,7 +83,7 @@ SUPABASE_SERVICE_ROLE_KEY="your-service-role-key"
 - Feature the test episode. Confirm only that episode shows as featured/latest.
 - Unfeature the test episode. Confirm the latest episode fallback still works.
 - Copy the share link from the episode modal. Open it in a private window and confirm it redirects to the site and opens the correct episode.
-- Open `https://tboprfkeksspinywexea.supabase.co/functions/v1/rss-feed`. Confirm XML loads publicly and includes `<item>`, `<guid>`, `<link>`, and `<enclosure>` for episodes with audio.
+- Open `https://svtwzufbwajdolcgqdqf.supabase.co/functions/v1/rss-feed`. Confirm XML loads publicly and includes `<item>`, `<guid>`, `<link>`, and `<enclosure>` for episodes with audio.
 - Delete the test episode. Confirm it disappears from admin and public views.
 - Confirm live links and metadata use `https://sandalwood-and-sage.com`, not a Vercel preview URL or old domain.
 
