@@ -1,25 +1,30 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
-const ALLOWED_ORIGIN_PATTERNS = [
-  /^https:\/\/sandalwood-and-sage\.com$/,
-  /^https:\/\/www\.sandalwood-and-sage\.com$/,
-  /^https:\/\/sandalwoodandsage\.fm$/,
-  /^https:\/\/www\.sandalwoodandsage\.fm$/,
-  /^https:\/\/([a-z0-9-]+\.)*lovable\.app$/,
-  /^https:\/\/([a-z0-9-]+\.)*lovableproject\.com$/,
-  /^https:\/\/([a-z0-9-]+\.)*vercel\.app$/,
+const ALLOWED_ORIGINS = new Set([
+  "https://sandalwood-and-sage.com",
+  "https://www.sandalwood-and-sage.com",
+]);
+
+const LOCAL_ORIGIN_PATTERNS = [
   /^http:\/\/localhost(:\d+)?$/,
   /^http:\/\/127\.0\.0\.1(:\d+)?$/,
 ];
 
 function corsHeaders(origin: string | null) {
-  const allowed = origin && ALLOWED_ORIGIN_PATTERNS.some((re) => re.test(origin));
-  return {
-    "Access-Control-Allow-Origin": allowed ? origin! : "https://sandalwood-and-sage.com",
+  const allowed = origin && (
+    ALLOWED_ORIGINS.has(origin) || LOCAL_ORIGIN_PATTERNS.some((re) => re.test(origin))
+  );
+  const headers: Record<string, string> = {
     "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
     "Access-Control-Allow-Methods": "POST, OPTIONS",
     "Vary": "Origin",
   };
+
+  if (allowed) {
+    headers["Access-Control-Allow-Origin"] = origin;
+  }
+
+  return headers;
 }
 
 // In-memory rate limiter: max 5 failed attempts per IP per 15 minutes.
@@ -67,7 +72,7 @@ serve(async (req) => {
   const headers = corsHeaders(origin);
 
   if (req.method === "OPTIONS") {
-    return new Response("ok", { headers });
+    return new Response(null, { status: 200, headers });
   }
 
   if (req.method !== "POST") {
