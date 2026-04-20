@@ -31,7 +31,7 @@ RSS and share URLs are public Supabase Edge Functions. Share URLs use stable epi
 Use npm as the package manager for this repo.
 
 ```sh
-npm ci
+npm install
 npm run dev
 ```
 
