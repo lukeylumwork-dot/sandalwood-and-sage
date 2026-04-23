@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Rss } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 const rssUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/rss-feed`;
 
@@ -15,10 +17,32 @@ const platforms = [
 const Subscribe = () => {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [saving, setSaving] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email.trim()) setSubmitted(true);
+    const trimmed = email.trim();
+    if (!trimmed) return;
+    setSaving(true);
+    try {
+      const { error } = await supabase
+        .from("email_subscriptions")
+        .insert({ email: trimmed });
+      if (error) {
+        if (error.code === "23505") {
+          toast.info("You're already subscribed!");
+          setSubmitted(true);
+        } else {
+          throw error;
+        }
+      } else {
+        setSubmitted(true);
+      }
+    } catch {
+      toast.error("Could not subscribe. Please try again.");
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -82,9 +106,10 @@ const Subscribe = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 className="text-sm"
+                disabled={saving}
               />
-              <Button type="submit" size="sm" className="sm:shrink-0">
-                Subscribe
+              <Button type="submit" size="sm" className="sm:shrink-0" disabled={saving}>
+                {saving ? "Subscribing…" : "Subscribe"}
               </Button>
             </form>
           )}
