@@ -14,6 +14,24 @@ export type Database = {
   }
   public: {
     Tables: {
+      email_subscriptions: {
+        Row: {
+          id: string
+          email: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          email: string
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          email?: string
+          created_at?: string
+        }
+        Relationships: []
+      }
       generated_debates: {
         Row: {
           against_argument: string
