@@ -69,7 +69,7 @@ npm run build
 
 ## Deployment Notes
 
-- Deploy the frontend to Vercel or Lovable-compatible static hosting.
+- Deploy the frontend to Vercel or any static hosting provider.
 - Apply Supabase migrations before using admin publishing.
 - Deploy all Supabase Edge Functions after changing `supabase/functions`.
 - `rss-feed` and `share-episode` are configured as public functions in `supabase/config.toml`.

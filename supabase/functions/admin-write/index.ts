@@ -4,11 +4,6 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 const ALLOWED_ORIGIN_PATTERNS = [
   /^https:\/\/sandalwood-and-sage\.com$/,
   /^https:\/\/www\.sandalwood-and-sage\.com$/,
-  /^https:\/\/sandalwoodandsage\.fm$/,
-  /^https:\/\/www\.sandalwoodandsage\.fm$/,
-  /^https:\/\/([a-z0-9-]+\.)*lovable\.app$/,
-  /^https:\/\/([a-z0-9-]+\.)*lovableproject\.com$/,
-  /^https:\/\/([a-z0-9-]+\.)*vercel\.app$/,
   /^http:\/\/localhost(:\d+)?$/,
   /^http:\/\/127\.0\.0\.1(:\d+)?$/,
 ];
@@ -16,7 +11,7 @@ const ALLOWED_ORIGIN_PATTERNS = [
 function corsHeaders(origin: string | null) {
   const allowed = origin && ALLOWED_ORIGIN_PATTERNS.some((re) => re.test(origin));
   return {
-    "Access-Control-Allow-Origin": allowed ? origin! : "https://sandalwood-and-sage.com",
+    "Access-Control-Allow-Origin": allowed ? origin! : "",
     "Access-Control-Allow-Headers":
       "authorization, x-client-info, apikey, content-type, x-admin-password",
     "Access-Control-Allow-Methods": "POST, OPTIONS",
@@ -49,7 +44,7 @@ type EpisodePayload = {
 };
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-const CATEGORIES = new Set(["Tech", "Work", "Society", "Money", "Sport", "Politics"]);
+const CATEGORIES = new Set(["Current Affairs", "Society", "Politics", "Sport"]);
 
 function requireUuid(id: unknown, operation: string): string {
   if (typeof id !== "string" || !UUID_RE.test(id)) {

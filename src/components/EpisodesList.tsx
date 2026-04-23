@@ -34,7 +34,7 @@ export interface Episode {
   side_b_summary?: string;
 }
 
-const categories = ["All", "Tech", "Work", "Society", "Money", "Sport", "Politics"];
+const categories = ["All", "Current Affairs", "Society", "Politics", "Sport"];
 
 function getShareUrl(ep: Episode): string {
   return getEpisodeShareUrl(ep);

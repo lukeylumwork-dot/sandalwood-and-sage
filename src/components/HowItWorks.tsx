@@ -18,9 +18,9 @@ const steps = [
 
 const credo = [
   "Democratic citizenship thrives on deliberation.",
-  "Deliberation is the process of generative debate.",
+  "Deliberation is the process of formative debate.",
   "Deliberation serves democracy when it is easily accessible.",
-  "Generative debate is a process of discovery through argument.",
+  "Formative debate is a process of discovery through argument.",
   "We build Arguments by organising evidence.",
   "We communicate clearly so that they are easily accessible.",
   "We make our Arguments and Judgements transparently.",

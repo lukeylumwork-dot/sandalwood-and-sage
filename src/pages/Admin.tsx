@@ -6,7 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { Loader2, Trash2, Lock, LogOut, Pencil, X, Star, Upload, Music, Image } from "lucide-react";
 
-const CATEGORIES = ["Tech", "Work", "Society", "Money", "Sport", "Politics"];
+const CATEGORIES = ["Current Affairs", "Society", "Politics", "Sport"];
 const VERIFY_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/verify-admin`;
 const ADMIN_WRITE_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-write`;
 const ADMIN_UPLOAD_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-upload`;
@@ -244,7 +244,7 @@ function PasswordGate({ onAuth }: { onAuth: (password: string) => void }) {
 /* ─── Episode Form (create + edit) ─── */
 const EMPTY_FORM: FormData = {
   title: "",
-  category: "Tech",
+  category: "Current Affairs",
   summary: "",
   question: "",
   host_intro: "",
@@ -369,16 +369,6 @@ function EpisodeForm({
           <Textarea value={form.summary} onChange={(e) => set("summary", e.target.value)} placeholder="Episode summary / description" rows={3} />
         </div>
 
-        <div className="sm:col-span-2">
-          <label className="text-xs font-medium text-card-foreground block mb-1">Question</label>
-          <Input value={form.question} onChange={(e) => set("question", e.target.value)} placeholder="Central debate question" />
-        </div>
-
-        <div className="sm:col-span-2">
-          <label className="text-xs font-medium text-card-foreground block mb-1">Host Introduction</label>
-          <Textarea value={form.host_intro} onChange={(e) => set("host_intro", e.target.value)} placeholder="Host intro script" rows={3} />
-        </div>
-
         <div>
           <label className="text-xs font-medium text-card-foreground block mb-1">For Argument</label>
           <Textarea value={form.for_argument} onChange={(e) => set("for_argument", e.target.value)} placeholder="The case for…" rows={4} />
@@ -413,25 +403,6 @@ function EpisodeForm({
           <Input value={form.video_url} onChange={(e) => set("video_url", e.target.value)} placeholder="YouTube embed, Vimeo, MP4…" />
         </div>
 
-        <div>
-          <label className="text-xs font-medium text-card-foreground block mb-1">Side A Label</label>
-          <Input value={form.side_a_label} onChange={(e) => set("side_a_label", e.target.value)} placeholder="e.g. For Regulation" />
-        </div>
-
-        <div>
-          <label className="text-xs font-medium text-card-foreground block mb-1">Side B Label</label>
-          <Input value={form.side_b_label} onChange={(e) => set("side_b_label", e.target.value)} placeholder="e.g. Against Regulation" />
-        </div>
-
-        <div>
-          <label className="text-xs font-medium text-card-foreground block mb-1">Side A Summary</label>
-          <Textarea value={form.side_a_summary} onChange={(e) => set("side_a_summary", e.target.value)} placeholder="Summary of side A position" rows={2} />
-        </div>
-
-        <div>
-          <label className="text-xs font-medium text-card-foreground block mb-1">Side B Summary</label>
-          <Textarea value={form.side_b_summary} onChange={(e) => set("side_b_summary", e.target.value)} placeholder="Summary of side B position" rows={2} />
-        </div>
       </div>
 
       <Button type="submit" disabled={saving} size="sm">
