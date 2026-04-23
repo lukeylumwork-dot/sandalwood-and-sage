@@ -21,7 +21,7 @@ function corsHeaders(origin: string | null) {
   };
 
   if (allowed) {
-    headers["Access-Control-Allow-Origin"] = origin;
+    headers["Access-Control-Allow-Origin"] = origin!;
   }
 
   return headers;
