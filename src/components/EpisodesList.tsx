@@ -1,5 +1,5 @@
-import { useState, useEffect, useMemo } from "react";
-import { Clock, Share2, Link, Twitter, Video, Search } from "lucide-react";
+import { useState, useEffect, useMemo, memo, useCallback } from "react";
+import { Clock, Share2, Link, Twitter, Search } from "lucide-react";
 import AudioPlayer from "@/components/AudioPlayer";
 import VideoPlayer from "@/components/VideoPlayer";
 import SidesSplit from "@/components/SidesSplit";
@@ -39,6 +39,33 @@ const categories = ["All", "Current Affairs", "Society", "Politics", "Sport"];
 function getShareUrl(ep: Episode): string {
   return getEpisodeShareUrl(ep);
 }
+
+interface EpisodeCardProps {
+  ep: Episode;
+  onClick: (ep: Episode) => void;
+}
+
+const EpisodeCard = memo(({ ep, onClick }: EpisodeCardProps) => (
+  <button
+    onClick={() => onClick(ep)}
+    className="group flex flex-col gap-2 rounded-xl border bg-card p-3.5 sm:p-5 text-left transition-all hover:border-primary/40 hover:shadow-sm sm:flex-row sm:items-start sm:justify-between active:scale-[0.995]"
+  >
+    <div className="min-w-0 flex-1">
+      <h3 className="text-[1.05rem] sm:text-[1.1rem] font-semibold text-card-foreground leading-[1.25] group-hover:text-primary transition-colors text-pretty mb-1" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+        {ep.title}
+      </h3>
+      <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.16em] text-primary block mb-1.5">{ep.category}</span>
+      <p className="text-[0.8rem] text-muted-foreground leading-[1.5] line-clamp-2">{ep.premise}</p>
+    </div>
+    {ep.duration && (
+      <p className="mt-1 flex shrink-0 items-center gap-1 text-xs text-muted-foreground sm:mt-0 sm:ml-4">
+        <Clock size={12} /> {ep.duration}
+      </p>
+    )}
+  </button>
+));
+
+EpisodeCard.displayName = "EpisodeCard";
 
 const EpisodesList = () => {
   const [activeFilter, setActiveFilter] = useState("All");
@@ -85,12 +112,10 @@ const EpisodesList = () => {
     }
   }, [dbEpisodes]);
 
-  const allEpisodes = dbEpisodes;
-
   const filtered = useMemo(() => {
     let result = activeFilter === "All"
-      ? allEpisodes
-      : allEpisodes.filter((ep) => ep.category === activeFilter);
+      ? dbEpisodes
+      : dbEpisodes.filter((ep) => ep.category === activeFilter);
 
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase().trim();
@@ -104,7 +129,15 @@ const EpisodesList = () => {
     }
 
     return result;
-  }, [allEpisodes, activeFilter, searchQuery]);
+  }, [dbEpisodes, activeFilter, searchQuery]);
+
+  const handleEpisodeClick = useCallback((ep: Episode) => {
+    setSelectedEpisode(ep);
+  }, []);
+
+  const handleCloseDialog = useCallback(() => {
+    setSelectedEpisode(null);
+  }, []);
 
   return (
     <section id="episodes" className="mx-auto max-w-4xl px-4 py-7 sm:px-5 sm:py-10">
@@ -143,38 +176,14 @@ const EpisodesList = () => {
 
       <div className="grid gap-2 sm:gap-2.5">
         {filtered.map((ep) => (
-          <button
-            key={ep.id}
-            onClick={() => setSelectedEpisode(ep)}
-            className="group flex flex-col gap-2 rounded-xl border bg-card p-3.5 sm:p-5 text-left transition-all hover:border-primary/40 hover:shadow-sm sm:flex-row sm:items-start sm:justify-between active:scale-[0.995]"
-          >
-            <div className="min-w-0 flex-1">
-              <div className="flex flex-wrap items-center gap-1.5 mb-1.5 sm:mb-2">
-                <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.16em] text-primary">{ep.category}</span>
-                {ep.video_url && (
-                  <span className="inline-flex items-center gap-1 rounded-full bg-accent/10 px-1.5 sm:px-2 py-0.5 text-[9px] sm:text-[10px] font-medium text-accent">
-                    <Video size={9} /> Video
-                  </span>
-                )}
-              </div>
-              <h3 className="text-[0.95rem] sm:text-base font-semibold text-card-foreground leading-[1.3] group-hover:text-primary transition-colors text-pretty" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-                {ep.title}
-              </h3>
-              <p className="text-[0.8rem] text-muted-foreground mt-1 leading-[1.5] line-clamp-2">{ep.premise}</p>
-            </div>
-            {ep.duration && (
-              <p className="mt-1 flex shrink-0 items-center gap-1 text-xs text-muted-foreground sm:mt-0 sm:ml-4">
-                <Clock size={12} /> {ep.duration}
-              </p>
-            )}
-          </button>
+          <EpisodeCard key={ep.id} ep={ep} onClick={handleEpisodeClick} />
         ))}
         {filtered.length === 0 && (
           <p className="text-sm text-muted-foreground py-8 text-center">No episodes found.</p>
         )}
       </div>
 
-      <Dialog open={!!selectedEpisode} onOpenChange={() => setSelectedEpisode(null)}>
+      <Dialog open={!!selectedEpisode} onOpenChange={handleCloseDialog}>
         <DialogContent className="w-[calc(100vw-1rem)] sm:w-full max-w-xl dark bg-background border-border max-h-[92vh] overflow-y-auto overscroll-contain p-0 gap-0 rounded-xl">
           {selectedEpisode && (
             <article>

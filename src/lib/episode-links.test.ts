@@ -11,9 +11,9 @@ const episodes = [
 ];
 
 describe("episode links", () => {
-  it("builds stable share URLs from episode ids", () => {
-    expect(getEpisodeShareUrl(episodes[0], "https://example.supabase.co")).toBe(
-      "https://example.supabase.co/functions/v1/share-episode?id=11111111-1111-4111-8111-111111111111"
+  it("builds canonical frontend share URLs from episode ids", () => {
+    expect(getEpisodeShareUrl(episodes[0], "https://sandalwood-and-sage.com")).toBe(
+      "https://sandalwood-and-sage.com/?episode=11111111-1111-4111-8111-111111111111"
     );
   });
 
