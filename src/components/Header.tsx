@@ -5,7 +5,7 @@ import ThemeToggle from "@/components/ThemeToggle";
 import logoDark from "@/assets/logo-dark.svg";
 import logoLight from "@/assets/logo-light.svg";
 
-const rssUrl = `https://${import.meta.env.VITE_SUPABASE_PROJECT_ID}.supabase.co/functions/v1/rss-feed`;
+const rssUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/rss-feed`;
 
 const navLinks = [
   { label: "Latest", href: "#featured" },

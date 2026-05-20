@@ -15,33 +15,101 @@ function escapeXml(s: string): string {
     .replace(/'/g, "&apos;");
 }
 
+type Episode = {
+  id: string;
+  title: string;
+  category: string | null;
+  summary: string | null;
+  created_at: string;
+  audio_url: string | null;
+  cover_image_url: string | null;
+};
+
+function audioType(url: string): string {
+  if (/\.m4a(\?|$)/i.test(url)) return "audio/mp4";
+  if (/\.wav(\?|$)/i.test(url)) return "audio/wav";
+  if (/\.ogg(\?|$)/i.test(url)) return "audio/ogg";
+  return "audio/mpeg";
+}
+
+async function audioLength(url: string): Promise<string> {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 2500);
+
+  try {
+    const res = await fetch(url, { method: "HEAD", signal: controller.signal });
+    const length = res.headers.get("content-length");
+    return length && /^\d+$/.test(length) ? length : "0";
+  } catch {
+    return "0";
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
+function jsonError(message: string, status: number) {
+  return new Response(JSON.stringify({ error: message }), {
+    status,
+    headers: { ...corsHeaders, "Content-Type": "application/json" },
+  });
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
-  const siteUrl = "https://sandalwoodandsage.fm";
+  const siteUrl = "https://sandalwood-and-sage.com";
+  const supabaseUrl = Deno.env.get("SUPABASE_URL");
+  const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+
+  if (!supabaseUrl || !serviceRoleKey) {
+    return jsonError("Server configuration error", 500);
+  }
+
+  const shareBaseUrl = `${supabaseUrl}/functions/v1/share-episode`;
 
   const supabase = createClient(
-    Deno.env.get("SUPABASE_URL") ?? "",
-    Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "",
+    supabaseUrl,
+    serviceRoleKey,
   );
 
-  const { data } = await supabase
+  const { data, error } = await supabase
     .from("generated_debates")
-    .select("title, category, summary, created_at")
+    .select("id, title, category, summary, created_at, audio_url, cover_image_url")
     .order("created_at", { ascending: false });
 
-  const items = (data ?? [])
-    .map((ep: any) => `
+  if (error) {
+    return jsonError("Failed to load episodes", 500);
+  }
+
+  const itemParts = await Promise.all(
+    ((data ?? []) as Episode[]).map(async (ep) => {
+      const link = `${shareBaseUrl}?id=${encodeURIComponent(ep.id)}`;
+      const length = ep.audio_url ? await audioLength(ep.audio_url) : "0";
+      const enclosure = ep.audio_url
+        ? `      <enclosure url="${escapeXml(ep.audio_url)}" length="${length}" type="${audioType(ep.audio_url)}" />`
+        : "";
+      const image = ep.cover_image_url
+        ? `      <itunes:image href="${escapeXml(ep.cover_image_url)}" />`
+        : "";
+
+      return `
     <item>
       <title>${escapeXml(ep.title)}</title>
+      <link>${escapeXml(link)}</link>
+      <guid isPermaLink="false">${escapeXml(ep.id)}</guid>
       <description>${escapeXml(ep.summary ?? "")}</description>
       <category>${escapeXml(ep.category ?? "")}</category>
       <pubDate>${new Date(ep.created_at).toUTCString()}</pubDate>
+${enclosure}
+${image}
       <itunes:explicit>false</itunes:explicit>
-    </item>`)
-    .join("\n");
+    </item>`;
+    })
+  );
+
+  const items = itemParts.join("\n");
 
   const rss = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0"

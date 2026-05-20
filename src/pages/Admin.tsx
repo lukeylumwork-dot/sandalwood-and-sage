@@ -6,10 +6,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { Loader2, Trash2, Lock, LogOut, Pencil, X, Star, Upload, Music, Image } from "lucide-react";
 
-const CATEGORIES = ["Tech", "Work", "Society", "Money", "Sport", "Politics"];
+const CATEGORIES = ["Current Affairs", "Society", "Politics", "Sport"];
 const VERIFY_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/verify-admin`;
 const ADMIN_WRITE_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-write`;
-const STORAGE_BUCKET = "episode-media";
+const ADMIN_UPLOAD_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-upload`;
 
 async function adminWrite(adminPassword: string, body: object) {
   const res = await fetch(ADMIN_WRITE_URL, {
@@ -24,6 +24,10 @@ async function adminWrite(adminPassword: string, body: object) {
   const data = await res.json().catch(() => ({}));
   if (!res.ok) throw new Error(data.error || "Request failed");
   return data;
+}
+
+function getErrorMessage(err: unknown, fallback: string): string {
+  return err instanceof Error && err.message ? err.message : fallback;
 }
 
 interface Episode {
@@ -57,7 +61,6 @@ type FormData = {
   title: string;
   category: string;
   summary: string;
-  duration: string;
   question: string;
   host_intro: string;
   for_argument: string;
@@ -74,23 +77,26 @@ type FormData = {
 /* ─── File Upload Helper ─── */
 async function uploadToStorage(
   file: File,
-  folder: string
-): Promise<string | null> {
-  const ext = file.name.split(".").pop() || "bin";
-  const filePath = `${folder}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+  folder: string,
+  adminPassword: string
+): Promise<string> {
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("folder", folder);
 
-  const { error } = await supabase.storage
-    .from(STORAGE_BUCKET)
-    .upload(filePath, file, { cacheControl: "3600", upsert: false });
+  const res = await fetch(ADMIN_UPLOAD_URL, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+      "x-admin-password": adminPassword,
+    },
+    body: formData,
+  });
 
-  if (error) {
-    console.error("Upload error:", error);
-    return null;
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok || typeof data.publicUrl !== "string") {
+    throw new Error(data.error || "Upload failed");
   }
-
-  const { data } = supabase.storage
-    .from(STORAGE_BUCKET)
-    .getPublicUrl(filePath);
 
   return data.publicUrl;
 }
@@ -102,12 +108,14 @@ function FileUploadField({
   icon: Icon,
   currentUrl,
   onUploaded,
+  adminPassword,
 }: {
   label: string;
   accept: string;
   icon: typeof Music;
   currentUrl: string;
   onUploaded: (url: string) => void;
+  adminPassword: string;
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
@@ -118,17 +126,17 @@ function FileUploadField({
 
     setUploading(true);
     const folder = accept.startsWith("audio") ? "audio" : "artwork";
-    const url = await uploadToStorage(file, folder);
-    setUploading(false);
-
-    if (url) {
+    try {
+      const url = await uploadToStorage(file, folder, adminPassword);
       onUploaded(url);
       toast.success(`${label} uploaded!`);
-    } else {
-      toast.error(`Failed to upload ${label.toLowerCase()}.`);
+    } catch (err) {
+      console.error("Upload error:", err);
+      toast.error(getErrorMessage(err, `Failed to upload ${label.toLowerCase()}.`));
+    } finally {
+      setUploading(false);
+      if (inputRef.current) inputRef.current.value = "";
     }
-
-    if (inputRef.current) inputRef.current.value = "";
   };
 
   return (
@@ -187,10 +195,11 @@ function PasswordGate({ onAuth }: { onAuth: (password: string) => void }) {
         },
         body: JSON.stringify({ password: password.trim() }),
       });
+      const data = await res.json().catch(() => ({}));
       if (res.ok) {
         onAuth(password.trim());
       } else {
-        setError("Incorrect password. Please try again.");
+        setError(data.error || "Incorrect password. Please try again.");
       }
     } catch {
       setError("Could not verify password. Please try again.");
@@ -235,9 +244,8 @@ function PasswordGate({ onAuth }: { onAuth: (password: string) => void }) {
 /* ─── Episode Form (create + edit) ─── */
 const EMPTY_FORM: FormData = {
   title: "",
-  category: "Tech",
+  category: "Current Affairs",
   summary: "",
-  duration: "",
   question: "",
   host_intro: "",
   for_argument: "",
@@ -312,7 +320,7 @@ function EpisodeForm({
       onSaved();
     } catch (err) {
       console.error("Save error:", err);
-      toast.error(`Failed to ${isEditing ? "update" : "save"} episode. Please try again.`);
+      toast.error(getErrorMessage(err, `Failed to ${isEditing ? "update" : "save"} episode.`));
     } finally {
       setSaving(false);
     }
@@ -354,26 +362,11 @@ function EpisodeForm({
           </select>
         </div>
 
-        <div>
-          <label className="text-xs font-medium text-card-foreground block mb-1">Duration</label>
-          <Input value={form.duration} onChange={(e) => set("duration", e.target.value)} placeholder="e.g. 15 min" />
-        </div>
-
         <div className="sm:col-span-2">
           <label className="text-xs font-medium text-card-foreground block mb-1">
             Description <span className="text-primary">*</span>
           </label>
           <Textarea value={form.summary} onChange={(e) => set("summary", e.target.value)} placeholder="Episode summary / description" rows={3} />
-        </div>
-
-        <div className="sm:col-span-2">
-          <label className="text-xs font-medium text-card-foreground block mb-1">Question</label>
-          <Input value={form.question} onChange={(e) => set("question", e.target.value)} placeholder="Central debate question" />
-        </div>
-
-        <div className="sm:col-span-2">
-          <label className="text-xs font-medium text-card-foreground block mb-1">Host Introduction</label>
-          <Textarea value={form.host_intro} onChange={(e) => set("host_intro", e.target.value)} placeholder="Host intro script" rows={3} />
         </div>
 
         <div>
@@ -392,6 +385,7 @@ function EpisodeForm({
           accept="audio/*"
           icon={Music}
           currentUrl={form.audio_url}
+          adminPassword={adminPassword}
           onUploaded={(url) => set("audio_url", url)}
         />
 
@@ -400,6 +394,7 @@ function EpisodeForm({
           accept="image/*"
           icon={Image}
           currentUrl={form.cover_image_url}
+          adminPassword={adminPassword}
           onUploaded={(url) => set("cover_image_url", url)}
         />
 
@@ -408,25 +403,6 @@ function EpisodeForm({
           <Input value={form.video_url} onChange={(e) => set("video_url", e.target.value)} placeholder="YouTube embed, Vimeo, MP4…" />
         </div>
 
-        <div>
-          <label className="text-xs font-medium text-card-foreground block mb-1">Side A Label</label>
-          <Input value={form.side_a_label} onChange={(e) => set("side_a_label", e.target.value)} placeholder="e.g. For Regulation" />
-        </div>
-
-        <div>
-          <label className="text-xs font-medium text-card-foreground block mb-1">Side B Label</label>
-          <Input value={form.side_b_label} onChange={(e) => set("side_b_label", e.target.value)} placeholder="e.g. Against Regulation" />
-        </div>
-
-        <div>
-          <label className="text-xs font-medium text-card-foreground block mb-1">Side A Summary</label>
-          <Textarea value={form.side_a_summary} onChange={(e) => set("side_a_summary", e.target.value)} placeholder="Summary of side A position" rows={2} />
-        </div>
-
-        <div>
-          <label className="text-xs font-medium text-card-foreground block mb-1">Side B Summary</label>
-          <Textarea value={form.side_b_summary} onChange={(e) => set("side_b_summary", e.target.value)} placeholder="Summary of side B position" rows={2} />
-        </div>
       </div>
 
       <Button type="submit" disabled={saving} size="sm">
@@ -529,10 +505,15 @@ const Admin = () => {
   const [editFormData, setEditFormData] = useState<FormData>(EMPTY_FORM);
 
   const fetchEpisodes = useCallback(async () => {
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from("generated_debates")
       .select("id, title, category, created_at, is_featured")
       .order("created_at", { ascending: false });
+    if (error) {
+      console.error("Failed to fetch episodes:", error);
+      toast.error("Failed to load episodes. Please refresh.");
+      return;
+    }
     if (data) setEpisodes(data as unknown as Episode[]);
   }, []);
 
@@ -549,8 +530,8 @@ const Admin = () => {
         setEditFormData(EMPTY_FORM);
       }
       fetchEpisodes();
-    } catch {
-      toast.error("Failed to delete episode.");
+    } catch (err) {
+      toast.error(getErrorMessage(err, "Failed to delete episode."));
     }
   };
 
@@ -572,7 +553,6 @@ const Admin = () => {
       title: ep.title,
       category: ep.category,
       summary: ep.summary,
-      duration: "",
       question: ep.question,
       host_intro: ep.host_intro,
       for_argument: ep.for_argument,
@@ -609,8 +589,8 @@ const Admin = () => {
       });
       toast.success(currentlyFeatured ? "Episode unpinned." : "Episode pinned as featured!");
       fetchEpisodes();
-    } catch {
-      toast.error("Failed to update featured status.");
+    } catch (err) {
+      toast.error(getErrorMessage(err, "Failed to update featured status."));
     }
   };
 
