@@ -9,9 +9,9 @@ export function toEpisodeSlug(title: string): string {
 
 export function getEpisodeShareUrl(
   episode: EpisodeLinkTarget,
-  supabaseUrl = import.meta.env.VITE_SUPABASE_URL
+  baseUrl = (typeof window !== "undefined" ? window.location.origin : "")
 ): string {
-  return `${supabaseUrl}/functions/v1/share-episode?id=${encodeURIComponent(episode.id)}`;
+  return `${baseUrl}/?episode=${encodeURIComponent(episode.id)}`;
 }
 
 export function findEpisodeFromSearchParams<T extends EpisodeLinkTarget>(
