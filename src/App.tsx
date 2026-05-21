@@ -9,6 +9,7 @@ import { SpeedInsights } from "@vercel/speed-insights/react";
 
 import Index from "./pages/Index";
 import Admin from "./pages/Admin";
+import Episode from "./pages/Episode";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -23,6 +24,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/admin" element={<Admin />} />
+            <Route path="/episode/:slug" element={<Episode />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

@@ -11,9 +11,9 @@ const episodes = [
 ];
 
 describe("episode links", () => {
-  it("builds canonical frontend share URLs from episode ids", () => {
+  it("builds canonical frontend share URLs as episode slug paths", () => {
     expect(getEpisodeShareUrl(episodes[0], "https://sandalwood-and-sage.com")).toBe(
-      "https://sandalwood-and-sage.com/?episode=11111111-1111-4111-8111-111111111111"
+      "https://sandalwood-and-sage.com/episode/should-cities-ban-cars"
     );
   });
 

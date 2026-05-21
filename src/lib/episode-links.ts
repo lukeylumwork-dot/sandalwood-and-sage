@@ -11,7 +11,7 @@ export function getEpisodeShareUrl(
   episode: EpisodeLinkTarget,
   baseUrl = (typeof window !== "undefined" ? window.location.origin : "")
 ): string {
-  return `${baseUrl}/?episode=${encodeURIComponent(episode.id)}`;
+  return `${baseUrl}/episode/${toEpisodeSlug(episode.title)}`;
 }
 
 export function findEpisodeFromSearchParams<T extends EpisodeLinkTarget>(
