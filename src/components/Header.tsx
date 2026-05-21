@@ -5,7 +5,7 @@ import ThemeToggle from "@/components/ThemeToggle";
 import logoDark from "@/assets/logo-dark.svg";
 import logoLight from "@/assets/logo-light.svg";
 
-const rssUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/rss-feed`;
+const rssUrl = "/feed.xml";
 
 const navLinks = [
   { label: "Latest", href: "#featured" },
