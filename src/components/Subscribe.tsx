@@ -10,7 +10,7 @@ const rssUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/rss-feed`;
 const platforms = [
   { label: "Spotify", href: "#", coming: true },
   { label: "Apple Podcasts", href: "#", coming: true },
-  { label: "YouTube", href: "#", coming: true },
+  { label: "YouTube", href: "https://www.youtube.com/@SandalwoodAndSage", coming: false },
   { label: "RSS Feed", href: rssUrl, icon: Rss, coming: false },
 ];
 
