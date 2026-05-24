@@ -30,7 +30,7 @@ div[id] {
 
     --muted: 40 14% 92%;
     --muted-foreground: 30 8% 46%;
-    --section-label: 30 6% 50%;
+    --section-label: 30 12% 38%;
 
     --accent: 150 30% 35%;
     --accent-foreground: 0 0% 100%;
@@ -67,7 +67,7 @@ div[id] {
     --secondary-foreground: 40 14% 92%;
     --muted: 201 30% 25%;
     --muted-foreground: 201 15% 72%;
-    --section-label: 201 12% 68%;
+    --section-label: 201 20% 76%;
     --accent: 150 32% 55%;
     --accent-foreground: 201 39% 12%;
     --destructive: 0 62.8% 40%;
