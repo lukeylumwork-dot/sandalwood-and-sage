@@ -9,9 +9,8 @@ const rssUrl = "/feed.xml";
 
 const platforms = [
   { label: "Spotify", href: "#", coming: true },
-  { label: "Apple Podcasts", href: "#", coming: true },
+  { label: "Apple Podcasts", href: "https://podcasts.apple.com/gb/podcast/sandalwood-sage-what-were-arguing-about-this-week/id1896168647", coming: false },
   { label: "YouTube", href: "https://www.youtube.com/@SandalwoodAndSage", coming: false },
-  { label: "RSS Feed", href: rssUrl, icon: Rss, coming: false },
 ];
 
 const Subscribe = () => {
@@ -78,12 +77,23 @@ const Subscribe = () => {
                   </span>
                 ) : (
                   <a href={p.href} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5">
-                    {"icon" in p && p.icon && <p.icon size={14} />}
                     {p.label}
                   </a>
                 )}
               </Button>
             ))}
+          </div>
+          <div className="mt-3 flex items-center gap-1.5">
+            <a
+              href={rssUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 text-[11px] text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <Rss size={11} />
+              RSS Feed
+            </a>
+            <span className="text-[10px] text-muted-foreground/60">· for podcast apps &amp; RSS readers</span>
           </div>
         </div>
 
@@ -113,6 +123,20 @@ const Subscribe = () => {
               </Button>
             </form>
           )}
+        </div>
+      </div>
+
+      {/* YouTube embed */}
+      <div className="mt-6 sm:mt-8">
+        <p className="text-[10px] font-semibold text-section-label mb-3 uppercase tracking-[0.16em]">Watch on YouTube</p>
+        <div className="relative aspect-video w-full rounded-xl overflow-hidden border border-border bg-muted">
+          <iframe
+            src="https://www.youtube.com/embed?listType=user_uploads&list=SandalwoodAndSage"
+            title="Sandalwood & Sage on YouTube"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="absolute inset-0 w-full h-full"
+          />
         </div>
       </div>
     </section>
