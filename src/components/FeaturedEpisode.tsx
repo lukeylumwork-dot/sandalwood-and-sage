@@ -102,11 +102,11 @@ const FeaturedEpisode = () => {
         className="w-full rounded-xl border bg-card overflow-hidden text-left transition-all hover:border-primary/40 hover:shadow-sm cursor-pointer"
       >
         {episode.cover_image_url && (
-          <div className="aspect-[16/9] w-full overflow-hidden">
+          <div className="aspect-[16/9] sm:aspect-[3/1] w-full overflow-hidden bg-muted">
             <img
               src={episode.cover_image_url}
               alt={episode.title}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover sm:object-contain"
               loading="lazy"
             />
           </div>

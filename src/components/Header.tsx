@@ -28,7 +28,7 @@ const Header = () => {
           <img
             src={logoLight}
             alt="Sandalwood & Sage"
-            className="h-9 w-auto hidden dark:block"
+            className="h-10 w-auto hidden dark:block"
           />
         </a>
 
