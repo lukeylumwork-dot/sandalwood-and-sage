@@ -21,18 +21,7 @@ const Index = () => {
         <motion.div initial="hidden" animate="visible" variants={section}>
           <Hero />
         </motion.div>
-        {[FeaturedEpisode, EpisodesList, HowItWorks].map((Section, i) => (
-          <motion.div
-            key={i}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.15 }}
-            variants={section}
-          >
-            <Section />
-          </motion.div>
-        ))}
-        {[TopicSubmission, Subscribe].map((Section, i) => (
+        {[FeaturedEpisode, EpisodesList, Subscribe, TopicSubmission, HowItWorks].map((Section, i) => (
           <motion.div
             key={i}
             initial="hidden"

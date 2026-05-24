@@ -5,7 +5,7 @@ import ThemeToggle from "@/components/ThemeToggle";
 import logoDark from "@/assets/logo-dark.svg";
 import logoLight from "@/assets/logo-light.svg";
 
-const rssUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/rss-feed`;
+const rssUrl = "/feed.xml";
 
 const navLinks = [
   { label: "Latest", href: "#featured" },
@@ -28,7 +28,7 @@ const Header = () => {
           <img
             src={logoLight}
             alt="Sandalwood & Sage"
-            className="h-9 w-auto hidden dark:block"
+            className="h-10 w-auto hidden dark:block"
           />
         </a>
 

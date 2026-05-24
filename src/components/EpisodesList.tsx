@@ -1,18 +1,8 @@
-import { useState, useEffect, useMemo, memo, useCallback } from "react";
-import { Clock, Share2, Link, Twitter, Search } from "lucide-react";
-import AudioPlayer from "@/components/AudioPlayer";
-import VideoPlayer from "@/components/VideoPlayer";
-import SidesSplit from "@/components/SidesSplit";
+import { useState, useEffect, useMemo, memo } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Clock, Search } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
-import { findEpisodeFromSearchParams, getEpisodeShareUrl } from "@/lib/episode-links";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { findEpisodeFromSearchParams, toEpisodeSlug } from "@/lib/episode-links";
 
 export interface Episode {
   id: string;
@@ -36,25 +26,16 @@ export interface Episode {
 
 const categories = ["All", "Current Affairs", "Society", "Politics", "Sport"];
 
-function getShareUrl(ep: Episode): string {
-  return getEpisodeShareUrl(ep);
-}
-
-interface EpisodeCardProps {
-  ep: Episode;
-  onClick: (ep: Episode) => void;
-}
-
-const EpisodeCard = memo(({ ep, onClick }: EpisodeCardProps) => (
-  <button
-    onClick={() => onClick(ep)}
+const EpisodeCard = memo(({ ep }: { ep: Episode }) => (
+  <Link
+    to={`/episode/${toEpisodeSlug(ep.title)}`}
     className="group flex flex-col gap-2 rounded-xl border bg-card p-3.5 sm:p-5 text-left transition-all hover:border-primary/40 hover:shadow-sm sm:flex-row sm:items-start sm:justify-between active:scale-[0.995]"
   >
     <div className="min-w-0 flex-1">
-      <h3 className="text-[1.05rem] sm:text-[1.1rem] font-semibold text-card-foreground leading-[1.25] group-hover:text-primary transition-colors text-pretty mb-1" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+      <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.16em] text-primary block mb-1">{ep.category}</span>
+      <h3 className="text-[1.05rem] sm:text-[1.1rem] font-semibold text-card-foreground leading-[1.25] group-hover:text-primary transition-colors text-pretty mb-1.5" style={{ fontFamily: "'DM Sans', sans-serif" }}>
         {ep.title}
       </h3>
-      <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.16em] text-primary block mb-1.5">{ep.category}</span>
       <p className="text-[0.8rem] text-muted-foreground leading-[1.5] line-clamp-2">{ep.premise}</p>
     </div>
     {ep.duration && (
@@ -62,15 +43,15 @@ const EpisodeCard = memo(({ ep, onClick }: EpisodeCardProps) => (
         <Clock size={12} /> {ep.duration}
       </p>
     )}
-  </button>
+  </Link>
 ));
 
 EpisodeCard.displayName = "EpisodeCard";
 
 const EpisodesList = () => {
+  const navigate = useNavigate();
   const [activeFilter, setActiveFilter] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedEpisode, setSelectedEpisode] = useState<Episode | null>(null);
   const [dbEpisodes, setDbEpisodes] = useState<Episode[]>([]);
 
   useEffect(() => {
@@ -103,14 +84,14 @@ const EpisodesList = () => {
       });
   }, []);
 
+  // Redirect legacy ?episode=<id> and ?episodeSlug=<slug> deep links to episode pages
   useEffect(() => {
     if (!dbEpisodes.length) return;
-
-    const matchingEpisode = findEpisodeFromSearchParams(dbEpisodes, window.location.search);
-    if (matchingEpisode) {
-      setSelectedEpisode(matchingEpisode);
+    const match = findEpisodeFromSearchParams(dbEpisodes, window.location.search);
+    if (match) {
+      navigate(`/episode/${toEpisodeSlug(match.title)}`, { replace: true });
     }
-  }, [dbEpisodes]);
+  }, [dbEpisodes, navigate]);
 
   const filtered = useMemo(() => {
     let result = activeFilter === "All"
@@ -130,14 +111,6 @@ const EpisodesList = () => {
 
     return result;
   }, [dbEpisodes, activeFilter, searchQuery]);
-
-  const handleEpisodeClick = useCallback((ep: Episode) => {
-    setSelectedEpisode(ep);
-  }, []);
-
-  const handleCloseDialog = useCallback(() => {
-    setSelectedEpisode(null);
-  }, []);
 
   return (
     <section id="episodes" className="mx-auto max-w-4xl px-4 py-7 sm:px-5 sm:py-10">
@@ -176,141 +149,12 @@ const EpisodesList = () => {
 
       <div className="grid gap-2 sm:gap-2.5">
         {filtered.map((ep) => (
-          <EpisodeCard key={ep.id} ep={ep} onClick={handleEpisodeClick} />
+          <EpisodeCard key={ep.id} ep={ep} />
         ))}
         {filtered.length === 0 && (
           <p className="text-sm text-muted-foreground py-8 text-center">No episodes found.</p>
         )}
       </div>
-
-      <Dialog open={!!selectedEpisode} onOpenChange={handleCloseDialog}>
-        <DialogContent className="w-[calc(100vw-1rem)] sm:w-full max-w-xl dark bg-background border-border max-h-[92vh] overflow-y-auto overscroll-contain p-0 gap-0 rounded-xl">
-          {selectedEpisode && (
-            <article>
-              <DialogHeader className="px-4 sm:px-7 pt-5 sm:pt-7 pb-4 sm:pb-5 border-b border-border/70 space-y-1.5 sm:space-y-2 text-left">
-                <span className="text-[10px] font-semibold text-primary block uppercase tracking-[0.22em]">
-                  {selectedEpisode.category}
-                </span>
-                <DialogTitle
-                  className="font-serif text-[1.25rem] sm:text-[1.75rem] leading-[1.2] sm:leading-[1.15] text-foreground text-balance font-normal tracking-tight pr-6"
-                  style={{ fontFamily: "'DM Serif Display', Georgia, serif" }}
-                >
-                  {selectedEpisode.title}
-                </DialogTitle>
-              </DialogHeader>
-
-              <div className="px-4 sm:px-7 py-5 sm:py-6 space-y-6 sm:space-y-7">
-                {selectedEpisode.video_url && (
-                  <div className="-mx-4 sm:mx-0 sm:rounded-lg overflow-hidden sm:border sm:border-border/70">
-                    <VideoPlayer
-                      url={selectedEpisode.video_url}
-                      title={selectedEpisode.title}
-                    />
-                  </div>
-                )}
-
-                {selectedEpisode.side_a_label && selectedEpisode.side_b_label && (
-                  <SidesSplit
-                    sideALabel={selectedEpisode.side_a_label}
-                    sideBLabel={selectedEpisode.side_b_label}
-                    sideASummary={selectedEpisode.side_a_summary}
-                    sideBSummary={selectedEpisode.side_b_summary}
-                  />
-                )}
-
-                {selectedEpisode.audio_url && (
-                  <AudioPlayer
-                    label={selectedEpisode.title}
-                    src={selectedEpisode.audio_url}
-                  />
-                )}
-
-                <div className="space-y-2">
-                  <p className="text-[10px] font-semibold text-section-label uppercase tracking-[0.22em]">
-                    The question
-                  </p>
-                  <p className="text-[0.9rem] sm:text-base text-foreground leading-[1.6] sm:leading-[1.65] text-pretty">
-                    {selectedEpisode.question}
-                  </p>
-                </div>
-
-                <div className="space-y-2">
-                  <p className="text-[10px] font-semibold text-section-label uppercase tracking-[0.22em]">
-                    Summary
-                  </p>
-                  <p className="text-[0.875rem] sm:text-[0.95rem] text-muted-foreground leading-[1.65] sm:leading-[1.7] text-pretty">
-                    {selectedEpisode.summary}
-                  </p>
-                </div>
-
-                {selectedEpisode.keyPoints.length > 0 && (
-                  <div className="space-y-2.5">
-                    <p className="text-[10px] font-semibold text-section-label uppercase tracking-[0.22em]">
-                      Key points
-                    </p>
-                    <ul className="space-y-2">
-                      {selectedEpisode.keyPoints.map((point, idx) => (
-                        <li key={idx} className="text-[0.875rem] sm:text-[0.95rem] text-muted-foreground leading-[1.6] sm:leading-[1.65] flex gap-2.5">
-                          <span className="mt-[0.55rem] h-1 w-1 rounded-full bg-primary shrink-0" aria-hidden />
-                          <span>{point}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-              </div>
-
-              <div className="flex items-center gap-2 px-4 sm:px-7 py-3.5 sm:py-4 border-t border-border/70 bg-secondary/40 sticky bottom-0 backdrop-blur">
-                <span className="text-[10px] font-semibold text-section-label uppercase tracking-[0.22em] mr-1">Share</span>
-                <Button
-                  variant="outline"
-                  size="icon"
-                  className="h-9 w-9 sm:h-8 sm:w-8"
-                  onClick={() => {
-                    navigator.clipboard.writeText(getShareUrl(selectedEpisode));
-                    toast.success("Link copied to clipboard!");
-                  }}
-                  aria-label="Copy share link"
-                >
-                  <Link size={14} />
-                </Button>
-                <Button
-                  variant="outline"
-                  size="icon"
-                  className="h-9 w-9 sm:h-8 sm:w-8"
-                  asChild
-                >
-                  <a
-                    href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(selectedEpisode.title + " — Sandalwood & Sage")}&url=${encodeURIComponent(getShareUrl(selectedEpisode))}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Share on Twitter"
-                  >
-                    <Twitter size={14} />
-                  </a>
-                </Button>
-                {typeof navigator !== "undefined" && "share" in navigator && (
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    className="h-9 w-9 sm:h-8 sm:w-8"
-                    onClick={() => {
-                      navigator.share({
-                        title: selectedEpisode.title,
-                        text: selectedEpisode.premise,
-                        url: getShareUrl(selectedEpisode),
-                      }).catch(() => {});
-                    }}
-                    aria-label="Share via system"
-                  >
-                    <Share2 size={14} />
-                  </Button>
-                )}
-              </div>
-            </article>
-          )}
-        </DialogContent>
-      </Dialog>
     </section>
   );
 };

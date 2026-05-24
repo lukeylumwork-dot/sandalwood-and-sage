@@ -5,13 +5,12 @@ import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 
-const rssUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/rss-feed`;
+const rssUrl = "/feed.xml";
 
 const platforms = [
-  { label: "Spotify", href: "#", coming: true },
-  { label: "Apple Podcasts", href: "#", coming: true },
+  { label: "Spotify", href: "https://open.spotify.com/show/033ei3X7wU9mMlqFKDQUWs?si=8c163ebf934b487c", coming: false },
+  { label: "Apple Podcasts", href: "https://podcasts.apple.com/gb/podcast/sandalwood-sage-what-were-arguing-about-this-week/id1896168647", coming: false },
   { label: "YouTube", href: "https://www.youtube.com/@SandalwoodAndSage", coming: false },
-  { label: "RSS Feed", href: rssUrl, icon: Rss, coming: false },
 ];
 
 const Subscribe = () => {
@@ -78,12 +77,23 @@ const Subscribe = () => {
                   </span>
                 ) : (
                   <a href={p.href} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5">
-                    {"icon" in p && p.icon && <p.icon size={14} />}
                     {p.label}
                   </a>
                 )}
               </Button>
             ))}
+          </div>
+          <div className="mt-3 flex items-center gap-1.5">
+            <a
+              href={rssUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 text-[11px] text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <Rss size={11} />
+              RSS Feed
+            </a>
+            <span className="text-[10px] text-muted-foreground/60">· for podcast apps &amp; RSS readers</span>
           </div>
         </div>
 
@@ -115,6 +125,7 @@ const Subscribe = () => {
           )}
         </div>
       </div>
+
     </section>
   );
 };
