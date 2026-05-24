@@ -8,7 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 const rssUrl = "/feed.xml";
 
 const platforms = [
-  { label: "Spotify", href: "#", coming: true },
+  { label: "Spotify", href: "https://open.spotify.com/show/033ei3X7wU9mMlqFKDQUWs?si=8c163ebf934b487c", coming: false },
   { label: "Apple Podcasts", href: "https://podcasts.apple.com/gb/podcast/sandalwood-sage-what-were-arguing-about-this-week/id1896168647", coming: false },
   { label: "YouTube", href: "https://www.youtube.com/@SandalwoodAndSage", coming: false },
 ];
@@ -126,19 +126,6 @@ const Subscribe = () => {
         </div>
       </div>
 
-      {/* YouTube embed */}
-      <div className="mt-6 sm:mt-8">
-        <p className="text-[10px] font-semibold text-section-label mb-3 uppercase tracking-[0.16em]">Watch on YouTube</p>
-        <div className="relative aspect-video w-full rounded-xl overflow-hidden border border-border bg-muted">
-          <iframe
-            src="https://www.youtube.com/embed?listType=user_uploads&list=SandalwoodAndSage"
-            title="Sandalwood & Sage on YouTube"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            className="absolute inset-0 w-full h-full"
-          />
-        </div>
-      </div>
     </section>
   );
 };

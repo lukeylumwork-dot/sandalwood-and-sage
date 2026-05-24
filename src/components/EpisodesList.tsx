@@ -32,10 +32,10 @@ const EpisodeCard = memo(({ ep }: { ep: Episode }) => (
     className="group flex flex-col gap-2 rounded-xl border bg-card p-3.5 sm:p-5 text-left transition-all hover:border-primary/40 hover:shadow-sm sm:flex-row sm:items-start sm:justify-between active:scale-[0.995]"
   >
     <div className="min-w-0 flex-1">
-      <h3 className="text-[1.05rem] sm:text-[1.1rem] font-semibold text-card-foreground leading-[1.25] group-hover:text-primary transition-colors text-pretty mb-1" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+      <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.16em] text-primary block mb-1">{ep.category}</span>
+      <h3 className="text-[1.05rem] sm:text-[1.1rem] font-semibold text-card-foreground leading-[1.25] group-hover:text-primary transition-colors text-pretty mb-1.5" style={{ fontFamily: "'DM Sans', sans-serif" }}>
         {ep.title}
       </h3>
-      <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.16em] text-primary block mb-1.5">{ep.category}</span>
       <p className="text-[0.8rem] text-muted-foreground leading-[1.5] line-clamp-2">{ep.premise}</p>
     </div>
     {ep.duration && (
