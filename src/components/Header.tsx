@@ -2,8 +2,7 @@ import { useState } from "react";
 import { Menu, X, Rss } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ThemeToggle from "@/components/ThemeToggle";
-import logoDark from "@/assets/logo-dark.svg";
-import logoLight from "@/assets/logo-light.svg";
+import logo from "@/assets/logo-dark.svg";
 
 const rssUrl = "/feed.xml";
 
@@ -21,14 +20,9 @@ const Header = () => {
       <div className="mx-auto flex max-w-4xl items-center justify-between px-5 py-4">
         <a href="#" aria-label="Sandalwood & Sage home" className="flex items-center">
           <img
-            src={logoDark}
+            src={logo}
             alt="Sandalwood & Sage"
-            className="h-10 w-auto block dark:hidden"
-          />
-          <img
-            src={logoLight}
-            alt="Sandalwood & Sage"
-            className="h-10 w-auto hidden dark:block"
+            className="h-10 w-auto"
           />
         </a>
 
