@@ -31,8 +31,8 @@ const Footer = () => (
         {/* Brand */}
         <div className="flex flex-col gap-3">
           <a href="/" aria-label="Sandalwood & Sage home">
-            <img src={logoDark} alt="Sandalwood & Sage" className="h-7 w-auto block dark:hidden" />
-            <img src={logoLight} alt="Sandalwood & Sage" className="h-7 w-auto hidden dark:block" />
+            <img src={logoDark} alt="Sandalwood & Sage" width={78} height={28} className="h-7 w-auto block dark:hidden" />
+            <img src={logoLight} alt="Sandalwood & Sage" width={28} height={28} className="h-7 w-auto hidden dark:block" />
           </a>
           <p className="text-[0.7rem] sm:text-xs text-muted-foreground leading-relaxed max-w-[18ch]">
             Two sides. One question. You decide.
