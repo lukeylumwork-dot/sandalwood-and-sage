@@ -23,11 +23,15 @@ const Header = () => {
           <img
             src={logoDark}
             alt="Sandalwood & Sage"
+            width={111}
+            height={40}
             className="h-10 w-auto block dark:hidden"
           />
           <img
             src={logoLight}
             alt="Sandalwood & Sage"
+            width={40}
+            height={40}
             className="h-10 w-auto hidden dark:block"
           />
         </a>
