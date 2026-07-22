@@ -6,8 +6,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Link } from "react-router-dom";
-import logoDark from "@/assets/logo-dark.svg";
-import logoLight from "@/assets/logo-light.svg";
+import logo from "@/assets/logo-dark.svg";
 import { faqItems } from "@/data/faq";
 
 const SpotifyIcon = ({ size = 16 }: { size?: number }) => (
@@ -31,8 +30,7 @@ const Footer = () => (
         {/* Brand */}
         <div className="flex flex-col gap-3">
           <a href="/" aria-label="Sandalwood & Sage home">
-            <img src={logoDark} alt="Sandalwood & Sage" className="h-7 w-auto block dark:hidden" />
-            <img src={logoLight} alt="Sandalwood & Sage" className="h-7 w-auto hidden dark:block" />
+            <img src={logo} alt="Sandalwood & Sage" className="h-7 w-auto" />
           </a>
           <p className="text-[0.7rem] sm:text-xs text-muted-foreground leading-relaxed max-w-[18ch]">
             Two sides. One question. You decide.
