@@ -22,6 +22,10 @@ const Subscribe = () => {
     e.preventDefault();
     const trimmed = email.trim();
     if (!trimmed) return;
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
+      toast.error("Please enter a valid email address.");
+      return;
+    }
     setSaving(true);
     try {
       const { error } = await supabase
