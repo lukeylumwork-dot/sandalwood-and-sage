@@ -1,0 +1,15 @@
+-- Remove the unconditional INSERT policy left over from the initial schema.
+--
+-- `Anyone can insert topics` was created in 20260310023242 with
+-- `WITH CHECK (true)` and dropped in 20260417181543, but it is still present
+-- in the production database — that migration only landed in part. Because
+-- permissive RLS policies are OR'd together, its unconditional check
+-- overrides `Public can submit valid topics`, so the length and email
+-- validation added in 20260417181543 and tightened in 20260420001000 never
+-- actually rejects anything.
+--
+-- Dropping it leaves `Public can submit valid topics` as the only INSERT path
+-- for anon and authenticated clients, which is what the hardening migrations
+-- intended. Re-running this on an environment where the policy is already
+-- gone is a no-op.
+DROP POLICY IF EXISTS "Anyone can insert topics" ON public.submitted_topics;
