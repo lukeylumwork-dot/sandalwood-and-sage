@@ -22,6 +22,8 @@ const Header = () => {
           <img
             src={logo}
             alt="Sandalwood & Sage"
+            width={89}
+            height={32}
             className="h-8 w-auto"
           />
           <span className="hidden font-display text-lg tracking-tight text-foreground sm:inline">
