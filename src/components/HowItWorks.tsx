@@ -37,14 +37,14 @@ const HowItWorks = () => (
     <h2 className="text-2xl sm:text-3xl text-foreground mb-6 sm:mb-8 leading-tight">
       Argue. Substantiate. Listen. Evolve.
     </h2>
-    <div className="grid gap-3 sm:gap-4 md:grid-cols-3">
+    <div className="grid gap-6 sm:gap-8 md:grid-cols-3">
       {steps.map((step) => (
-        <div key={step.number} className="rounded-xl border bg-card p-5 sm:p-6">
-          <span className="text-xs font-semibold text-primary tracking-[0.14em]">
+        <div key={step.number} className="border-t-2 border-primary pt-4">
+          <span className="text-xs font-semibold text-primary tracking-[0.16em]">
             {step.number}
           </span>
-          <h3 className="mt-2.5 text-lg text-card-foreground leading-snug">{step.title}</h3>
-          <p className="mt-1.5 text-sm text-muted-foreground leading-relaxed">{step.description}</p>
+          <h3 className="font-display font-normal mt-2.5 text-xl text-foreground leading-snug">{step.title}</h3>
+          <p className="font-serif mt-2 text-sm text-muted-foreground leading-relaxed">{step.description}</p>
         </div>
       ))}
     </div>
@@ -54,7 +54,7 @@ const HowItWorks = () => (
         <p className="text-[11px] sm:text-xs font-medium uppercase tracking-[0.18em] text-section-label mb-2">
           Our Credo
         </p>
-        <h3 className="font-serif text-2xl sm:text-3xl text-foreground mb-4 sm:mb-5 leading-tight">
+        <h3 className="font-display font-normal text-2xl sm:text-3xl text-foreground mb-4 sm:mb-5 leading-tight">
           What we believe.
         </h3>
         <div className="rounded-xl border bg-card p-5 sm:p-7 flex-1">
@@ -62,7 +62,7 @@ const HowItWorks = () => (
             {credo.map((line, i) => (
               <li
                 key={i}
-                className="flex gap-3 text-sm sm:text-[0.95rem] text-card-foreground leading-relaxed"
+                className="font-serif flex gap-3 text-sm sm:text-[0.95rem] text-card-foreground leading-relaxed"
               >
                 <span className="mt-[0.55rem] h-1.5 w-1.5 shrink-0 rounded-full bg-primary" aria-hidden />
                 <span>{line}</span>
@@ -76,11 +76,11 @@ const HowItWorks = () => (
         <p className="text-[11px] sm:text-xs font-medium uppercase tracking-[0.18em] text-section-label mb-2">
           How we do it
         </p>
-        <h3 className="font-serif text-2xl sm:text-3xl text-foreground mb-4 sm:mb-5 leading-tight">
+        <h3 className="font-display font-normal text-2xl sm:text-3xl text-foreground mb-4 sm:mb-5 leading-tight">
           Credits & tools.
         </h3>
         <div className="rounded-xl border bg-card p-5 sm:p-7 flex-1">
-          <ul className="space-y-2.5 text-sm sm:text-[0.95rem] text-card-foreground leading-relaxed">
+          <ul className="font-serif space-y-2.5 text-sm sm:text-[0.95rem] text-card-foreground leading-relaxed">
             <li><span className="text-muted-foreground">Published by </span>The Four Ashes Publishing Limited</li>
             <li><span className="text-muted-foreground">Content created by </span>Gareth Cadwallader</li>
             <li><span className="text-muted-foreground">Research assistance by </span>Google Gemini and Claude.AI</li>

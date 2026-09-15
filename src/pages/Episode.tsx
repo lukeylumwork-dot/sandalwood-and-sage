@@ -91,16 +91,16 @@ const EpisodePage = () => {
         </a>
 
         <article>
-          <header className="mb-6 sm:mb-8">
-            <span className="text-[10px] font-semibold text-primary block uppercase tracking-[0.22em] mb-2">
+          <header className="mb-6 sm:mb-8 text-center">
+            <span className="text-[10px] font-semibold text-primary block uppercase tracking-[0.22em] mb-3">
               {episode.category}
             </span>
-            <h1
-              className="text-[1.5rem] sm:text-[2.25rem] leading-[1.15] text-foreground text-balance font-normal tracking-tight"
-              style={{ fontFamily: "'DM Serif Display', Georgia, serif" }}
-            >
+            <h1 className="font-display font-normal text-[1.75rem] sm:text-[2.5rem] leading-[1.05] text-foreground text-balance tracking-[-0.02em]">
               {episode.title}
             </h1>
+            <p className="text-[13px] text-muted-foreground tracking-[0.04em] mt-4">
+              {episode.category}{episode.duration ? ` · ${episode.duration}` : ""} · Sandalwood & Sage
+            </p>
           </header>
 
           {episode.video_url && (
@@ -131,7 +131,7 @@ const EpisodePage = () => {
               <p className="text-[10px] font-semibold text-section-label uppercase tracking-[0.22em]">
                 The question
               </p>
-              <p className="text-[0.9rem] sm:text-base text-foreground leading-[1.6] sm:leading-[1.65] text-pretty">
+              <p className="font-serif text-[0.9rem] sm:text-base text-foreground leading-[1.6] sm:leading-[1.65] text-pretty">
                 {episode.question}
               </p>
             </div>
@@ -140,7 +140,7 @@ const EpisodePage = () => {
               <p className="text-[10px] font-semibold text-section-label uppercase tracking-[0.22em]">
                 Summary
               </p>
-              <p className="text-[0.875rem] sm:text-[0.95rem] text-muted-foreground leading-[1.65] sm:leading-[1.7] text-pretty">
+              <p className="font-serif text-[0.875rem] sm:text-[0.95rem] text-muted-foreground leading-[1.65] sm:leading-[1.7] text-pretty">
                 {episode.summary}
               </p>
             </div>
@@ -150,7 +150,7 @@ const EpisodePage = () => {
                 <p className="text-[10px] font-semibold text-section-label uppercase tracking-[0.22em]">
                   Key points
                 </p>
-                <ul className="space-y-2">
+                <ul className="font-serif space-y-2">
                   {episode.keyPoints.map((point, idx) => (
                     <li key={idx} className="text-[0.875rem] sm:text-[0.95rem] text-muted-foreground leading-[1.6] sm:leading-[1.65] flex gap-2.5">
                       <span className="mt-[0.55rem] h-1 w-1 rounded-full bg-primary shrink-0" aria-hidden />

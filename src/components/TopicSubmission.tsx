@@ -50,7 +50,7 @@ const TopicSubmission = () => {
       <p className="text-[11px] sm:text-xs font-medium uppercase tracking-[0.18em] text-section-label mb-2">
         Suggest a Topic
       </p>
-      <p className="text-sm sm:text-[0.95rem] text-muted-foreground mb-5 sm:mb-6 max-w-lg leading-relaxed">
+      <p className="font-serif text-sm sm:text-[0.95rem] text-muted-foreground mb-5 sm:mb-6 max-w-lg leading-relaxed">
         Have a question you think deserves two sides? Send it through and it may feature in a future episode.
       </p>
 

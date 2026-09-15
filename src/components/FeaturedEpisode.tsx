@@ -107,7 +107,8 @@ const FeaturedEpisode = () => {
               src={episode.cover_image_url}
               alt={episode.title}
               className="w-full h-full object-cover"
-              loading="lazy"
+              loading="eager"
+              fetchPriority="high"
             />
           </div>
         )}
@@ -118,7 +119,7 @@ const FeaturedEpisode = () => {
           <h2 className="text-[1.15rem] sm:text-2xl md:text-3xl lg:text-[2.25rem] text-card-foreground leading-[1.18] text-balance">
             {episode.title}
           </h2>
-          <p className="mt-2 sm:mt-4 text-[0.85rem] sm:text-base text-muted-foreground leading-[1.6] sm:leading-relaxed max-w-2xl text-pretty line-clamp-3 sm:line-clamp-none">
+          <p className="font-serif mt-2 sm:mt-4 text-[0.85rem] sm:text-base text-muted-foreground leading-[1.6] sm:leading-relaxed max-w-2xl text-pretty line-clamp-3 sm:line-clamp-none">
             {episode.summary}
           </p>
         </div>
@@ -132,8 +133,7 @@ const FeaturedEpisode = () => {
                 {episode.category}
               </span>
               <DialogTitle
-                className="font-serif text-[1.25rem] sm:text-[1.75rem] leading-[1.2] sm:leading-[1.15] text-foreground text-balance font-normal tracking-tight pr-6"
-                style={{ fontFamily: "'DM Serif Display', Georgia, serif" }}
+                className="font-display text-[1.25rem] sm:text-[1.75rem] leading-[1.2] sm:leading-[1.15] text-foreground text-balance font-normal tracking-tight pr-6"
               >
                 {episode.title}
               </DialogTitle>
@@ -163,7 +163,7 @@ const FeaturedEpisode = () => {
                 <p className="text-[10px] font-semibold text-section-label uppercase tracking-[0.22em]">
                   The question
                 </p>
-                <p className="text-[0.9rem] sm:text-base text-foreground leading-[1.6] sm:leading-[1.65] text-pretty">
+                <p className="font-serif text-[0.9rem] sm:text-base text-foreground leading-[1.6] sm:leading-[1.65] text-pretty">
                   {episode.question}
                 </p>
               </div>
@@ -172,7 +172,7 @@ const FeaturedEpisode = () => {
                 <p className="text-[10px] font-semibold text-section-label uppercase tracking-[0.22em]">
                   Summary
                 </p>
-                <p className="text-[0.875rem] sm:text-[0.95rem] text-muted-foreground leading-[1.65] sm:leading-[1.7] text-pretty">
+                <p className="font-serif text-[0.875rem] sm:text-[0.95rem] text-muted-foreground leading-[1.65] sm:leading-[1.7] text-pretty">
                   {episode.summary}
                 </p>
               </div>
