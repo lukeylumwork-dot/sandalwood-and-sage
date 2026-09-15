@@ -13,34 +13,38 @@ div[id] {
 
 @layer base {
   :root {
-    --background: 40 20% 97%;
-    --foreground: 30 10% 12%;
+    /* Sandalwood & Sage — the paper world. Rebased on Gareth's brand
+       hexes (green #356901 / navy #1b323e / cream #fff4ce). */
+    --background: 44 47% 96%;
+    --foreground: 68 37% 9%;
 
-    --card: 40 20% 100%;
-    --card-foreground: 30 10% 12%;
+    --card: 47 60% 98%;
+    --card-foreground: 68 37% 9%;
 
-    --popover: 40 20% 100%;
-    --popover-foreground: 30 10% 12%;
+    --popover: 47 60% 98%;
+    --popover-foreground: 68 37% 9%;
 
-    --primary: 150 30% 35%;
+    --primary: 91 98% 21%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 40 14% 92%;
-    --secondary-foreground: 30 10% 12%;
+    --secondary: 47 41% 91%;
+    --secondary-foreground: 66 20% 20%;
 
-    --muted: 40 14% 92%;
-    --muted-foreground: 30 8% 46%;
-    --section-label: 30 12% 38%;
+    --muted: 47 41% 91%;
+    --muted-foreground: 65 11% 43%;
+    --section-label: 66 16% 29%;
+    --accent-warm: 44 100% 27%;
 
-    --accent: 150 30% 35%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 83 32% 90%;
+    --accent-foreground: 68 37% 9%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 40 40% 98%;
+    --destructive: 0 96% 30%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 40 12% 87%;
-    --input: 40 12% 87%;
-    --ring: 150 30% 35%;
+    --border: 47 34% 85%;
+    --border-strong: 46 27% 78%;
+    --input: 47 34% 85%;
+    --ring: 91 98% 21%;
 
     --radius: 0.5rem;
 
@@ -55,26 +59,29 @@ div[id] {
   }
 
   .dark {
+    /* The ink world — ground is brand navy, plum is the deepest well. */
     --background: 201 39% 17%;
-    --foreground: 40 14% 92%;
-    --card: 201 39% 21%;
-    --card-foreground: 40 14% 92%;
-    --popover: 201 39% 21%;
-    --popover-foreground: 40 14% 92%;
-    --primary: 150 32% 55%;
-    --primary-foreground: 201 39% 12%;
-    --secondary: 201 30% 25%;
-    --secondary-foreground: 40 14% 92%;
-    --muted: 201 30% 25%;
-    --muted-foreground: 201 15% 72%;
-    --section-label: 201 20% 76%;
-    --accent: 150 32% 55%;
-    --accent-foreground: 201 39% 12%;
-    --destructive: 0 62.8% 40%;
-    --destructive-foreground: 40 40% 98%;
-    --border: 201 25% 28%;
-    --input: 201 25% 28%;
-    --ring: 150 32% 55%;
+    --foreground: 47 100% 90%;
+    --card: 200 34% 23%;
+    --card-foreground: 47 100% 90%;
+    --popover: 200 34% 23%;
+    --popover-foreground: 47 100% 90%;
+    --primary: 86 41% 51%;
+    --primary-foreground: 95 65% 7%;
+    --secondary: 200 30% 28%;
+    --secondary-foreground: 43 19% 93%;
+    --muted: 200 30% 28%;
+    --muted-foreground: 200 12% 69%;
+    --section-label: 197 12% 73%;
+    --accent-warm: 46 100% 50%;
+    --accent: 101 42% 18%;
+    --accent-foreground: 43 19% 93%;
+    --destructive: 0 96% 30%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 200 27% 29%;
+    --border-strong: 200 25% 35%;
+    --input: 200 27% 29%;
+    --ring: 86 41% 51%;
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -92,13 +99,11 @@ div[id] {
   }
 
   body {
-    @apply bg-background text-foreground antialiased;
-    font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+    @apply bg-background text-foreground antialiased font-sans;
   }
 
   h1, h2, h3, h4 {
-    @apply tracking-tight;
-    font-family: 'DM Serif Display', Georgia, serif;
+    @apply tracking-tight font-display font-normal;
   }
 }
 

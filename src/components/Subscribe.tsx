@@ -52,7 +52,7 @@ const Subscribe = () => {
       <h2 className="text-2xl sm:text-3xl text-foreground mb-2 leading-tight">
         Never miss an episode
       </h2>
-      <p className="text-sm sm:text-[0.95rem] text-muted-foreground mb-6 sm:mb-8 max-w-lg leading-relaxed">
+      <p className="font-serif text-sm sm:text-[0.95rem] text-muted-foreground mb-6 sm:mb-8 max-w-lg leading-relaxed">
         Follow Sandalwood & Sage on your favourite platform, or join the mailing list to get new episodes delivered to your inbox.
       </p>
 
@@ -99,10 +99,10 @@ const Subscribe = () => {
 
         {/* Mailing list */}
         <div className="rounded-xl border bg-card p-5 sm:p-6">
-          <h3 className="text-sm font-semibold text-card-foreground mb-1" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+          <h3 className="text-sm font-semibold text-card-foreground mb-1">
             Join the mailing list
           </h3>
-          <p className="text-xs text-muted-foreground mb-4 leading-relaxed">
+          <p className="font-serif text-xs text-muted-foreground mb-4 leading-relaxed">
             New episodes, straight to your inbox. No spam.
           </p>
           {submitted ? (

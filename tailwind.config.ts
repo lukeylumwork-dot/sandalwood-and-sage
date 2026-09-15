@@ -14,8 +14,14 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        sans: ["Archivo", "Helvetica Neue", "Helvetica", "Arial", "sans-serif"],
+        serif: ["Newsreader", "Georgia", "Times New Roman", "serif"],
+        display: ["DM Serif Display", "Georgia", "serif"],
+      },
       colors: {
         border: "hsl(var(--border))",
+        "border-strong": "hsl(var(--border-strong))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
@@ -37,6 +43,7 @@ export default {
           foreground: "hsl(var(--muted-foreground))",
         },
         "section-label": "hsl(var(--section-label))",
+        "accent-warm": "hsl(var(--accent-warm))",
         accent: {
           DEFAULT: "hsl(var(--accent))",
           foreground: "hsl(var(--accent-foreground))",
