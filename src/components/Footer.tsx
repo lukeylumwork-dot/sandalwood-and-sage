@@ -32,7 +32,7 @@ const Footer = () => (
           <a href="/" aria-label="Sandalwood & Sage home">
             <img src={logo} alt="Sandalwood & Sage" className="h-7 w-auto" />
           </a>
-          <p className="text-[0.7rem] sm:text-xs text-muted-foreground leading-relaxed max-w-[18ch]">
+          <p className="font-serif text-[0.7rem] sm:text-xs text-muted-foreground leading-relaxed max-w-[18ch]">
             Two sides. One question. You decide.
           </p>
           <div className="flex items-center gap-3.5 mt-1">
@@ -113,10 +113,10 @@ const Footer = () => (
           <Accordion type="single" collapsible className="w-full">
             {faqItems.slice(0, 4).map((item, i) => (
               <AccordionItem key={i} value={`faq-${i}`} className="border-border/60">
-                <AccordionTrigger className="text-xs text-muted-foreground hover:text-foreground py-3 text-left leading-snug hover:no-underline">
+                <AccordionTrigger className="font-serif text-xs text-muted-foreground hover:text-foreground py-3 text-left leading-snug hover:no-underline">
                   {item.q}
                 </AccordionTrigger>
-                <AccordionContent className="text-[0.7rem] sm:text-xs text-muted-foreground leading-relaxed pb-3">
+                <AccordionContent className="font-serif text-[0.7rem] sm:text-xs text-muted-foreground leading-relaxed pb-3">
                   {item.a}
                 </AccordionContent>
               </AccordionItem>

@@ -26,20 +26,25 @@ export interface Episode {
 
 const categories = ["All", "Current Affairs", "Society", "Politics", "Sport"];
 
-const EpisodeCard = memo(({ ep }: { ep: Episode }) => (
+const EpisodeCard = memo(({ ep, index }: { ep: Episode; index: number }) => (
   <Link
     to={`/episode/${toEpisodeSlug(ep.title)}`}
-    className="group flex flex-col gap-2 rounded-xl border bg-card p-3.5 sm:p-5 text-left transition-all hover:border-primary/40 hover:shadow-sm sm:flex-row sm:items-start sm:justify-between active:scale-[0.995]"
+    className="group grid grid-cols-[auto_1fr] items-baseline gap-4 border-t border-border py-5 pl-1 pr-1 text-left transition-[padding] hover:pl-3 sm:grid-cols-[auto_1fr_auto] sm:gap-6"
   >
-    <div className="min-w-0 flex-1">
-      <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.16em] text-primary block mb-1">{ep.category}</span>
-      <h3 className="text-[1.05rem] sm:text-[1.1rem] font-semibold text-card-foreground leading-[1.25] group-hover:text-primary transition-colors text-pretty mb-1.5" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+    <span className="min-w-[22px] text-xs font-medium text-muted-foreground transition-colors group-hover:text-primary">
+      {String(index).padStart(2, "0")}
+    </span>
+    <div className="min-w-0">
+      <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary block mb-1.5">{ep.category}</span>
+      <h3 className="font-display font-normal text-[1.3rem] sm:text-[1.5rem] text-card-foreground leading-[1.14] tracking-[-0.015em] group-hover:text-primary transition-colors text-pretty">
         {ep.title}
       </h3>
-      <p className="text-[0.8rem] text-muted-foreground leading-[1.5] line-clamp-2">{ep.premise}</p>
+      {ep.premise && (
+        <p className="font-serif mt-2 text-sm text-muted-foreground leading-[1.6] max-w-[60ch] line-clamp-2">{ep.premise}</p>
+      )}
     </div>
     {ep.duration && (
-      <p className="mt-1 flex shrink-0 items-center gap-1 text-xs text-muted-foreground sm:mt-0 sm:ml-4">
+      <p className="col-span-2 mt-1 flex shrink-0 items-center gap-1 text-xs text-muted-foreground sm:col-span-1 sm:mt-0 sm:justify-self-end">
         <Clock size={12} /> {ep.duration}
       </p>
     )}
@@ -120,14 +125,13 @@ const EpisodesList = () => {
       <h2 className="text-[1.5rem] sm:text-3xl text-foreground mb-4 sm:mb-6 leading-tight">All episodes</h2>
 
       <div className="relative mb-3">
-        <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+        <Search size={16} className="absolute left-[15px] top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" />
         <input
           type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Search episodes…"
-          className="w-full rounded-lg border border-border bg-card pl-9 pr-3 py-2.5 text-[0.9rem] sm:text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring"
-          style={{ fontFamily: "'DM Sans', sans-serif" }}
+          className="w-full h-[50px] rounded-md border border-border bg-card pl-[42px] pr-4 text-[0.9rem] sm:text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/40 focus:border-primary transition-colors font-sans"
         />
       </div>
 
@@ -147,12 +151,13 @@ const EpisodesList = () => {
         ))}
       </div>
 
-      <div className="grid gap-2 sm:gap-2.5">
-        {filtered.map((ep) => (
-          <EpisodeCard key={ep.id} ep={ep} />
+      <div>
+        {filtered.map((ep, i) => (
+          <EpisodeCard key={ep.id} ep={ep} index={i + 1} />
         ))}
+        <div className="border-t border-border" />
         {filtered.length === 0 && (
-          <p className="text-sm text-muted-foreground py-8 text-center">No episodes found.</p>
+          <p className="font-serif text-sm text-muted-foreground py-8 text-center">No episodes found.</p>
         )}
       </div>
     </section>

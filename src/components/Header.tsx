@@ -18,20 +18,23 @@ const Header = () => {
   return (
     <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
       <div className="mx-auto flex max-w-4xl items-center justify-between px-5 py-4">
-        <a href="#" aria-label="Sandalwood & Sage home" className="flex items-center">
+        <a href="#" aria-label="Sandalwood & Sage home" className="flex items-center gap-3">
           <img
             src={logo}
             alt="Sandalwood & Sage"
-            className="h-10 w-auto"
+            className="h-8 w-auto"
           />
+          <span className="hidden font-display text-lg tracking-tight text-foreground sm:inline">
+            Sandalwood &amp; Sage
+          </span>
         </a>
 
-        <nav className="hidden items-center gap-6 md:flex">
+        <nav className="hidden items-center gap-7 md:flex">
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+              className="text-[14.5px] text-muted-foreground transition-colors hover:text-foreground"
             >
               {link.label}
             </a>
