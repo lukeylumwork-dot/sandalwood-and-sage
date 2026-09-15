@@ -107,7 +107,8 @@ const FeaturedEpisode = () => {
               src={episode.cover_image_url}
               alt={episode.title}
               className="w-full h-full object-cover"
-              loading="lazy"
+              loading="eager"
+              fetchPriority="high"
             />
           </div>
         )}
