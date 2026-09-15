@@ -46,7 +46,7 @@ const Subscribe = () => {
 
   return (
     <section id="subscribe" className="mx-auto max-w-4xl px-4 py-7 sm:px-5 sm:py-10">
-      <p className="text-[11px] sm:text-xs font-medium uppercase tracking-[0.18em] text-section-label mb-2">
+      <p className="text-[12px] sm:text-[13px] font-medium uppercase tracking-[0.18em] text-section-label mb-2">
         Subscribe
       </p>
       <h2 className="text-2xl sm:text-3xl text-foreground mb-2 leading-tight">
@@ -59,7 +59,7 @@ const Subscribe = () => {
       <div className="grid gap-6 sm:gap-8 md:grid-cols-2">
         {/* Platforms */}
         <div>
-          <p className="text-[10px] font-semibold text-section-label mb-3 uppercase tracking-[0.16em]">Platforms</p>
+          <p className="text-[12px] font-semibold text-section-label mb-3 uppercase tracking-[0.16em]">Platforms</p>
           <div className="flex flex-wrap gap-2">
             {platforms.map((p) => (
               <Button
@@ -73,7 +73,7 @@ const Subscribe = () => {
                 {p.coming ? (
                   <span className="flex items-center gap-1.5">
                     {p.label}
-                    <span className="text-[10px] text-muted-foreground font-normal ml-1">Soon</span>
+                    <span className="text-[12px] text-muted-foreground font-normal ml-1">Soon</span>
                   </span>
                 ) : (
                   <a href={p.href} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5">
@@ -88,12 +88,12 @@ const Subscribe = () => {
               href={rssUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-[11px] text-muted-foreground hover:text-foreground transition-colors"
+              className="inline-flex items-center gap-1 text-[12px] text-muted-foreground hover:text-foreground transition-colors"
             >
               <Rss size={11} />
               RSS Feed
             </a>
-            <span className="text-[10px] text-muted-foreground/60">· for podcast apps &amp; RSS readers</span>
+            <span className="text-[12px] text-muted-foreground">· for podcast apps &amp; RSS readers</span>
           </div>
         </div>
 
@@ -102,7 +102,7 @@ const Subscribe = () => {
           <h3 className="text-sm font-semibold text-card-foreground mb-1">
             Join the mailing list
           </h3>
-          <p className="font-serif text-xs text-muted-foreground mb-4 leading-relaxed">
+          <p className="font-serif text-[13px] text-muted-foreground mb-4 leading-relaxed">
             New episodes, straight to your inbox. No spam.
           </p>
           {submitted ? (

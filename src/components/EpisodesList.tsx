@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo, memo } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Clock, Search } from "lucide-react";
+import { ArrowRight, Clock, Search } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { findEpisodeFromSearchParams, toEpisodeSlug } from "@/lib/episode-links";
 
@@ -26,6 +26,18 @@ export interface Episode {
 
 const categories = ["All", "Current Affairs", "Society", "Politics", "Sport"];
 
+/** How many episodes the homepage shows before sending readers to the archive. */
+export const HOMEPAGE_EPISODE_LIMIT = 10;
+
+interface EpisodesListProps {
+  /** Cap the rendered list; omit to show the full archive. */
+  limit?: number;
+  /** Search box and category pills. Off on the homepage, where the list is capped. */
+  showFilters?: boolean;
+  eyebrow?: string;
+  heading?: string;
+}
+
 const EpisodeCard = memo(({ ep, index }: { ep: Episode; index: number }) => (
   <Link
     to={`/episode/${toEpisodeSlug(ep.title)}`}
@@ -35,7 +47,7 @@ const EpisodeCard = memo(({ ep, index }: { ep: Episode; index: number }) => (
       {String(index).padStart(2, "0")}
     </span>
     <div className="min-w-0">
-      <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary block mb-1.5">{ep.category}</span>
+      <span className="text-[12px] font-semibold uppercase tracking-[0.18em] text-primary block mb-1.5">{ep.category}</span>
       <h3 className="font-display font-normal text-[1.3rem] sm:text-[1.5rem] text-card-foreground leading-[1.14] tracking-[-0.015em] group-hover:text-primary transition-colors text-pretty">
         {ep.title}
       </h3>
@@ -44,7 +56,7 @@ const EpisodeCard = memo(({ ep, index }: { ep: Episode; index: number }) => (
       )}
     </div>
     {ep.duration && (
-      <p className="col-span-2 mt-1 flex shrink-0 items-center gap-1 text-xs text-muted-foreground sm:col-span-1 sm:mt-0 sm:justify-self-end">
+      <p className="col-span-2 mt-1 flex shrink-0 items-center gap-1 text-[13px] text-muted-foreground sm:col-span-1 sm:mt-0 sm:justify-self-end">
         <Clock size={12} /> {ep.duration}
       </p>
     )}
@@ -53,7 +65,12 @@ const EpisodeCard = memo(({ ep, index }: { ep: Episode; index: number }) => (
 
 EpisodeCard.displayName = "EpisodeCard";
 
-const EpisodesList = () => {
+const EpisodesList = ({
+  limit,
+  showFilters = true,
+  eyebrow = "Episodes",
+  heading = "All episodes",
+}: EpisodesListProps = {}) => {
   const navigate = useNavigate();
   const [activeFilter, setActiveFilter] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
@@ -117,13 +134,18 @@ const EpisodesList = () => {
     return result;
   }, [dbEpisodes, activeFilter, searchQuery]);
 
+  const visible = limit ? filtered.slice(0, limit) : filtered;
+  const hasMore = limit !== undefined && filtered.length > limit;
+
   return (
     <section id="episodes" className="mx-auto max-w-4xl px-4 py-7 sm:px-5 sm:py-10">
-      <p className="text-[10px] sm:text-xs font-medium uppercase tracking-[0.22em] text-section-label mb-2">
-        Episodes
+      <p className="text-[12px] sm:text-[13px] font-medium uppercase tracking-[0.22em] text-section-label mb-2">
+        {eyebrow}
       </p>
-      <h2 className="text-[1.5rem] sm:text-3xl text-foreground mb-4 sm:mb-6 leading-tight">All episodes</h2>
+      <h2 className="text-[1.5rem] sm:text-3xl text-foreground mb-4 sm:mb-6 leading-tight">{heading}</h2>
 
+      {showFilters && (
+        <>
       <div className="relative mb-3">
         <Search size={16} className="absolute left-[15px] top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" />
         <input
@@ -140,7 +162,7 @@ const EpisodesList = () => {
           <button
             key={cat}
             onClick={() => setActiveFilter(cat)}
-            className={`shrink-0 rounded-full border px-3 sm:px-4 py-1.5 text-[11px] sm:text-xs font-medium transition-colors ${
+            className={`shrink-0 rounded-full border px-3 sm:px-4 py-1.5 text-[12px] sm:text-[13px] font-medium transition-colors ${
               activeFilter === cat
                 ? "bg-primary text-primary-foreground border-primary"
                 : "bg-card text-muted-foreground border-border hover:text-foreground hover:border-foreground/30"
@@ -150,9 +172,11 @@ const EpisodesList = () => {
           </button>
         ))}
       </div>
+        </>
+      )}
 
       <div>
-        {filtered.map((ep, i) => (
+        {visible.map((ep, i) => (
           <EpisodeCard key={ep.id} ep={ep} index={i + 1} />
         ))}
         <div className="border-t border-border" />
@@ -160,6 +184,18 @@ const EpisodesList = () => {
           <p className="font-serif text-sm text-muted-foreground py-8 text-center">No episodes found.</p>
         )}
       </div>
+
+      {hasMore && (
+        <div className="mt-6 sm:mt-8 flex justify-center">
+          <Link
+            to="/episodes"
+            className="inline-flex items-center gap-2 rounded-md border border-border-strong bg-card px-5 py-3 text-sm font-medium text-foreground transition-colors hover:border-primary hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          >
+            View all {filtered.length} episodes
+            <ArrowRight size={16} aria-hidden="true" />
+          </Link>
+        </div>
+      )}
     </section>
   );
 };

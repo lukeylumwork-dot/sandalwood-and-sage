@@ -105,7 +105,7 @@ const AudioPlayer = ({ label, src }: AudioPlayerProps) => {
             style={{ width: `${progress}%` }}
           />
         </div>
-        <div className="flex justify-between text-[10px] tabular-nums text-muted-foreground">
+        <div className="flex justify-between text-[12px] tabular-nums text-muted-foreground">
           <span>{formatTime(currentTime)}</span>
           <span>{duration ? formatTime(duration) : "—"}</span>
         </div>

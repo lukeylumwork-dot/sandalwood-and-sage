@@ -93,7 +93,7 @@ const FeaturedEpisode = () => {
 
   return (
     <section id="featured" className="mx-auto max-w-4xl px-4 pt-1 pb-7 sm:px-5 sm:pt-3 sm:pb-10">
-      <p className="text-[10px] sm:text-xs font-medium uppercase tracking-[0.22em] text-section-label mb-2.5 sm:mb-3">
+      <p className="text-[12px] sm:text-[13px] font-medium uppercase tracking-[0.22em] text-section-label mb-2.5 sm:mb-3">
         Latest Episode
       </p>
 
@@ -113,7 +113,7 @@ const FeaturedEpisode = () => {
           </div>
         )}
         <div className="p-4 sm:p-7 md:p-9">
-          <span className="inline-block text-[10px] sm:text-[11px] font-semibold text-primary mb-1.5 sm:mb-2 uppercase tracking-[0.18em]">
+          <span className="inline-block text-[12px] sm:text-[13px] font-semibold text-primary mb-1.5 sm:mb-2 uppercase tracking-[0.18em]">
             {episode.category}
           </span>
           <h2 className="text-[1.15rem] sm:text-2xl md:text-3xl lg:text-[2.25rem] text-card-foreground leading-[1.18] text-balance">
@@ -129,7 +129,7 @@ const FeaturedEpisode = () => {
         <DialogContent className="w-[calc(100vw-1rem)] sm:w-full max-w-xl dark bg-background border-border max-h-[92vh] overflow-y-auto p-0 gap-0 rounded-xl">
           <article>
             <DialogHeader className="px-4 sm:px-7 pt-5 sm:pt-7 pb-4 sm:pb-5 border-b border-border/70 space-y-1.5 sm:space-y-2 text-left">
-              <span className="text-[10px] font-semibold text-primary block uppercase tracking-[0.22em]">
+              <span className="text-[12px] font-semibold text-primary block uppercase tracking-[0.22em]">
                 {episode.category}
               </span>
               <DialogTitle
@@ -160,7 +160,7 @@ const FeaturedEpisode = () => {
               )}
 
               <div className="space-y-2">
-                <p className="text-[10px] font-semibold text-section-label uppercase tracking-[0.22em]">
+                <p className="text-[12px] font-semibold text-section-label uppercase tracking-[0.22em]">
                   The question
                 </p>
                 <p className="font-serif text-[0.9rem] sm:text-base text-foreground leading-[1.6] sm:leading-[1.65] text-pretty">
@@ -169,7 +169,7 @@ const FeaturedEpisode = () => {
               </div>
 
               <div className="space-y-2">
-                <p className="text-[10px] font-semibold text-section-label uppercase tracking-[0.22em]">
+                <p className="text-[12px] font-semibold text-section-label uppercase tracking-[0.22em]">
                   Summary
                 </p>
                 <p className="font-serif text-[0.875rem] sm:text-[0.95rem] text-muted-foreground leading-[1.65] sm:leading-[1.7] text-pretty">
