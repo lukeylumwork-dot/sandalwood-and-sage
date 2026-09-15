@@ -31,7 +31,7 @@ const credo = [
 
 const HowItWorks = () => (
   <section id="how-it-works" className="mx-auto max-w-4xl px-4 py-7 sm:px-5 sm:py-10">
-    <p className="text-[11px] sm:text-xs font-medium uppercase tracking-[0.18em] text-section-label mb-2">
+    <p className="text-[12px] sm:text-[13px] font-medium uppercase tracking-[0.18em] text-section-label mb-2">
       How it Works
     </p>
     <h2 className="text-2xl sm:text-3xl text-foreground mb-6 sm:mb-8 leading-tight">
@@ -51,7 +51,7 @@ const HowItWorks = () => (
 
     <div className="mt-8 sm:mt-10 grid gap-6 md:grid-cols-2">
       <div className="flex flex-col">
-        <p className="text-[11px] sm:text-xs font-medium uppercase tracking-[0.18em] text-section-label mb-2">
+        <p className="text-[12px] sm:text-[13px] font-medium uppercase tracking-[0.18em] text-section-label mb-2">
           Our Credo
         </p>
         <h3 className="font-display font-normal text-2xl sm:text-3xl text-foreground mb-4 sm:mb-5 leading-tight">
@@ -73,7 +73,7 @@ const HowItWorks = () => (
       </div>
 
       <div className="flex flex-col">
-        <p className="text-[11px] sm:text-xs font-medium uppercase tracking-[0.18em] text-section-label mb-2">
+        <p className="text-[12px] sm:text-[13px] font-medium uppercase tracking-[0.18em] text-section-label mb-2">
           How we do it
         </p>
         <h3 className="font-display font-normal text-2xl sm:text-3xl text-foreground mb-4 sm:mb-5 leading-tight">

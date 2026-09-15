@@ -15,9 +15,9 @@ const SpotifyIcon = ({ size = 16 }: { size?: number }) => (
   </svg>
 );
 
-const navLinks = [
+const navLinks: { label: string; href: string; route?: boolean }[] = [
   { label: "Latest Episode", href: "/#featured" },
-  { label: "All Episodes", href: "/#episodes" },
+  { label: "All Episodes", href: "/episodes", route: true },
   { label: "Subscribe", href: "/#subscribe" },
   { label: "Suggest a Topic", href: "/#suggest" },
   { label: "How it Works", href: "/#how-it-works" },
@@ -32,7 +32,7 @@ const Footer = () => (
           <a href="/" aria-label="Sandalwood & Sage home">
             <img src={logo} alt="Sandalwood & Sage" width={78} height={28} className="h-7 w-auto" />
           </a>
-          <p className="font-serif text-[0.7rem] sm:text-xs text-muted-foreground leading-relaxed max-w-[18ch]">
+          <p className="font-serif text-[13px] sm:text-sm text-muted-foreground leading-relaxed max-w-[18ch]">
             Two sides. One question. You decide.
           </p>
           <div className="flex items-center gap-3.5 mt-1">
@@ -77,21 +77,31 @@ const Footer = () => (
 
         {/* Nav */}
         <div className="flex flex-col gap-2">
-          <p className="text-[10px] font-semibold text-section-label uppercase tracking-[0.18em] mb-1">
+          <p className="text-[12px] font-semibold text-section-label uppercase tracking-[0.18em] mb-1">
             Navigate
           </p>
-          {navLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="text-xs text-muted-foreground hover:text-foreground transition-colors py-0.5"
-            >
-              {link.label}
-            </a>
-          ))}
+          {navLinks.map((link) =>
+            link.route ? (
+              <Link
+                key={link.href}
+                to={link.href}
+                className="text-[13px] text-muted-foreground hover:text-foreground transition-colors py-0.5"
+              >
+                {link.label}
+              </Link>
+            ) : (
+              <a
+                key={link.href}
+                href={link.href}
+                className="text-[13px] text-muted-foreground hover:text-foreground transition-colors py-0.5"
+              >
+                {link.label}
+              </a>
+            ),
+          )}
           <a
             href="mailto:hello@sandalwoodandsage.com"
-            className="text-xs text-muted-foreground hover:text-foreground transition-colors py-0.5 mt-1"
+            className="text-[13px] text-muted-foreground hover:text-foreground transition-colors py-0.5 mt-1"
           >
             hello@sandalwoodandsage.com
           </a>
@@ -100,12 +110,12 @@ const Footer = () => (
         {/* FAQ */}
         <div>
           <div className="flex items-center justify-between mb-1">
-            <p className="text-[10px] font-semibold text-section-label uppercase tracking-[0.18em]">
+            <p className="text-[12px] font-semibold text-section-label uppercase tracking-[0.18em]">
               FAQ
             </p>
             <Link
               to="/faq"
-              className="text-[10px] text-muted-foreground hover:text-foreground transition-colors"
+              className="text-[12px] text-muted-foreground hover:text-foreground transition-colors"
             >
               See all →
             </Link>
@@ -113,10 +123,10 @@ const Footer = () => (
           <Accordion type="single" collapsible className="w-full">
             {faqItems.slice(0, 4).map((item, i) => (
               <AccordionItem key={i} value={`faq-${i}`} className="border-border/60">
-                <AccordionTrigger className="font-serif text-xs text-muted-foreground hover:text-foreground py-3 text-left leading-snug hover:no-underline">
+                <AccordionTrigger className="font-serif text-[13px] text-muted-foreground hover:text-foreground py-3 text-left leading-snug hover:no-underline">
                   {item.q}
                 </AccordionTrigger>
-                <AccordionContent className="font-serif text-[0.7rem] sm:text-xs text-muted-foreground leading-relaxed pb-3">
+                <AccordionContent className="font-serif text-[13px] sm:text-sm text-muted-foreground leading-relaxed pb-3">
                   {item.a}
                 </AccordionContent>
               </AccordionItem>
@@ -124,14 +134,14 @@ const Footer = () => (
           </Accordion>
           <Link
             to="/faq"
-            className="inline-block mt-3 text-[10px] text-muted-foreground hover:text-foreground transition-colors"
+            className="inline-block mt-3 text-[12px] text-muted-foreground hover:text-foreground transition-colors"
           >
             View all FAQs →
           </Link>
         </div>
       </div>
 
-      <div className="mt-8 pt-5 border-t border-border/60 text-[0.65rem] sm:text-[0.7rem] text-muted-foreground">
+      <div className="mt-8 pt-5 border-t border-border/60 text-[12px] sm:text-[13px] text-muted-foreground">
         © {new Date().getFullYear()} Sandalwood &amp; Sage. All rights reserved.
       </div>
     </div>

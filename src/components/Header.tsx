@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Menu, X, Rss } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ThemeToggle from "@/components/ThemeToggle";
@@ -6,10 +7,10 @@ import logo from "@/assets/logo-dark.svg";
 
 const rssUrl = "/feed.xml";
 
-const navLinks = [
-  { label: "Latest", href: "#featured" },
-  { label: "Episodes", href: "#episodes" },
-  { label: "How it Works", href: "#how-it-works" },
+const navLinks: { label: string; href: string; route?: boolean }[] = [
+  { label: "Latest", href: "/#featured" },
+  { label: "Episodes", href: "/episodes", route: true },
+  { label: "How it Works", href: "/#how-it-works" },
 ];
 
 const Header = () => {
@@ -32,15 +33,25 @@ const Header = () => {
         </a>
 
         <nav className="hidden items-center gap-7 md:flex">
-          {navLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="text-[14.5px] text-muted-foreground transition-colors hover:text-foreground"
-            >
-              {link.label}
-            </a>
-          ))}
+          {navLinks.map((link) =>
+            link.route ? (
+              <Link
+                key={link.href}
+                to={link.href}
+                className="text-[15px] text-muted-foreground transition-colors hover:text-foreground"
+              >
+                {link.label}
+              </Link>
+            ) : (
+              <a
+                key={link.href}
+                href={link.href}
+                className="text-[15px] text-muted-foreground transition-colors hover:text-foreground"
+              >
+                {link.label}
+              </a>
+            ),
+          )}
           <a href={rssUrl} target="_blank" rel="noopener noreferrer" aria-label="RSS Feed" className="text-muted-foreground hover:text-foreground transition-colors">
             <Rss size={16} />
           </a>
@@ -62,16 +73,27 @@ const Header = () => {
       {mobileOpen && (
         <nav className="border-t px-5 pb-4 pt-2 md:hidden">
           <div className="flex flex-col gap-3">
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="text-sm text-muted-foreground py-1"
-                onClick={() => setMobileOpen(false)}
-              >
-                {link.label}
-              </a>
-            ))}
+            {navLinks.map((link) =>
+              link.route ? (
+                <Link
+                  key={link.href}
+                  to={link.href}
+                  className="text-[15px] text-muted-foreground py-1"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  {link.label}
+                </Link>
+              ) : (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  className="text-[15px] text-muted-foreground py-1"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  {link.label}
+                </a>
+              ),
+            )}
             <div className="flex items-center gap-3 mt-1">
               <ThemeToggle />
               <Button size="sm" className="w-fit" asChild>

@@ -3,7 +3,7 @@ import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import FeaturedEpisode from "@/components/FeaturedEpisode";
 import HowItWorks from "@/components/HowItWorks";
-import EpisodesList from "@/components/EpisodesList";
+import EpisodesList, { HOMEPAGE_EPISODE_LIMIT } from "@/components/EpisodesList";
 import TopicSubmission from "@/components/TopicSubmission";
 import Subscribe from "@/components/Subscribe";
 import Footer from "@/components/Footer";
@@ -21,7 +21,19 @@ const Index = () => {
         <motion.div initial="hidden" animate="visible" variants={section}>
           <Hero />
         </motion.div>
-        {[FeaturedEpisode, EpisodesList, Subscribe, TopicSubmission, HowItWorks].map((Section, i) => (
+        {[
+          <FeaturedEpisode key="featured" />,
+          <EpisodesList
+            key="episodes"
+            limit={HOMEPAGE_EPISODE_LIMIT}
+            showFilters={false}
+            eyebrow="Episodes"
+            heading="Latest episodes"
+          />,
+          <Subscribe key="subscribe" />,
+          <TopicSubmission key="suggest" />,
+          <HowItWorks key="how" />,
+        ].map((Section, i) => (
           <motion.div
             key={i}
             initial="hidden"
@@ -29,7 +41,7 @@ const Index = () => {
             viewport={{ once: true, amount: 0.15 }}
             variants={section}
           >
-            <Section />
+            {Section}
           </motion.div>
         ))}
       </main>

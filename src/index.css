@@ -31,8 +31,9 @@ div[id] {
     --secondary-foreground: 66 20% 20%;
 
     --muted: 47 41% 91%;
-    --muted-foreground: 65 11% 43%;
-    --section-label: 66 16% 29%;
+    /* Darkened for WCAG AA: 4.12:1 -> 5.38:1 on the page ground. */
+    --muted-foreground: 65 13% 36%;
+    --section-label: 66 16% 26%;
     --accent-warm: 44 100% 27%;
 
     --accent: 83 32% 90%;
@@ -60,28 +61,29 @@ div[id] {
 
   .dark {
     /* The ink world — ground is brand navy, plum is the deepest well. */
-    --background: 201 39% 17%;
+    /* Ground dropped from 17% to 13% so every ink level reads harder. */
+    --background: 201 42% 13%;
     --foreground: 47 100% 90%;
-    --card: 200 34% 23%;
+    --card: 200 34% 19%;
     --card-foreground: 47 100% 90%;
-    --popover: 200 34% 23%;
+    --popover: 200 34% 19%;
     --popover-foreground: 47 100% 90%;
-    --primary: 86 41% 51%;
+    --primary: 86 45% 62%;
     --primary-foreground: 95 65% 7%;
-    --secondary: 200 30% 28%;
+    --secondary: 200 30% 24%;
     --secondary-foreground: 43 19% 93%;
-    --muted: 200 30% 28%;
-    --muted-foreground: 200 12% 69%;
-    --section-label: 197 12% 73%;
+    --muted: 200 30% 24%;
+    --muted-foreground: 200 14% 78%;
+    --section-label: 197 14% 82%;
     --accent-warm: 46 100% 50%;
-    --accent: 101 42% 18%;
+    --accent: 101 42% 16%;
     --accent-foreground: 43 19% 93%;
     --destructive: 0 96% 30%;
     --destructive-foreground: 0 0% 100%;
-    --border: 200 27% 29%;
-    --border-strong: 200 25% 35%;
-    --input: 200 27% 29%;
-    --ring: 86 41% 51%;
+    --border: 200 27% 32%;
+    --border-strong: 200 25% 40%;
+    --input: 200 27% 32%;
+    --ring: 86 45% 62%;
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;

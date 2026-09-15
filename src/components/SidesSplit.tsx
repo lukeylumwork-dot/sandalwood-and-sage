@@ -15,7 +15,7 @@ const SidesSplit = ({
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-7">
       {/* Side A */}
       <div className="flex flex-col gap-2 border-t-2 border-primary pt-4">
-        <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-primary">
+        <span className="text-[12px] font-semibold uppercase tracking-[0.16em] text-primary">
           Pro
         </span>
         <p className="text-[0.95rem] font-semibold text-card-foreground leading-snug">
@@ -30,7 +30,7 @@ const SidesSplit = ({
 
       {/* Side B */}
       <div className="flex flex-col gap-2 border-t-2 border-accent-warm pt-4">
-        <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-accent-warm">
+        <span className="text-[12px] font-semibold uppercase tracking-[0.16em] text-accent-warm">
           Con
         </span>
         <p className="text-[0.95rem] font-semibold text-card-foreground leading-snug">
