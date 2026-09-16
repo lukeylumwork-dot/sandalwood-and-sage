@@ -92,10 +92,10 @@ const EpisodePage = () => {
 
         <article>
           <header className="mb-6 sm:mb-8 text-center">
-            <span className="text-[12px] font-semibold text-primary block uppercase tracking-[0.22em] mb-3">
+            <span className="text-[13px] font-semibold text-primary block uppercase tracking-[0.22em] mb-3">
               {episode.category}
             </span>
-            <h1 className="font-display font-normal text-[1.75rem] sm:text-[2.5rem] leading-[1.05] text-foreground text-balance tracking-[-0.02em]">
+            <h1 className="font-display font-normal text-[2rem] sm:text-[3rem] md:text-[3.5rem] leading-[1.05] text-heading text-glow text-balance tracking-[-0.02em]">
               {episode.title}
             </h1>
             <p className="text-[13px] text-muted-foreground tracking-[0.04em] mt-4">
@@ -128,7 +128,7 @@ const EpisodePage = () => {
 
           <div className="space-y-6 sm:space-y-7">
             <div className="space-y-2">
-              <p className="text-[12px] font-semibold text-section-label uppercase tracking-[0.22em]">
+              <p className="text-[13px] font-semibold text-section-label uppercase tracking-[0.22em]">
                 The question
               </p>
               <p className="font-serif text-[0.9rem] sm:text-base text-foreground leading-[1.6] sm:leading-[1.65] text-pretty">
@@ -137,7 +137,7 @@ const EpisodePage = () => {
             </div>
 
             <div className="space-y-2">
-              <p className="text-[12px] font-semibold text-section-label uppercase tracking-[0.22em]">
+              <p className="text-[13px] font-semibold text-section-label uppercase tracking-[0.22em]">
                 Summary
               </p>
               <p className="font-serif text-[0.875rem] sm:text-[0.95rem] text-muted-foreground leading-[1.65] sm:leading-[1.7] text-pretty">
@@ -147,7 +147,7 @@ const EpisodePage = () => {
 
             {episode.keyPoints.length > 0 && (
               <div className="space-y-2.5">
-                <p className="text-[12px] font-semibold text-section-label uppercase tracking-[0.22em]">
+                <p className="text-[13px] font-semibold text-section-label uppercase tracking-[0.22em]">
                   Key points
                 </p>
                 <ul className="font-serif space-y-2">
@@ -163,7 +163,7 @@ const EpisodePage = () => {
           </div>
 
           <div className="flex items-center gap-2 mt-8 pt-4 border-t border-border/70">
-            <span className="text-[12px] font-semibold text-section-label uppercase tracking-[0.22em] mr-1">Share</span>
+            <span className="text-[13px] font-semibold text-section-label uppercase tracking-[0.22em] mr-1">Share</span>
             <Button
               variant="outline"
               size="icon"

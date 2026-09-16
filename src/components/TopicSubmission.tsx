@@ -46,8 +46,8 @@ const TopicSubmission = () => {
   };
 
   return (
-    <section id="suggest" className="mx-auto max-w-4xl px-4 py-7 sm:px-5 sm:py-10">
-      <p className="text-[12px] sm:text-[13px] font-medium uppercase tracking-[0.18em] text-section-label mb-2">
+    <section id="suggest" className="mx-auto max-w-4xl px-4 py-10 sm:px-5 sm:py-14">
+      <p className="text-[13px] sm:text-sm font-semibold uppercase tracking-[0.24em] text-section-label mb-3">
         Suggest a Topic
       </p>
       <p className="font-serif text-sm sm:text-[0.95rem] text-muted-foreground mb-5 sm:mb-6 max-w-lg leading-relaxed">

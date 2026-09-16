@@ -92,34 +92,38 @@ const FeaturedEpisode = () => {
   if (!episode) return null;
 
   return (
-    <section id="featured" className="mx-auto max-w-4xl px-4 pt-1 pb-7 sm:px-5 sm:pt-3 sm:pb-10">
-      <p className="text-[12px] sm:text-[13px] font-medium uppercase tracking-[0.22em] text-section-label mb-2.5 sm:mb-3">
+    <section id="featured" className="mx-auto max-w-4xl px-4 pt-2 pb-10 sm:px-5 sm:pt-4 sm:pb-14">
+      <p className="text-[13px] sm:text-sm font-semibold uppercase tracking-[0.24em] text-section-label mb-3 sm:mb-4">
         Latest Episode
       </p>
 
       <button
         onClick={() => setOpen(true)}
-        className="w-full rounded-xl border bg-card overflow-hidden text-left transition-all hover:border-primary/40 hover:shadow-sm cursor-pointer"
+        className="group w-full text-left cursor-pointer space-y-3 sm:space-y-4"
       >
+        {/* Artwork carries its own box, separate from the words. */}
         {episode.cover_image_url && (
-          <div className="aspect-[16/9] sm:aspect-[3/1] w-full overflow-hidden">
-            <img
-              src={episode.cover_image_url}
-              alt={episode.title}
-              className="w-full h-full object-cover"
-              loading="eager"
-              fetchPriority="high"
-            />
+          <div className="rounded-xl border bg-card overflow-hidden transition-all group-hover:border-primary/40 group-hover:shadow-sm">
+            <div className="aspect-[16/9] sm:aspect-[3/1] w-full overflow-hidden">
+              <img
+                src={episode.cover_image_url}
+                alt={episode.title}
+                className="w-full h-full object-cover"
+                loading="eager"
+                fetchPriority="high"
+              />
+            </div>
           </div>
         )}
-        <div className="p-4 sm:p-7 md:p-9">
-          <span className="inline-block text-[12px] sm:text-[13px] font-semibold text-primary mb-1.5 sm:mb-2 uppercase tracking-[0.18em]">
+
+        <div className="rounded-xl border bg-card p-5 sm:p-8 md:p-10 transition-all group-hover:border-primary/40 group-hover:shadow-sm">
+          <span className="inline-block text-[13px] sm:text-sm font-semibold text-primary mb-2.5 sm:mb-3 uppercase tracking-[0.2em]">
             {episode.category}
           </span>
-          <h2 className="text-[1.15rem] sm:text-2xl md:text-3xl lg:text-[2.25rem] text-card-foreground leading-[1.18] text-balance">
+          <h2 className="text-[1.625rem] sm:text-[2.25rem] md:text-[2.75rem] lg:text-[3rem] text-heading text-glow leading-[1.1] text-balance">
             {episode.title}
           </h2>
-          <p className="font-serif mt-2 sm:mt-4 text-[0.85rem] sm:text-base text-muted-foreground leading-[1.6] sm:leading-relaxed max-w-2xl text-pretty line-clamp-3 sm:line-clamp-none">
+          <p className="font-serif mt-4 sm:mt-5 text-[1.0625rem] sm:text-[1.1875rem] text-muted-foreground leading-[1.6] sm:leading-[1.65] max-w-2xl text-pretty">
             {episode.summary}
           </p>
         </div>

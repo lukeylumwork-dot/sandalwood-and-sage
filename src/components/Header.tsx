@@ -4,6 +4,7 @@ import { Menu, X, Rss } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ThemeToggle from "@/components/ThemeToggle";
 import logo from "@/assets/logo-dark.svg";
+import logoBrand from "@/assets/logo-lilac-cream.png";
 
 const rssUrl = "/feed.xml";
 
@@ -23,11 +24,19 @@ const Header = () => {
           <img
             src={logo}
             alt="Sandalwood & Sage"
-            width={89}
-            height={32}
-            className="h-8 w-auto"
+            width={122}
+            height={44}
+            className="h-11 w-auto block dark:hidden"
           />
-          <span className="hidden font-display text-lg tracking-tight text-foreground sm:inline">
+          <img
+            src={logoBrand}
+            alt=""
+            aria-hidden
+            width={122}
+            height={44}
+            className="h-11 w-auto hidden dark:block"
+          />
+          <span className="hidden font-display text-xl tracking-tight text-heading sm:inline">
             Sandalwood &amp; Sage
           </span>
         </a>
@@ -38,7 +47,7 @@ const Header = () => {
               <Link
                 key={link.href}
                 to={link.href}
-                className="text-[15px] text-muted-foreground transition-colors hover:text-foreground"
+                className="text-base text-muted-foreground transition-colors hover:text-foreground"
               >
                 {link.label}
               </Link>
@@ -46,14 +55,14 @@ const Header = () => {
               <a
                 key={link.href}
                 href={link.href}
-                className="text-[15px] text-muted-foreground transition-colors hover:text-foreground"
+                className="text-base text-muted-foreground transition-colors hover:text-foreground"
               >
                 {link.label}
               </a>
             ),
           )}
           <a href={rssUrl} target="_blank" rel="noopener noreferrer" aria-label="RSS Feed" className="text-muted-foreground hover:text-foreground transition-colors">
-            <Rss size={16} />
+            <Rss size={18} />
           </a>
           <ThemeToggle />
           <Button size="sm" asChild>

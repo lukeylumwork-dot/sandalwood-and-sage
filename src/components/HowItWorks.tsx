@@ -30,31 +30,31 @@ const credo = [
 ];
 
 const HowItWorks = () => (
-  <section id="how-it-works" className="mx-auto max-w-4xl px-4 py-7 sm:px-5 sm:py-10">
-    <p className="text-[12px] sm:text-[13px] font-medium uppercase tracking-[0.18em] text-section-label mb-2">
+  <section id="how-it-works" className="mx-auto max-w-4xl px-4 py-10 sm:px-5 sm:py-14">
+    <p className="text-[13px] sm:text-sm font-semibold uppercase tracking-[0.24em] text-section-label mb-3">
       How it Works
     </p>
-    <h2 className="text-2xl sm:text-3xl text-foreground mb-6 sm:mb-8 leading-tight">
+    <h2 className="text-[2rem] sm:text-[2.75rem] md:text-[3.25rem] text-heading text-glow mb-8 sm:mb-12 leading-[1.08] text-balance">
       Argue. Substantiate. Listen. Evolve.
     </h2>
-    <div className="grid gap-6 sm:gap-8 md:grid-cols-3">
+    <div className="grid gap-8 sm:gap-10 md:grid-cols-3">
       {steps.map((step) => (
-        <div key={step.number} className="border-t-2 border-primary pt-4">
-          <span className="text-xs font-semibold text-primary tracking-[0.16em]">
+        <div key={step.number} className="border-t-2 border-primary pt-4 sm:pt-5">
+          <span className="text-[13px] font-semibold text-primary tracking-[0.24em]">
             {step.number}
           </span>
-          <h3 className="font-display font-normal mt-2.5 text-xl text-foreground leading-snug">{step.title}</h3>
-          <p className="font-serif mt-2 text-sm text-muted-foreground leading-relaxed">{step.description}</p>
+          <h3 className="font-display font-normal mt-3 text-[1.375rem] sm:text-[1.5rem] text-heading text-glow leading-snug">{step.title}</h3>
+          <p className="font-serif mt-2.5 text-[1rem] sm:text-[1.0625rem] text-muted-foreground leading-[1.65]">{step.description}</p>
         </div>
       ))}
     </div>
 
-    <div className="mt-8 sm:mt-10 grid gap-6 md:grid-cols-2">
+    <div className="mt-14 sm:mt-16 grid gap-8 md:grid-cols-2">
       <div className="flex flex-col">
-        <p className="text-[12px] sm:text-[13px] font-medium uppercase tracking-[0.18em] text-section-label mb-2">
+        <p className="text-[13px] sm:text-sm font-semibold uppercase tracking-[0.24em] text-section-label mb-3">
           Our Credo
         </p>
-        <h3 className="font-display font-normal text-2xl sm:text-3xl text-foreground mb-4 sm:mb-5 leading-tight">
+        <h3 className="font-display font-normal text-[1.875rem] sm:text-[2.375rem] text-heading text-glow mb-5 sm:mb-6 leading-[1.1]">
           What we believe.
         </h3>
         <div className="rounded-xl border bg-card p-5 sm:p-7 flex-1">
@@ -62,7 +62,7 @@ const HowItWorks = () => (
             {credo.map((line, i) => (
               <li
                 key={i}
-                className="font-serif flex gap-3 text-sm sm:text-[0.95rem] text-card-foreground leading-relaxed"
+                className="font-serif flex gap-3 text-[1rem] sm:text-[1.0625rem] text-card-foreground leading-[1.65]"
               >
                 <span className="mt-[0.55rem] h-1.5 w-1.5 shrink-0 rounded-full bg-primary" aria-hidden />
                 <span>{line}</span>
@@ -73,14 +73,14 @@ const HowItWorks = () => (
       </div>
 
       <div className="flex flex-col">
-        <p className="text-[12px] sm:text-[13px] font-medium uppercase tracking-[0.18em] text-section-label mb-2">
+        <p className="text-[13px] sm:text-sm font-semibold uppercase tracking-[0.24em] text-section-label mb-3">
           How we do it
         </p>
-        <h3 className="font-display font-normal text-2xl sm:text-3xl text-foreground mb-4 sm:mb-5 leading-tight">
+        <h3 className="font-display font-normal text-[1.875rem] sm:text-[2.375rem] text-heading text-glow mb-5 sm:mb-6 leading-[1.1]">
           Credits & tools.
         </h3>
         <div className="rounded-xl border bg-card p-5 sm:p-7 flex-1">
-          <ul className="font-serif space-y-2.5 text-sm sm:text-[0.95rem] text-card-foreground leading-relaxed">
+          <ul className="font-serif space-y-3 text-[1rem] sm:text-[1.0625rem] text-card-foreground leading-[1.65]">
             <li><span className="text-muted-foreground">Published by </span>The Four Ashes Publishing Limited</li>
             <li><span className="text-muted-foreground">Content created by </span>Gareth Cadwallader</li>
             <li><span className="text-muted-foreground">Research assistance by </span>Google Gemini and Claude.AI</li>

@@ -49,6 +49,14 @@ div[id] {
 
     --radius: 0.5rem;
 
+    /* Display headings. Ink on paper in the light world. */
+    --heading: 68 37% 9%;
+    --heading-glow: 68 20% 20%;
+
+    /* Brand mark ribbons. */
+    --brand-cream: 43 83% 90%;
+    --brand-lilac: 249 44% 85%;
+
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
     --sidebar-primary: 240 5.9% 10%;
@@ -61,12 +69,13 @@ div[id] {
 
   .dark {
     /* The ink world — ground is brand navy, plum is the deepest well. */
-    /* Ground dropped from 17% to 13% so every ink level reads harder. */
-    --background: 201 42% 13%;
+    /* Ground lifted to 16% to match the design reference; headings carry
+       the contrast now via --heading rather than a darker ground. */
+    --background: 200 40% 16%;
     --foreground: 47 100% 90%;
-    --card: 200 34% 19%;
+    --card: 200 32% 21%;
     --card-foreground: 47 100% 90%;
-    --popover: 200 34% 19%;
+    --popover: 200 32% 21%;
     --popover-foreground: 47 100% 90%;
     --primary: 86 45% 62%;
     --primary-foreground: 95 65% 7%;
@@ -84,6 +93,11 @@ div[id] {
     --border-strong: 200 25% 40%;
     --input: 200 27% 32%;
     --ring: 86 45% 62%;
+
+    /* Titles read white against the ink ground, with a soft halo. */
+    --heading: 0 0% 100%;
+    --heading-glow: 47 60% 96%;
+
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -102,14 +116,29 @@ div[id] {
 
   body {
     @apply bg-background text-foreground antialiased font-sans;
+    font-size: 17px;
+    line-height: 1.6;
+    text-rendering: optimizeLegibility;
   }
 
   h1, h2, h3, h4 {
     @apply tracking-tight font-display font-normal;
+    color: hsl(var(--heading));
   }
 }
 
 @layer utilities {
+  .text-heading {
+    color: hsl(var(--heading));
+  }
+  /* Display headings pick up a soft halo in the ink world only. */
+  .dark .text-glow {
+    text-shadow:
+      0 0 1px hsl(var(--heading-glow) / 0.5),
+      0 0 18px hsl(var(--heading-glow) / 0.26),
+      0 0 46px hsl(var(--heading-glow) / 0.13);
+  }
+
   .scrollbar-hide {
     -ms-overflow-style: none;
     scrollbar-width: none;

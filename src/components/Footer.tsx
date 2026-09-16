@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/accordion";
 import { Link } from "react-router-dom";
 import logo from "@/assets/logo-dark.svg";
+import logoBrand from "@/assets/logo-lilac-cream.png";
 import { faqItems } from "@/data/faq";
 
 const SpotifyIcon = ({ size = 16 }: { size?: number }) => (
@@ -28,14 +29,17 @@ const Footer = () => (
     <div className="mx-auto max-w-4xl px-4 py-8 sm:px-5 sm:py-12">
       <div className="grid gap-10 sm:gap-8 md:grid-cols-3">
         {/* Brand */}
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-4">
           <a href="/" aria-label="Sandalwood & Sage home">
-            <img src={logo} alt="Sandalwood & Sage" width={78} height={28} className="h-7 w-auto" />
+            <img src={logo} alt="Sandalwood & Sage" width={178} height={64} className="h-14 sm:h-16 w-auto block dark:hidden" />
+            <img src={logoBrand} alt="Sandalwood & Sage" width={178} height={64} className="h-14 sm:h-16 w-auto hidden dark:block" />
           </a>
-          <p className="font-serif text-[13px] sm:text-sm text-muted-foreground leading-relaxed max-w-[18ch]">
-            Two sides. One question. You decide.
+          <p className="font-serif text-[1.0625rem] sm:text-[1.125rem] text-muted-foreground leading-[1.5]">
+            <span className="block">Two sides.</span>
+            <span className="block">One question.</span>
+            <span className="block">You decide.</span>
           </p>
-          <div className="flex items-center gap-3.5 mt-1">
+          <div className="flex items-center gap-5 mt-1">
             <a
               href="https://www.youtube.com/@SandalwoodAndSage"
               target="_blank"
@@ -43,7 +47,7 @@ const Footer = () => (
               aria-label="YouTube"
               className="text-muted-foreground hover:text-foreground transition-colors"
             >
-              <Youtube size={15} />
+              <Youtube size={26} />
             </a>
             <a
               href="https://open.spotify.com/show/033ei3X7wU9mMlqFKDQUWs?si=8c163ebf934b487c"
@@ -52,7 +56,7 @@ const Footer = () => (
               aria-label="Spotify"
               className="text-muted-foreground hover:text-foreground transition-colors"
             >
-              <SpotifyIcon size={15} />
+              <SpotifyIcon size={26} />
             </a>
             <a
               href="https://podcasts.apple.com/gb/podcast/sandalwood-sage-what-were-arguing-about-this-week/id1896168647"
@@ -61,7 +65,7 @@ const Footer = () => (
               aria-label="Apple Podcasts"
               className="text-muted-foreground hover:text-foreground transition-colors"
             >
-              <Podcast size={15} />
+              <Podcast size={26} />
             </a>
             <a
               href="/feed.xml"
@@ -70,14 +74,14 @@ const Footer = () => (
               aria-label="RSS Feed"
               className="text-muted-foreground hover:text-foreground transition-colors"
             >
-              <Rss size={15} />
+              <Rss size={26} />
             </a>
           </div>
         </div>
 
         {/* Nav */}
         <div className="flex flex-col gap-2">
-          <p className="text-[12px] font-semibold text-section-label uppercase tracking-[0.18em] mb-1">
+          <p className="text-[13px] font-semibold text-section-label uppercase tracking-[0.22em] mb-2">
             Navigate
           </p>
           {navLinks.map((link) =>
@@ -85,7 +89,7 @@ const Footer = () => (
               <Link
                 key={link.href}
                 to={link.href}
-                className="text-[13px] text-muted-foreground hover:text-foreground transition-colors py-0.5"
+                className="text-[1rem] text-muted-foreground hover:text-foreground transition-colors py-0.5"
               >
                 {link.label}
               </Link>
@@ -93,7 +97,7 @@ const Footer = () => (
               <a
                 key={link.href}
                 href={link.href}
-                className="text-[13px] text-muted-foreground hover:text-foreground transition-colors py-0.5"
+                className="text-[1rem] text-muted-foreground hover:text-foreground transition-colors py-0.5"
               >
                 {link.label}
               </a>
@@ -101,7 +105,7 @@ const Footer = () => (
           )}
           <a
             href="mailto:hello@sandalwoodandsage.com"
-            className="text-[13px] text-muted-foreground hover:text-foreground transition-colors py-0.5 mt-1"
+            className="text-[1rem] text-muted-foreground hover:text-foreground transition-colors py-0.5 mt-1"
           >
             hello@sandalwoodandsage.com
           </a>
@@ -110,12 +114,12 @@ const Footer = () => (
         {/* FAQ */}
         <div>
           <div className="flex items-center justify-between mb-1">
-            <p className="text-[12px] font-semibold text-section-label uppercase tracking-[0.18em]">
+            <p className="text-[13px] font-semibold text-section-label uppercase tracking-[0.22em]">
               FAQ
             </p>
             <Link
               to="/faq"
-              className="text-[12px] text-muted-foreground hover:text-foreground transition-colors"
+              className="text-[0.875rem] text-muted-foreground hover:text-foreground transition-colors"
             >
               See all →
             </Link>
@@ -123,10 +127,10 @@ const Footer = () => (
           <Accordion type="single" collapsible className="w-full">
             {faqItems.slice(0, 4).map((item, i) => (
               <AccordionItem key={i} value={`faq-${i}`} className="border-border/60">
-                <AccordionTrigger className="font-serif text-[13px] text-muted-foreground hover:text-foreground py-3 text-left leading-snug hover:no-underline">
+                <AccordionTrigger className="font-serif text-[1rem] text-muted-foreground hover:text-foreground py-3.5 text-left leading-snug hover:no-underline">
                   {item.q}
                 </AccordionTrigger>
-                <AccordionContent className="font-serif text-[13px] sm:text-sm text-muted-foreground leading-relaxed pb-3">
+                <AccordionContent className="font-serif text-[0.9375rem] text-muted-foreground leading-[1.6] pb-3.5">
                   {item.a}
                 </AccordionContent>
               </AccordionItem>
@@ -134,14 +138,14 @@ const Footer = () => (
           </Accordion>
           <Link
             to="/faq"
-            className="inline-block mt-3 text-[12px] text-muted-foreground hover:text-foreground transition-colors"
+            className="inline-block mt-4 text-[0.9375rem] text-muted-foreground hover:text-foreground transition-colors"
           >
             View all FAQs →
           </Link>
         </div>
       </div>
 
-      <div className="mt-8 pt-5 border-t border-border/60 text-[12px] sm:text-[13px] text-muted-foreground">
+      <div className="mt-10 pt-6 border-t border-border/60 text-[0.875rem] text-muted-foreground">
         © {new Date().getFullYear()} Sandalwood &amp; Sage. All rights reserved.
       </div>
     </div>
