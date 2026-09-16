@@ -54,7 +54,7 @@ const EpisodePage = () => {
       <div className="min-h-screen bg-background">
         <Header />
         <main className="mx-auto max-w-4xl px-4 py-12 sm:px-5">
-          <p className="text-muted-foreground text-sm">Loading…</p>
+          <p className="text-muted-foreground text-base">Loading…</p>
         </main>
         <Footer />
       </div>
@@ -66,8 +66,8 @@ const EpisodePage = () => {
       <div className="min-h-screen bg-background">
         <Header />
         <main className="mx-auto max-w-4xl px-4 py-12 sm:px-5">
-          <p className="text-muted-foreground text-sm mb-4">Episode not found.</p>
-          <a href="/#episodes" className="text-sm text-primary hover:underline">
+          <p className="text-muted-foreground text-base mb-4">Episode not found.</p>
+          <a href="/#episodes" className="text-base text-primary hover:underline">
             ← All episodes
           </a>
         </main>
@@ -84,7 +84,7 @@ const EpisodePage = () => {
       <main className="mx-auto max-w-4xl px-4 py-6 sm:px-5 sm:py-8">
         <a
           href="/#episodes"
-          className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground mb-6 transition-colors"
+          className="inline-flex items-center gap-1.5 text-[0.9375rem] text-muted-foreground hover:text-foreground mb-8 transition-colors"
         >
           <ArrowLeft size={14} />
           All episodes
@@ -92,11 +92,11 @@ const EpisodePage = () => {
 
         <article>
           <header className="mb-6 sm:mb-8">
-            <span className="text-[10px] font-semibold text-primary block uppercase tracking-[0.22em] mb-2">
+            <span className="text-[11px] font-semibold text-primary block uppercase tracking-[0.22em] mb-3">
               {episode.category}
             </span>
             <h1
-              className="text-[1.5rem] sm:text-[2.25rem] leading-[1.15] text-foreground text-balance font-normal tracking-tight"
+              className="text-[2rem] sm:text-[3rem] md:text-[3.5rem] leading-[1.08] text-heading text-glow text-balance font-normal tracking-tight"
               style={{ fontFamily: "'DM Serif Display', Georgia, serif" }}
             >
               {episode.title}
@@ -128,31 +128,31 @@ const EpisodePage = () => {
 
           <div className="space-y-6 sm:space-y-7">
             <div className="space-y-2">
-              <p className="text-[10px] font-semibold text-section-label uppercase tracking-[0.22em]">
+              <p className="text-[11px] font-semibold text-section-label uppercase tracking-[0.22em]">
                 The question
               </p>
-              <p className="text-[0.9rem] sm:text-base text-foreground leading-[1.6] sm:leading-[1.65] text-pretty">
+              <p className="text-[1.0625rem] sm:text-[1.1875rem] text-foreground leading-[1.65] sm:leading-[1.7] text-pretty">
                 {episode.question}
               </p>
             </div>
 
             <div className="space-y-2">
-              <p className="text-[10px] font-semibold text-section-label uppercase tracking-[0.22em]">
+              <p className="text-[11px] font-semibold text-section-label uppercase tracking-[0.22em]">
                 Summary
               </p>
-              <p className="text-[0.875rem] sm:text-[0.95rem] text-muted-foreground leading-[1.65] sm:leading-[1.7] text-pretty">
+              <p className="text-[1rem] sm:text-[1.0625rem] text-muted-foreground leading-[1.7] text-pretty">
                 {episode.summary}
               </p>
             </div>
 
             {episode.keyPoints.length > 0 && (
               <div className="space-y-2.5">
-                <p className="text-[10px] font-semibold text-section-label uppercase tracking-[0.22em]">
+                <p className="text-[11px] font-semibold text-section-label uppercase tracking-[0.22em]">
                   Key points
                 </p>
                 <ul className="space-y-2">
                   {episode.keyPoints.map((point, idx) => (
-                    <li key={idx} className="text-[0.875rem] sm:text-[0.95rem] text-muted-foreground leading-[1.6] sm:leading-[1.65] flex gap-2.5">
+                    <li key={idx} className="text-[1rem] sm:text-[1.0625rem] text-muted-foreground leading-[1.65] flex gap-2.5">
                       <span className="mt-[0.55rem] h-1 w-1 rounded-full bg-primary shrink-0" aria-hidden />
                       <span>{point}</span>
                     </li>
@@ -163,7 +163,7 @@ const EpisodePage = () => {
           </div>
 
           <div className="flex items-center gap-2 mt-8 pt-4 border-t border-border/70">
-            <span className="text-[10px] font-semibold text-section-label uppercase tracking-[0.22em] mr-1">Share</span>
+            <span className="text-[11px] font-semibold text-section-label uppercase tracking-[0.22em] mr-1">Share</span>
             <Button
               variant="outline"
               size="icon"

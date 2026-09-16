@@ -2,7 +2,8 @@ import { useState } from "react";
 import { Menu, X, Rss } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ThemeToggle from "@/components/ThemeToggle";
-import logo from "@/assets/logo-dark.svg";
+import logoDark from "@/assets/logo-dark.svg";
+import logoBrand from "@/assets/logo-lilac-cream.png";
 
 const rssUrl = "/feed.xml";
 
@@ -17,13 +18,16 @@ const Header = () => {
 
   return (
     <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
-      <div className="mx-auto flex max-w-4xl items-center justify-between px-5 py-4">
-        <a href="#" aria-label="Sandalwood & Sage home" className="flex items-center">
-          <img
-            src={logo}
-            alt="Sandalwood & Sage"
-            className="h-10 w-auto"
-          />
+      <div className="mx-auto flex max-w-5xl items-center justify-between px-5 py-4">
+        <a href="#" aria-label="Sandalwood & Sage home" className="flex items-center gap-3">
+          <img src={logoDark} alt="" aria-hidden className="h-11 w-auto block dark:hidden" />
+          <img src={logoBrand} alt="" aria-hidden className="h-11 w-auto hidden dark:block" />
+          <span
+            className="hidden sm:block text-[1.25rem] leading-none text-heading tracking-tight"
+            style={{ fontFamily: "'DM Serif Display', Georgia, serif" }}
+          >
+            Sandalwood &amp; Sage
+          </span>
         </a>
 
         <nav className="hidden items-center gap-6 md:flex">
@@ -31,13 +35,13 @@ const Header = () => {
             <a
               key={link.href}
               href={link.href}
-              className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+              className="text-[0.9375rem] text-muted-foreground transition-colors hover:text-foreground"
             >
               {link.label}
             </a>
           ))}
           <a href={rssUrl} target="_blank" rel="noopener noreferrer" aria-label="RSS Feed" className="text-muted-foreground hover:text-foreground transition-colors">
-            <Rss size={16} />
+            <Rss size={18} />
           </a>
           <ThemeToggle />
           <Button size="sm" asChild>

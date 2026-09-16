@@ -13,6 +13,10 @@ div[id] {
 
 @layer base {
   :root {
+    /* Brand marks */
+    --brand-cream: 43 83% 90%;
+    --brand-lilac: 249 44% 85%;
+
     --background: 40 20% 97%;
     --foreground: 30 10% 12%;
 
@@ -44,6 +48,9 @@ div[id] {
 
     --radius: 0.5rem;
 
+    --heading: 30 12% 8%;
+    --heading-glow: 30 10% 20%;
+
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
     --sidebar-primary: 240 5.9% 10%;
@@ -55,26 +62,28 @@ div[id] {
   }
 
   .dark {
-    --background: 201 39% 17%;
-    --foreground: 40 14% 92%;
-    --card: 201 39% 21%;
-    --card-foreground: 40 14% 92%;
-    --popover: 201 39% 21%;
-    --popover-foreground: 40 14% 92%;
-    --primary: 150 32% 55%;
-    --primary-foreground: 201 39% 12%;
-    --secondary: 201 30% 25%;
-    --secondary-foreground: 40 14% 92%;
-    --muted: 201 30% 25%;
-    --muted-foreground: 201 15% 72%;
-    --section-label: 201 20% 76%;
-    --accent: 150 32% 55%;
-    --accent-foreground: 201 39% 12%;
+    --background: 198 36% 19%;
+    --foreground: 40 22% 94%;
+    --card: 198 33% 22%;
+    --card-foreground: 40 22% 94%;
+    --popover: 198 33% 22%;
+    --popover-foreground: 40 22% 94%;
+    --primary: 150 40% 62%;
+    --primary-foreground: 198 40% 11%;
+    --secondary: 198 28% 27%;
+    --secondary-foreground: 40 22% 94%;
+    --muted: 198 28% 27%;
+    --muted-foreground: 198 16% 80%;
+    --section-label: 198 18% 82%;
+    --accent: 150 40% 62%;
+    --accent-foreground: 198 40% 11%;
     --destructive: 0 62.8% 40%;
     --destructive-foreground: 40 40% 98%;
-    --border: 201 25% 28%;
-    --input: 201 25% 28%;
-    --ring: 150 32% 55%;
+    --border: 198 22% 31%;
+    --input: 198 22% 31%;
+    --ring: 150 40% 62%;
+    --heading: 0 0% 100%;
+    --heading-glow: 40 30% 96%;
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -94,15 +103,39 @@ div[id] {
   body {
     @apply bg-background text-foreground antialiased;
     font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
 
   h1, h2, h3, h4 {
     @apply tracking-tight;
     font-family: 'DM Serif Display', Georgia, serif;
+    font-weight: 400;
+    color: hsl(var(--heading));
   }
 }
 
 @layer utilities {
+  /* Display headings: near-white in dark mode with a soft halo. */
+  .text-heading {
+    color: hsl(var(--heading));
+  }
+  .dark .text-glow,
+  .dark .text-heading-glow {
+    text-shadow:
+      0 0 1px hsl(var(--heading-glow) / 0.5),
+      0 0 18px hsl(var(--heading-glow) / 0.28),
+      0 0 46px hsl(var(--heading-glow) / 0.14);
+  }
+  .brand-cream {
+    color: hsl(var(--brand-cream));
+  }
+  .brand-lilac {
+    color: hsl(var(--brand-lilac));
+  }
+
   .scrollbar-hide {
     -ms-overflow-style: none;
     scrollbar-width: none;
