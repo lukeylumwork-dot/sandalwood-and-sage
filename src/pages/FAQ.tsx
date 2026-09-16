@@ -9,7 +9,7 @@ const FAQ = () => (
       <p className="text-[12px] sm:text-[13px] font-medium uppercase tracking-[0.22em] text-section-label mb-2">
         FAQ
       </p>
-      <h1 className="font-display font-normal text-2xl sm:text-3xl text-foreground mb-3 leading-tight">
+      <h1 className="font-display font-normal text-2xl sm:text-3xl text-heading mb-3 leading-tight">
         Frequently asked questions
       </h1>
       <p className="font-serif text-sm sm:text-[0.95rem] text-muted-foreground mb-10 sm:mb-12 max-w-lg leading-relaxed">
@@ -19,7 +19,7 @@ const FAQ = () => (
       <div className="divide-y divide-border/70">
         {faqItems.map((item, i) => (
           <div key={i} className="py-6 sm:py-7">
-            <h2 className="font-sans text-[0.95rem] sm:text-base font-semibold text-foreground mb-2 leading-snug">
+            <h2 className="font-sans text-[0.95rem] sm:text-base font-semibold text-heading mb-2 leading-snug">
               {item.q}
             </h2>
             <p className="font-serif text-sm sm:text-[0.95rem] text-muted-foreground leading-[1.7] max-w-2xl">

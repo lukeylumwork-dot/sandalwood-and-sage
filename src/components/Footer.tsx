@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/accordion";
 import { Link } from "react-router-dom";
 import logo from "@/assets/logo-dark.svg";
+import logoBrand from "@/assets/logo-lilac-cream.png";
 import { faqItems } from "@/data/faq";
 
 const SpotifyIcon = ({ size = 16 }: { size?: number }) => (
@@ -28,14 +29,17 @@ const Footer = () => (
     <div className="mx-auto max-w-4xl px-4 py-8 sm:px-5 sm:py-12">
       <div className="grid gap-10 sm:gap-8 md:grid-cols-3">
         {/* Brand */}
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-4">
           <a href="/" aria-label="Sandalwood & Sage home">
-            <img src={logo} alt="Sandalwood & Sage" width={78} height={28} className="h-7 w-auto" />
+            <img src={logo} alt="Sandalwood & Sage" width={178} height={64} className="h-14 sm:h-16 w-auto block dark:hidden" />
+            <img src={logoBrand} alt="Sandalwood & Sage" width={178} height={64} className="h-14 sm:h-16 w-auto hidden dark:block" />
           </a>
-          <p className="font-serif text-[13px] sm:text-sm text-muted-foreground leading-relaxed max-w-[18ch]">
-            Two sides. One question. You decide.
+          <p className="font-serif text-[13px] sm:text-sm text-muted-foreground leading-relaxed">
+            <span className="block">Two sides.</span>
+            <span className="block">One question.</span>
+            <span className="block">You decide.</span>
           </p>
-          <div className="flex items-center gap-3.5 mt-1">
+          <div className="flex items-center gap-5 mt-1">
             <a
               href="https://www.youtube.com/@SandalwoodAndSage"
               target="_blank"
@@ -43,7 +47,7 @@ const Footer = () => (
               aria-label="YouTube"
               className="text-muted-foreground hover:text-foreground transition-colors"
             >
-              <Youtube size={15} />
+              <Youtube size={26} />
             </a>
             <a
               href="https://open.spotify.com/show/033ei3X7wU9mMlqFKDQUWs?si=8c163ebf934b487c"
@@ -52,7 +56,7 @@ const Footer = () => (
               aria-label="Spotify"
               className="text-muted-foreground hover:text-foreground transition-colors"
             >
-              <SpotifyIcon size={15} />
+              <SpotifyIcon size={26} />
             </a>
             <a
               href="https://podcasts.apple.com/gb/podcast/sandalwood-sage-what-were-arguing-about-this-week/id1896168647"
@@ -61,7 +65,7 @@ const Footer = () => (
               aria-label="Apple Podcasts"
               className="text-muted-foreground hover:text-foreground transition-colors"
             >
-              <Podcast size={15} />
+              <Podcast size={26} />
             </a>
             <a
               href="/feed.xml"
@@ -70,7 +74,7 @@ const Footer = () => (
               aria-label="RSS Feed"
               className="text-muted-foreground hover:text-foreground transition-colors"
             >
-              <Rss size={15} />
+              <Rss size={26} />
             </a>
           </div>
         </div>

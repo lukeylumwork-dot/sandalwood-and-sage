@@ -95,7 +95,7 @@ const EpisodePage = () => {
             <span className="text-[12px] font-semibold text-primary block uppercase tracking-[0.22em] mb-3">
               {episode.category}
             </span>
-            <h1 className="font-display font-normal text-[1.75rem] sm:text-[2.5rem] leading-[1.05] text-foreground text-balance tracking-[-0.02em]">
+            <h1 className="font-display font-normal text-[1.75rem] sm:text-[2.5rem] leading-[1.05] text-heading text-balance tracking-[-0.02em]">
               {episode.title}
             </h1>
             <p className="text-[13px] text-muted-foreground tracking-[0.04em] mt-4">

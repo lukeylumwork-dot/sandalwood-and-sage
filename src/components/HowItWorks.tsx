@@ -34,7 +34,7 @@ const HowItWorks = () => (
     <p className="text-[12px] sm:text-[13px] font-medium uppercase tracking-[0.18em] text-section-label mb-2">
       How it Works
     </p>
-    <h2 className="text-2xl sm:text-3xl text-foreground mb-6 sm:mb-8 leading-tight">
+    <h2 className="text-2xl sm:text-3xl text-heading mb-6 sm:mb-8 leading-tight">
       Argue. Substantiate. Listen. Evolve.
     </h2>
     <div className="grid gap-6 sm:gap-8 md:grid-cols-3">
@@ -43,7 +43,7 @@ const HowItWorks = () => (
           <span className="text-xs font-semibold text-primary tracking-[0.16em]">
             {step.number}
           </span>
-          <h3 className="font-display font-normal mt-2.5 text-xl text-foreground leading-snug">{step.title}</h3>
+          <h3 className="font-display font-normal mt-2.5 text-xl text-heading leading-snug">{step.title}</h3>
           <p className="font-serif mt-2 text-sm text-muted-foreground leading-relaxed">{step.description}</p>
         </div>
       ))}
@@ -54,7 +54,7 @@ const HowItWorks = () => (
         <p className="text-[12px] sm:text-[13px] font-medium uppercase tracking-[0.18em] text-section-label mb-2">
           Our Credo
         </p>
-        <h3 className="font-display font-normal text-2xl sm:text-3xl text-foreground mb-4 sm:mb-5 leading-tight">
+        <h3 className="font-display font-normal text-2xl sm:text-3xl text-heading mb-4 sm:mb-5 leading-tight">
           What we believe.
         </h3>
         <div className="rounded-xl border bg-card p-5 sm:p-7 flex-1">
@@ -76,7 +76,7 @@ const HowItWorks = () => (
         <p className="text-[12px] sm:text-[13px] font-medium uppercase tracking-[0.18em] text-section-label mb-2">
           How we do it
         </p>
-        <h3 className="font-display font-normal text-2xl sm:text-3xl text-foreground mb-4 sm:mb-5 leading-tight">
+        <h3 className="font-display font-normal text-2xl sm:text-3xl text-heading mb-4 sm:mb-5 leading-tight">
           Credits & tools.
         </h3>
         <div className="rounded-xl border bg-card p-5 sm:p-7 flex-1">

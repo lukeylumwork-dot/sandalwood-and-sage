@@ -4,6 +4,7 @@ import { Menu, X, Rss } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ThemeToggle from "@/components/ThemeToggle";
 import logo from "@/assets/logo-dark.svg";
+import logoBrand from "@/assets/logo-lilac-cream.png";
 
 const rssUrl = "/feed.xml";
 
@@ -25,9 +26,17 @@ const Header = () => {
             alt="Sandalwood & Sage"
             width={89}
             height={32}
-            className="h-8 w-auto"
+            className="h-8 w-auto block dark:hidden"
           />
-          <span className="hidden font-display text-lg tracking-tight text-foreground sm:inline">
+          <img
+            src={logoBrand}
+            alt=""
+            aria-hidden
+            width={89}
+            height={32}
+            className="h-8 w-auto hidden dark:block"
+          />
+          <span className="hidden font-display text-lg tracking-tight text-heading sm:inline">
             Sandalwood &amp; Sage
           </span>
         </a>

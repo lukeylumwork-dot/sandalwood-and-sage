@@ -99,24 +99,28 @@ const FeaturedEpisode = () => {
 
       <button
         onClick={() => setOpen(true)}
-        className="w-full rounded-xl border bg-card overflow-hidden text-left transition-all hover:border-primary/40 hover:shadow-sm cursor-pointer"
+        className="group w-full text-left cursor-pointer space-y-3 sm:space-y-4"
       >
+        {/* Artwork carries its own box, separate from the words. */}
         {episode.cover_image_url && (
-          <div className="aspect-[16/9] sm:aspect-[3/1] w-full overflow-hidden">
-            <img
-              src={episode.cover_image_url}
-              alt={episode.title}
-              className="w-full h-full object-cover"
-              loading="eager"
-              fetchPriority="high"
-            />
+          <div className="rounded-xl border bg-card overflow-hidden transition-all group-hover:border-primary/40 group-hover:shadow-sm">
+            <div className="aspect-[16/9] sm:aspect-[3/1] w-full overflow-hidden">
+              <img
+                src={episode.cover_image_url}
+                alt={episode.title}
+                className="w-full h-full object-cover"
+                loading="eager"
+                fetchPriority="high"
+              />
+            </div>
           </div>
         )}
-        <div className="p-4 sm:p-7 md:p-9">
+
+        <div className="rounded-xl border bg-card p-4 sm:p-7 md:p-9 transition-all group-hover:border-primary/40 group-hover:shadow-sm">
           <span className="inline-block text-[12px] sm:text-[13px] font-semibold text-primary mb-1.5 sm:mb-2 uppercase tracking-[0.18em]">
             {episode.category}
           </span>
-          <h2 className="text-[1.15rem] sm:text-2xl md:text-3xl lg:text-[2.25rem] text-card-foreground leading-[1.18] text-balance">
+          <h2 className="text-[1.15rem] sm:text-2xl md:text-3xl lg:text-[2.25rem] text-heading leading-[1.18] text-balance">
             {episode.title}
           </h2>
           <p className="font-serif mt-2 sm:mt-4 text-[0.85rem] sm:text-base text-muted-foreground leading-[1.6] sm:leading-relaxed max-w-2xl text-pretty line-clamp-3 sm:line-clamp-none">
@@ -133,7 +137,7 @@ const FeaturedEpisode = () => {
                 {episode.category}
               </span>
               <DialogTitle
-                className="font-display text-[1.25rem] sm:text-[1.75rem] leading-[1.2] sm:leading-[1.15] text-foreground text-balance font-normal tracking-tight pr-6"
+                className="font-display text-[1.25rem] sm:text-[1.75rem] leading-[1.2] sm:leading-[1.15] text-heading text-balance font-normal tracking-tight pr-6"
               >
                 {episode.title}
               </DialogTitle>

@@ -48,7 +48,7 @@ const EpisodeCard = memo(({ ep, index }: { ep: Episode; index: number }) => (
     </span>
     <div className="min-w-0">
       <span className="text-[12px] font-semibold uppercase tracking-[0.18em] text-primary block mb-1.5">{ep.category}</span>
-      <h3 className="font-display font-normal text-[1.3rem] sm:text-[1.5rem] text-card-foreground leading-[1.14] tracking-[-0.015em] group-hover:text-primary transition-colors text-pretty">
+      <h3 className="font-display font-normal text-[1.3rem] sm:text-[1.5rem] text-heading leading-[1.14] tracking-[-0.015em] group-hover:text-primary transition-colors text-pretty">
         {ep.title}
       </h3>
       {ep.premise && (
@@ -142,7 +142,7 @@ const EpisodesList = ({
       <p className="text-[12px] sm:text-[13px] font-medium uppercase tracking-[0.22em] text-section-label mb-2">
         {eyebrow}
       </p>
-      <h2 className="text-[1.5rem] sm:text-3xl text-foreground mb-4 sm:mb-6 leading-tight">{heading}</h2>
+      <h2 className="text-[1.5rem] sm:text-3xl text-heading mb-4 sm:mb-6 leading-tight">{heading}</h2>
 
       {showFilters && (
         <>

@@ -49,7 +49,7 @@ const Subscribe = () => {
       <p className="text-[12px] sm:text-[13px] font-medium uppercase tracking-[0.18em] text-section-label mb-2">
         Subscribe
       </p>
-      <h2 className="text-2xl sm:text-3xl text-foreground mb-2 leading-tight">
+      <h2 className="text-2xl sm:text-3xl text-heading mb-2 leading-tight">
         Never miss an episode
       </h2>
       <p className="font-serif text-sm sm:text-[0.95rem] text-muted-foreground mb-6 sm:mb-8 max-w-lg leading-relaxed">
@@ -99,7 +99,7 @@ const Subscribe = () => {
 
         {/* Mailing list */}
         <div className="rounded-xl border bg-card p-5 sm:p-6">
-          <h3 className="text-sm font-semibold text-card-foreground mb-1">
+          <h3 className="text-sm font-semibold text-heading mb-1">
             Join the mailing list
           </h3>
           <p className="font-serif text-[13px] text-muted-foreground mb-4 leading-relaxed">

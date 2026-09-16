@@ -1,16 +1,18 @@
 const Hero = () => (
-  <section className="mx-auto max-w-3xl px-4 pt-5 pb-4 text-center sm:px-5 sm:pt-8 sm:pb-6 md:pt-10 md:pb-8">
-    <p className="text-[12px] sm:text-[13px] font-medium uppercase tracking-[0.24em] text-primary mb-2">
+  <section className="mx-auto max-w-4xl px-4 pt-10 pb-8 text-center sm:px-5 sm:pt-14 sm:pb-12 md:pt-20 md:pb-16">
+    <p className="text-[13px] sm:text-sm font-semibold uppercase tracking-[0.26em] text-primary mb-5 sm:mb-7">
       Quality debates in under 15 minutes
     </p>
-    <h1 className="font-display text-[1.75rem] sm:text-4xl md:text-[2.75rem] lg:text-[3.25rem] font-normal text-foreground leading-[1] tracking-[-0.02em] text-balance">
-      <span className="block">Sandalwood &amp; Sage</span>
-      <span className="block text-primary mt-1 sm:mt-1.5 text-[1.25rem] sm:text-[1.75rem] md:text-[2rem] lg:text-[2.25rem] leading-[1.1] tracking-[-0.015em] text-balance">
-        What we&apos;re arguing about this week
-      </span>
+    <h1 className="font-display text-[2.25rem] sm:text-[3.25rem] md:text-[4rem] lg:text-[4.5rem] font-normal text-heading leading-[0.98] tracking-[-0.02em] text-balance">
+      Sandalwood &amp; Sage
     </h1>
-    <p className="font-serif font-light mt-3 sm:mt-4 text-[0.9rem] sm:text-base md:text-lg text-muted-foreground max-w-md sm:max-w-xl mx-auto leading-[1.6] text-pretty">
-      Sandalwood &amp; Sage are AI-generated characters who are working with their creator, Gareth, to generate short, serious, punchy debates. These are debates that don't just help you to figure out what you think - but why you think it.
+    <p className="font-display mt-2 sm:mt-3 text-primary text-[1.25rem] sm:text-[1.8rem] md:text-[2.25rem] lg:text-[2.5rem] leading-[1.12] tracking-[-0.015em] text-balance">
+      What we&apos;re arguing about this week
+    </p>
+    <p className="font-serif font-light mt-6 sm:mt-8 text-[1.0625rem] sm:text-[1.1875rem] md:text-[1.3125rem] text-muted-foreground max-w-xl mx-auto leading-[1.6] text-pretty">
+      Two AI-generated characters work with their creator, Gareth, to make
+      short, serious, punchy debates — the kind that help you figure out not
+      just what you think, but why you think it.
     </p>
   </section>
 );
