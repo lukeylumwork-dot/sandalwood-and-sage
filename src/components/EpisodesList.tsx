@@ -47,8 +47,8 @@ const EpisodeCard = memo(({ ep, index }: { ep: Episode; index: number }) => (
       {String(index).padStart(2, "0")}
     </span>
     <div className="min-w-0">
-      <span className="text-[13px] font-semibold uppercase tracking-[0.2em] text-primary block mb-1.5">{ep.category}</span>
-      <h3 className="font-display font-normal text-[1.5rem] sm:text-[1.75rem] text-heading text-glow leading-[1.14] tracking-[-0.015em] group-hover:text-primary transition-colors text-pretty">
+      <span className="text-[12px] font-semibold uppercase tracking-[0.18em] text-primary block mb-1.5">{ep.category}</span>
+      <h3 className="font-display font-normal text-[1.3rem] sm:text-[1.5rem] text-heading leading-[1.14] tracking-[-0.015em] group-hover:text-primary transition-colors text-pretty">
         {ep.title}
       </h3>
       {ep.premise && (
@@ -138,11 +138,11 @@ const EpisodesList = ({
   const hasMore = limit !== undefined && filtered.length > limit;
 
   return (
-    <section id="episodes" className="mx-auto max-w-4xl px-4 py-10 sm:px-5 sm:py-14">
-      <p className="text-[13px] sm:text-sm font-semibold uppercase tracking-[0.24em] text-section-label mb-3">
+    <section id="episodes" className="mx-auto max-w-4xl px-4 py-7 sm:px-5 sm:py-10">
+      <p className="text-[12px] sm:text-[13px] font-medium uppercase tracking-[0.22em] text-section-label mb-2">
         {eyebrow}
       </p>
-      <h2 className="text-[2rem] sm:text-[2.75rem] md:text-[3.25rem] text-heading text-glow leading-[1.08] mb-6 sm:mb-8">{heading}</h2>
+      <h2 className="text-[1.5rem] sm:text-3xl text-heading mb-4 sm:mb-6 leading-tight">{heading}</h2>
 
       {showFilters && (
         <>

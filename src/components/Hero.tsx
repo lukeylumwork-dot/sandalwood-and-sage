@@ -3,10 +3,10 @@ const Hero = () => (
     <p className="text-[13px] sm:text-sm font-semibold uppercase tracking-[0.26em] text-primary mb-5 sm:mb-7">
       Quality debates in under 15 minutes
     </p>
-    <h1 className="font-display text-[2.75rem] sm:text-[4rem] md:text-[5rem] lg:text-[5.75rem] font-normal text-heading text-glow leading-[0.98] tracking-[-0.02em] text-balance">
+    <h1 className="font-display text-[2.25rem] sm:text-[3.25rem] md:text-[4rem] lg:text-[4.5rem] font-normal text-heading leading-[0.98] tracking-[-0.02em] text-balance">
       Sandalwood &amp; Sage
     </h1>
-    <p className="font-display mt-2 sm:mt-3 text-primary text-[1.5rem] sm:text-[2.25rem] md:text-[2.75rem] lg:text-[3.125rem] leading-[1.12] tracking-[-0.015em] text-balance">
+    <p className="font-display mt-2 sm:mt-3 text-primary text-[1.25rem] sm:text-[1.8rem] md:text-[2.25rem] lg:text-[2.5rem] leading-[1.12] tracking-[-0.015em] text-balance">
       What we&apos;re arguing about this week
     </p>
     <p className="font-serif font-light mt-6 sm:mt-8 text-[1.0625rem] sm:text-[1.1875rem] md:text-[1.3125rem] text-muted-foreground max-w-xl mx-auto leading-[1.6] text-pretty">

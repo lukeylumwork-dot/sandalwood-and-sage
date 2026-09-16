@@ -24,19 +24,19 @@ const Header = () => {
           <img
             src={logo}
             alt="Sandalwood & Sage"
-            width={122}
-            height={44}
-            className="h-11 w-auto block dark:hidden"
+            width={89}
+            height={32}
+            className="h-8 w-auto block dark:hidden"
           />
           <img
             src={logoBrand}
             alt=""
             aria-hidden
-            width={122}
-            height={44}
-            className="h-11 w-auto hidden dark:block"
+            width={89}
+            height={32}
+            className="h-8 w-auto hidden dark:block"
           />
-          <span className="hidden font-display text-xl tracking-tight text-heading sm:inline">
+          <span className="hidden font-display text-lg tracking-tight text-heading sm:inline">
             Sandalwood &amp; Sage
           </span>
         </a>
@@ -47,7 +47,7 @@ const Header = () => {
               <Link
                 key={link.href}
                 to={link.href}
-                className="text-base text-muted-foreground transition-colors hover:text-foreground"
+                className="text-[15px] text-muted-foreground transition-colors hover:text-foreground"
               >
                 {link.label}
               </Link>
@@ -55,14 +55,14 @@ const Header = () => {
               <a
                 key={link.href}
                 href={link.href}
-                className="text-base text-muted-foreground transition-colors hover:text-foreground"
+                className="text-[15px] text-muted-foreground transition-colors hover:text-foreground"
               >
                 {link.label}
               </a>
             ),
           )}
           <a href={rssUrl} target="_blank" rel="noopener noreferrer" aria-label="RSS Feed" className="text-muted-foreground hover:text-foreground transition-colors">
-            <Rss size={18} />
+            <Rss size={16} />
           </a>
           <ThemeToggle />
           <Button size="sm" asChild>

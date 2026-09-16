@@ -51,7 +51,6 @@ div[id] {
 
     /* Display headings. Ink on paper in the light world. */
     --heading: 68 37% 9%;
-    --heading-glow: 68 20% 20%;
 
     /* Brand mark ribbons. */
     --brand-cream: 43 83% 90%;
@@ -94,9 +93,8 @@ div[id] {
     --input: 200 27% 32%;
     --ring: 86 45% 62%;
 
-    /* Titles read white against the ink ground, with a soft halo. */
+    /* Titles read white against the ink ground. */
     --heading: 0 0% 100%;
-    --heading-glow: 47 60% 96%;
 
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
@@ -116,9 +114,6 @@ div[id] {
 
   body {
     @apply bg-background text-foreground antialiased font-sans;
-    font-size: 17px;
-    line-height: 1.6;
-    text-rendering: optimizeLegibility;
   }
 
   h1, h2, h3, h4 {
@@ -130,13 +125,6 @@ div[id] {
 @layer utilities {
   .text-heading {
     color: hsl(var(--heading));
-  }
-  /* Display headings pick up a soft halo in the ink world only. */
-  .dark .text-glow {
-    text-shadow:
-      0 0 1px hsl(var(--heading-glow) / 0.5),
-      0 0 18px hsl(var(--heading-glow) / 0.26),
-      0 0 46px hsl(var(--heading-glow) / 0.13);
   }
 
   .scrollbar-hide {

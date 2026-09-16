@@ -45,11 +45,11 @@ const Subscribe = () => {
   };
 
   return (
-    <section id="subscribe" className="mx-auto max-w-4xl px-4 py-10 sm:px-5 sm:py-14">
-      <p className="text-[13px] sm:text-sm font-semibold uppercase tracking-[0.24em] text-section-label mb-3">
+    <section id="subscribe" className="mx-auto max-w-4xl px-4 py-7 sm:px-5 sm:py-10">
+      <p className="text-[12px] sm:text-[13px] font-medium uppercase tracking-[0.18em] text-section-label mb-2">
         Subscribe
       </p>
-      <h2 className="text-[2rem] sm:text-[2.75rem] md:text-[3.25rem] text-heading text-glow leading-[1.08] mb-3">
+      <h2 className="text-2xl sm:text-3xl text-heading mb-2 leading-tight">
         Never miss an episode
       </h2>
       <p className="font-serif text-sm sm:text-[0.95rem] text-muted-foreground mb-6 sm:mb-8 max-w-lg leading-relaxed">
@@ -59,7 +59,7 @@ const Subscribe = () => {
       <div className="grid gap-6 sm:gap-8 md:grid-cols-2">
         {/* Platforms */}
         <div>
-          <p className="text-[13px] font-semibold text-section-label mb-4 uppercase tracking-[0.22em]">Platforms</p>
+          <p className="text-[12px] font-semibold text-section-label mb-3 uppercase tracking-[0.16em]">Platforms</p>
           <div className="flex flex-wrap gap-2">
             {platforms.map((p) => (
               <Button
@@ -99,7 +99,7 @@ const Subscribe = () => {
 
         {/* Mailing list */}
         <div className="rounded-xl border bg-card p-5 sm:p-6">
-          <h3 className="font-display text-[1.25rem] text-heading text-glow mb-1.5 leading-snug">
+          <h3 className="text-sm font-semibold text-heading mb-1">
             Join the mailing list
           </h3>
           <p className="font-serif text-[13px] text-muted-foreground mb-4 leading-relaxed">
