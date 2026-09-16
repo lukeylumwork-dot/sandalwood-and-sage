@@ -46,23 +46,23 @@ const TopicSubmission = () => {
   };
 
   return (
-    <section id="suggest" className="mx-auto max-w-4xl px-4 py-7 sm:px-5 sm:py-10">
-      <p className="text-[11px] sm:text-xs font-medium uppercase tracking-[0.18em] text-section-label mb-2">
+    <section id="suggest" className="mx-auto max-w-4xl px-4 py-10 sm:px-5 sm:py-14">
+      <p className="text-[11px] sm:text-xs font-semibold uppercase tracking-[0.24em] text-section-label mb-3">
         Suggest a Topic
       </p>
-      <p className="text-sm sm:text-[0.95rem] text-muted-foreground mb-5 sm:mb-6 max-w-lg leading-relaxed">
+      <p className="text-[1rem] sm:text-[1.125rem] text-muted-foreground mb-6 sm:mb-8 max-w-xl leading-[1.65]">
         Have a question you think deserves two sides? Send it through and it may feature in a future episode.
       </p>
 
-      <div className="rounded-xl border bg-card p-4 sm:p-6 max-w-md">
+      <div className="rounded-xl border bg-card p-5 sm:p-7 max-w-md">
         {submitted ? (
-          <p className="text-sm text-primary font-medium">
+          <p className="text-[1rem] text-primary font-medium">
             Thanks — we've received your suggestion.
           </p>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label htmlFor="topic" className="text-xs font-medium text-card-foreground block mb-1.5">
+              <label htmlFor="topic" className="text-[0.875rem] font-medium text-card-foreground block mb-2">
                 Debate question <span className="text-primary">*</span>
               </label>
               <Textarea
@@ -72,13 +72,13 @@ const TopicSubmission = () => {
                 onChange={(e) => setTopic(e.target.value)}
                 required
                 rows={3}
-                className="text-sm"
+                className="text-[1rem]"
                 disabled={saving}
               />
             </div>
             <div className="grid gap-3 sm:grid-cols-2">
               <div>
-                <label htmlFor="suggest-name" className="text-xs font-medium text-card-foreground block mb-1.5">
+                <label htmlFor="suggest-name" className="text-[0.875rem] font-medium text-card-foreground block mb-2">
                   Name <span className="text-muted-foreground">(optional)</span>
                 </label>
                 <Input
@@ -86,12 +86,12 @@ const TopicSubmission = () => {
                   placeholder="Your name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="text-sm"
+                  className="text-[1rem]"
                   disabled={saving}
                 />
               </div>
               <div>
-                <label htmlFor="suggest-email" className="text-xs font-medium text-card-foreground block mb-1.5">
+                <label htmlFor="suggest-email" className="text-[0.875rem] font-medium text-card-foreground block mb-2">
                   Email <span className="text-muted-foreground">(optional)</span>
                 </label>
                 <Input
@@ -100,12 +100,12 @@ const TopicSubmission = () => {
                   placeholder="you@example.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="text-sm"
+                  className="text-[1rem]"
                   disabled={saving}
                 />
               </div>
             </div>
-            <Button type="submit" size="sm" disabled={saving || !topic.trim()}>
+            <Button type="submit" disabled={saving || !topic.trim()}>
               {saving ? "Submitting…" : "Submit"}
             </Button>
           </form>

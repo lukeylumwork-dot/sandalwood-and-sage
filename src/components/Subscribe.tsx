@@ -45,27 +45,26 @@ const Subscribe = () => {
   };
 
   return (
-    <section id="subscribe" className="mx-auto max-w-4xl px-4 py-7 sm:px-5 sm:py-10">
-      <p className="text-[11px] sm:text-xs font-medium uppercase tracking-[0.18em] text-section-label mb-2">
+    <section id="subscribe" className="mx-auto max-w-4xl px-4 py-10 sm:px-5 sm:py-14">
+      <p className="text-[11px] sm:text-xs font-semibold uppercase tracking-[0.24em] text-section-label mb-3">
         Subscribe
       </p>
-      <h2 className="text-2xl sm:text-3xl text-foreground mb-2 leading-tight">
+      <h2 className="text-[2rem] sm:text-[2.75rem] md:text-[3.25rem] text-heading text-glow mb-3 leading-[1.08]">
         Never miss an episode
       </h2>
-      <p className="text-sm sm:text-[0.95rem] text-muted-foreground mb-6 sm:mb-8 max-w-lg leading-relaxed">
+      <p className="text-[1rem] sm:text-[1.125rem] text-muted-foreground mb-8 sm:mb-10 max-w-xl leading-[1.65]">
         Follow Sandalwood & Sage on your favourite platform, or join the mailing list to get new episodes delivered to your inbox.
       </p>
 
       <div className="grid gap-6 sm:gap-8 md:grid-cols-2">
         {/* Platforms */}
         <div>
-          <p className="text-[10px] font-semibold text-section-label mb-3 uppercase tracking-[0.16em]">Platforms</p>
+          <p className="text-[11px] font-semibold text-section-label mb-4 uppercase tracking-[0.22em]">Platforms</p>
           <div className="flex flex-wrap gap-2">
             {platforms.map((p) => (
               <Button
                 key={p.label}
                 variant="outline"
-                size="sm"
                 asChild={!p.coming}
                 disabled={p.coming}
                 className={p.coming ? "opacity-60 cursor-default" : ""}
@@ -88,25 +87,25 @@ const Subscribe = () => {
               href={rssUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-[11px] text-muted-foreground hover:text-foreground transition-colors"
+              className="inline-flex items-center gap-1.5 text-[0.875rem] text-muted-foreground hover:text-foreground transition-colors"
             >
-              <Rss size={11} />
+              <Rss size={14} />
               RSS Feed
             </a>
-            <span className="text-[10px] text-muted-foreground/60">· for podcast apps &amp; RSS readers</span>
+            <span className="text-[0.8125rem] text-muted-foreground/70">· for podcast apps &amp; RSS readers</span>
           </div>
         </div>
 
         {/* Mailing list */}
-        <div className="rounded-xl border bg-card p-5 sm:p-6">
-          <h3 className="text-sm font-semibold text-card-foreground mb-1" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+        <div className="rounded-xl border bg-card p-6 sm:p-7">
+          <h3 className="text-[1.25rem] text-heading text-glow mb-1.5 leading-snug">
             Join the mailing list
           </h3>
-          <p className="text-xs text-muted-foreground mb-4 leading-relaxed">
+          <p className="text-[0.9375rem] text-muted-foreground mb-5 leading-[1.6]">
             New episodes, straight to your inbox. No spam.
           </p>
           {submitted ? (
-            <p className="text-sm text-primary font-medium">Thanks — you're on the list.</p>
+            <p className="text-[1rem] text-primary font-medium">Thanks — you're on the list.</p>
           ) : (
             <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2">
               <Input
@@ -115,10 +114,10 @@ const Subscribe = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="text-sm"
+                className="text-[1rem]"
                 disabled={saving}
               />
-              <Button type="submit" size="sm" className="sm:shrink-0" disabled={saving}>
+              <Button type="submit" className="sm:shrink-0" disabled={saving}>
                 {saving ? "Subscribing…" : "Subscribe"}
               </Button>
             </form>

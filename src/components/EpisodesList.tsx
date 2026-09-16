@@ -29,18 +29,18 @@ const categories = ["All", "Current Affairs", "Society", "Politics", "Sport"];
 const EpisodeCard = memo(({ ep }: { ep: Episode }) => (
   <Link
     to={`/episode/${toEpisodeSlug(ep.title)}`}
-    className="group flex flex-col gap-2 rounded-xl border bg-card p-3.5 sm:p-5 text-left transition-all hover:border-primary/40 hover:shadow-sm sm:flex-row sm:items-start sm:justify-between active:scale-[0.995]"
+    className="group flex flex-col gap-2 rounded-xl border bg-card p-4 sm:p-6 text-left transition-all hover:border-primary/40 hover:shadow-sm sm:flex-row sm:items-start sm:justify-between active:scale-[0.995]"
   >
     <div className="min-w-0 flex-1">
-      <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.16em] text-primary block mb-1">{ep.category}</span>
-      <h3 className="text-[1.05rem] sm:text-[1.1rem] font-semibold text-card-foreground leading-[1.25] group-hover:text-primary transition-colors text-pretty mb-1.5" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+      <span className="text-[11px] sm:text-xs font-semibold uppercase tracking-[0.2em] text-primary block mb-1.5">{ep.category}</span>
+      <h3 className="text-[1.25rem] sm:text-[1.5rem] text-heading text-glow leading-[1.2] group-hover:text-primary transition-colors text-pretty mb-2">
         {ep.title}
       </h3>
-      <p className="text-[0.8rem] text-muted-foreground leading-[1.5] line-clamp-2">{ep.premise}</p>
+      <p className="text-[0.9375rem] sm:text-base text-muted-foreground leading-[1.6] line-clamp-2">{ep.premise}</p>
     </div>
     {ep.duration && (
-      <p className="mt-1 flex shrink-0 items-center gap-1 text-xs text-muted-foreground sm:mt-0 sm:ml-4">
-        <Clock size={12} /> {ep.duration}
+      <p className="mt-1 flex shrink-0 items-center gap-1.5 text-[0.875rem] text-muted-foreground sm:mt-0 sm:ml-4">
+        <Clock size={14} /> {ep.duration}
       </p>
     )}
   </Link>
@@ -113,20 +113,20 @@ const EpisodesList = () => {
   }, [dbEpisodes, activeFilter, searchQuery]);
 
   return (
-    <section id="episodes" className="mx-auto max-w-4xl px-4 py-7 sm:px-5 sm:py-10">
-      <p className="text-[10px] sm:text-xs font-medium uppercase tracking-[0.22em] text-section-label mb-2">
+    <section id="episodes" className="mx-auto max-w-4xl px-4 py-10 sm:px-5 sm:py-14">
+      <p className="text-[11px] sm:text-xs font-semibold uppercase tracking-[0.24em] text-section-label mb-3">
         Episodes
       </p>
-      <h2 className="text-[1.5rem] sm:text-3xl text-foreground mb-4 sm:mb-6 leading-tight">All episodes</h2>
+      <h2 className="text-[2rem] sm:text-[2.75rem] md:text-[3.25rem] text-heading text-glow mb-6 sm:mb-8 leading-[1.08]">All episodes</h2>
 
       <div className="relative mb-3">
-        <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+        <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
         <input
           type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Search episodes…"
-          className="w-full rounded-lg border border-border bg-card pl-9 pr-3 py-2.5 text-[0.9rem] sm:text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring"
+          className="w-full rounded-lg border border-border bg-card pl-10 pr-3 py-3 text-[1rem] text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring"
           style={{ fontFamily: "'DM Sans', sans-serif" }}
         />
       </div>
@@ -136,7 +136,7 @@ const EpisodesList = () => {
           <button
             key={cat}
             onClick={() => setActiveFilter(cat)}
-            className={`shrink-0 rounded-full border px-3 sm:px-4 py-1.5 text-[11px] sm:text-xs font-medium transition-colors ${
+            className={`shrink-0 rounded-full border px-4 sm:px-5 py-2 text-[0.8125rem] sm:text-[0.875rem] font-medium transition-colors ${
               activeFilter === cat
                 ? "bg-primary text-primary-foreground border-primary"
                 : "bg-card text-muted-foreground border-border hover:text-foreground hover:border-foreground/30"
@@ -147,12 +147,12 @@ const EpisodesList = () => {
         ))}
       </div>
 
-      <div className="grid gap-2 sm:gap-2.5">
+      <div className="grid gap-3">
         {filtered.map((ep) => (
           <EpisodeCard key={ep.id} ep={ep} />
         ))}
         {filtered.length === 0 && (
-          <p className="text-sm text-muted-foreground py-8 text-center">No episodes found.</p>
+          <p className="text-base text-muted-foreground py-8 text-center">No episodes found.</p>
         )}
       </div>
     </section>

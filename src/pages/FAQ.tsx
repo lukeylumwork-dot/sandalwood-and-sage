@@ -6,26 +6,26 @@ const FAQ = () => (
   <div className="min-h-screen bg-background">
     <Header />
     <main className="mx-auto max-w-4xl px-4 py-8 sm:px-5 sm:py-12">
-      <p className="text-[10px] sm:text-xs font-medium uppercase tracking-[0.22em] text-section-label mb-2">
+      <p className="text-[11px] sm:text-xs font-semibold uppercase tracking-[0.24em] text-section-label mb-3">
         FAQ
       </p>
       <h1
-        className="text-2xl sm:text-3xl text-foreground mb-3 leading-tight font-normal"
+        className="text-[2rem] sm:text-[2.75rem] md:text-[3.25rem] text-heading text-glow mb-4 leading-[1.08] font-normal"
         style={{ fontFamily: "'DM Serif Display', Georgia, serif" }}
       >
         Frequently asked questions
       </h1>
-      <p className="text-sm sm:text-[0.95rem] text-muted-foreground mb-10 sm:mb-12 max-w-lg leading-relaxed">
+      <p className="text-[1rem] sm:text-[1.125rem] text-muted-foreground mb-10 sm:mb-14 max-w-xl leading-[1.65]">
         Everything you need to know about Sandalwood &amp; Sage.
       </p>
 
       <div className="divide-y divide-border/70">
         {faqItems.map((item, i) => (
           <div key={i} className="py-6 sm:py-7">
-            <h2 className="text-[0.95rem] sm:text-base font-semibold text-foreground mb-2 leading-snug" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+            <h2 className="text-[1.25rem] sm:text-[1.5rem] text-heading text-glow mb-2.5 leading-snug">
               {item.q}
             </h2>
-            <p className="text-sm sm:text-[0.95rem] text-muted-foreground leading-[1.7] max-w-2xl">
+            <p className="text-[1rem] sm:text-[1.0625rem] text-muted-foreground leading-[1.7] max-w-2xl">
               {item.a}
             </p>
           </div>
@@ -33,7 +33,7 @@ const FAQ = () => (
       </div>
 
       <div className="mt-10 pt-6 border-t border-border/60">
-        <p className="text-sm text-muted-foreground">
+        <p className="text-[1rem] text-muted-foreground">
           Still have a question?{" "}
           <a href="mailto:hello@sandalwoodandsage.com" className="text-foreground underline underline-offset-2 hover:text-primary transition-colors">
             Get in touch
