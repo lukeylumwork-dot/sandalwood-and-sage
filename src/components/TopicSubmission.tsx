@@ -15,6 +15,10 @@ const TopicSubmission = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!topic.trim()) return;
+    if (topic.trim().length < 5) {
+      toast.error("Topic must be at least 5 characters.");
+      return;
+    }
     if (topic.trim().length > 500) {
       toast.error("Topic must be 500 characters or less.");
       return;
