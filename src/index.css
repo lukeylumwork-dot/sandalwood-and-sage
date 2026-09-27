@@ -18,10 +18,12 @@ div[id] {
     --background: 44 47% 96%;
     --foreground: 68 37% 9%;
 
-    --card: 47 60% 98%;
+    /* Card lifts to plain white so panels read against the cream ground;
+       at 98% they were only two points off it and floated. */
+    --card: 47 60% 100%;
     --card-foreground: 68 37% 9%;
 
-    --popover: 47 60% 98%;
+    --popover: 47 60% 100%;
     --popover-foreground: 68 37% 9%;
 
     --primary: 91 98% 21%;
@@ -42,9 +44,9 @@ div[id] {
     --destructive: 0 96% 30%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 47 34% 85%;
-    --border-strong: 46 27% 78%;
-    --input: 47 34% 85%;
+    --border: 47 30% 80%;
+    --border-strong: 46 27% 72%;
+    --input: 47 30% 80%;
     --ring: 91 98% 21%;
 
     --radius: 0.5rem;
