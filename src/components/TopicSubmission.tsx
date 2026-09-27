@@ -54,6 +54,9 @@ const TopicSubmission = () => {
       <p className="text-[12px] sm:text-[13px] font-medium uppercase tracking-[0.18em] text-section-label mb-2">
         Suggest a Topic
       </p>
+      <h2 className="text-2xl sm:text-3xl text-heading mb-2 leading-tight">
+        What should we argue about?
+      </h2>
       <p className="font-serif text-sm sm:text-[0.95rem] text-muted-foreground mb-5 sm:mb-6 max-w-lg leading-relaxed">
         Have a question you think deserves two sides? Send it through and it may feature in a future episode.
       </p>

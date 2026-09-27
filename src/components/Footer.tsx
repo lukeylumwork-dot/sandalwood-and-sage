@@ -127,7 +127,7 @@ const Footer = () => (
           <Accordion type="single" collapsible className="w-full">
             {faqItems.slice(0, 4).map((item, i) => (
               <AccordionItem key={i} value={`faq-${i}`} className="border-border/60">
-                <AccordionTrigger className="font-serif text-[13px] text-muted-foreground hover:text-foreground py-3 text-left leading-snug hover:no-underline">
+                <AccordionTrigger className="font-sans text-[13px] font-medium text-muted-foreground hover:text-foreground py-3 text-left leading-snug hover:no-underline">
                   {item.q}
                 </AccordionTrigger>
                 <AccordionContent className="font-serif text-[13px] sm:text-sm text-muted-foreground leading-relaxed pb-3">

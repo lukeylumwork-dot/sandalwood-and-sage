@@ -103,7 +103,7 @@ const Subscribe = () => {
 
         {/* Mailing list */}
         <div className="rounded-xl border bg-card p-5 sm:p-6">
-          <h3 className="text-sm font-semibold text-heading mb-1">
+          <h3 className="text-[1.125rem] text-heading mb-1 leading-snug">
             Join the mailing list
           </h3>
           <p className="font-serif text-[13px] text-muted-foreground mb-4 leading-relaxed">
