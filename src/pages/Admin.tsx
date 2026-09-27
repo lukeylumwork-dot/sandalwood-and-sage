@@ -141,7 +141,9 @@ function FileUploadField({
 
   return (
     <div>
-      <label className="text-xs font-medium text-card-foreground block mb-1">{label}</label>
+      {/* Not a <label>: the control it describes is a button, not a labelable
+          element, so the button carries the name via aria-label instead. */}
+      <p className="text-[13px] font-medium text-card-foreground mb-1">{label}</p>
       <div className="flex items-center gap-2">
         <Button
           type="button"
@@ -150,6 +152,7 @@ function FileUploadField({
           disabled={uploading}
           onClick={() => inputRef.current?.click()}
           className="shrink-0"
+          aria-label={`${currentUrl ? "Replace" : "Upload"} ${label}`}
         >
           {uploading ? (
             <Loader2 size={14} className="animate-spin mr-1.5" />
@@ -159,7 +162,7 @@ function FileUploadField({
           {uploading ? "Uploading…" : currentUrl ? "Replace" : "Upload"}
         </Button>
         {currentUrl && (
-          <span className="text-xs text-muted-foreground truncate max-w-[200px]" title={currentUrl}>
+          <span className="text-[13px] text-muted-foreground truncate max-w-[200px]" title={currentUrl}>
             ✓ {currentUrl.split("/").pop()}
           </span>
         )}
@@ -219,7 +222,7 @@ function PasswordGate({ onAuth }: { onAuth: (password: string) => void }) {
           <h1 className="text-lg font-semibold text-card-foreground">Admin Access</h1>
         </div>
         <div>
-          <label htmlFor="admin-pw" className="text-xs font-medium text-card-foreground block mb-1">
+          <label htmlFor="admin-pw" className="text-[13px] font-medium text-card-foreground block mb-1">
             Password
           </label>
           <Input
@@ -231,7 +234,7 @@ function PasswordGate({ onAuth }: { onAuth: (password: string) => void }) {
             autoFocus
           />
         </div>
-        {error && <p className="text-xs text-destructive">{error}</p>}
+        {error && <p className="text-[13px] text-destructive">{error}</p>}
         <Button type="submit" disabled={loading || !password.trim()} className="w-full" size="sm">
           {loading ? <Loader2 size={14} className="animate-spin mr-1.5" /> : null}
           Sign In
@@ -341,17 +344,18 @@ function EpisodeForm({
 
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="sm:col-span-2">
-          <label className="text-xs font-medium text-card-foreground block mb-1">
+          <label htmlFor="episode-title" className="text-[13px] font-medium text-card-foreground block mb-1">
             Title <span className="text-primary">*</span>
           </label>
-          <Input value={form.title} onChange={(e) => set("title", e.target.value)} placeholder="Episode title" />
+          <Input id="episode-title" value={form.title} onChange={(e) => set("title", e.target.value)} placeholder="Episode title" />
         </div>
 
         <div>
-          <label className="text-xs font-medium text-card-foreground block mb-1">
+          <label htmlFor="episode-category" className="text-[13px] font-medium text-card-foreground block mb-1">
             Category <span className="text-primary">*</span>
           </label>
           <select
+            id="episode-category"
             value={form.category}
             onChange={(e) => set("category", e.target.value)}
             className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
@@ -363,20 +367,20 @@ function EpisodeForm({
         </div>
 
         <div className="sm:col-span-2">
-          <label className="text-xs font-medium text-card-foreground block mb-1">
+          <label htmlFor="episode-summary" className="text-[13px] font-medium text-card-foreground block mb-1">
             Description <span className="text-primary">*</span>
           </label>
-          <Textarea value={form.summary} onChange={(e) => set("summary", e.target.value)} placeholder="Episode summary / description" rows={3} />
+          <Textarea id="episode-summary" value={form.summary} onChange={(e) => set("summary", e.target.value)} placeholder="Episode summary / description" rows={3} />
         </div>
 
         <div>
-          <label className="text-xs font-medium text-card-foreground block mb-1">For Argument</label>
-          <Textarea value={form.for_argument} onChange={(e) => set("for_argument", e.target.value)} placeholder="The case for…" rows={4} />
+          <label htmlFor="episode-for" className="text-[13px] font-medium text-card-foreground block mb-1">For Argument</label>
+          <Textarea id="episode-for" value={form.for_argument} onChange={(e) => set("for_argument", e.target.value)} placeholder="The case for…" rows={4} />
         </div>
 
         <div>
-          <label className="text-xs font-medium text-card-foreground block mb-1">Against Argument</label>
-          <Textarea value={form.against_argument} onChange={(e) => set("against_argument", e.target.value)} placeholder="The case against…" rows={4} />
+          <label htmlFor="episode-against" className="text-[13px] font-medium text-card-foreground block mb-1">Against Argument</label>
+          <Textarea id="episode-against" value={form.against_argument} onChange={(e) => set("against_argument", e.target.value)} placeholder="The case against…" rows={4} />
         </div>
 
         {/* Media uploads */}
@@ -399,8 +403,8 @@ function EpisodeForm({
         />
 
         <div>
-          <label className="text-xs font-medium text-card-foreground block mb-1">Video URL</label>
-          <Input value={form.video_url} onChange={(e) => set("video_url", e.target.value)} placeholder="YouTube embed, Vimeo, MP4…" />
+          <label htmlFor="episode-video-url" className="text-[13px] font-medium text-card-foreground block mb-1">Video URL</label>
+          <Input id="episode-video-url" value={form.video_url} onChange={(e) => set("video_url", e.target.value)} placeholder="YouTube embed, Vimeo, MP4…" />
         </div>
 
       </div>
@@ -463,9 +467,9 @@ function EpisodeList({
               </button>
               <div className="min-w-0">
                 <div className="flex items-center gap-1.5">
-                  <span className="text-xs font-medium text-primary">{ep.category}</span>
+                  <span className="text-[13px] font-medium text-primary">{ep.category}</span>
                   {ep.is_featured && (
-                    <span className="text-[10px] font-medium text-primary bg-primary/10 rounded-full px-1.5 py-0.5">
+                    <span className="text-[12px] font-medium text-primary bg-primary/10 rounded-full px-1.5 py-0.5">
                       Featured
                     </span>
                   )}
