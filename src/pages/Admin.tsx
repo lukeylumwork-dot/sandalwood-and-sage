@@ -139,6 +139,12 @@ function FileUploadField({
     }
   };
 
+  // One verb drives both the visible text and the accessible name. aria-label
+  // replaces the visible text in the accessibility tree, so deriving them apart
+  // would leave a screen reader announcing "Upload" while the button reads
+  // "Uploading…".
+  const actionVerb = uploading ? "Uploading" : currentUrl ? "Replace" : "Upload";
+
   return (
     <div>
       {/* Not a <label>: the control it describes is a button, not a labelable
@@ -152,14 +158,15 @@ function FileUploadField({
           disabled={uploading}
           onClick={() => inputRef.current?.click()}
           className="shrink-0"
-          aria-label={`${currentUrl ? "Replace" : "Upload"} ${label}`}
+          aria-label={`${actionVerb} ${label}`}
+          aria-busy={uploading}
         >
           {uploading ? (
             <Loader2 size={14} className="animate-spin mr-1.5" />
           ) : (
             <Icon size={14} className="mr-1.5" />
           )}
-          {uploading ? "Uploading…" : currentUrl ? "Replace" : "Upload"}
+          {uploading ? "Uploading…" : actionVerb}
         </Button>
         {currentUrl && (
           <span className="text-[13px] text-muted-foreground truncate max-w-[200px]" title={currentUrl}>
