@@ -157,7 +157,7 @@ function FileUploadField({
           size="sm"
           disabled={uploading}
           onClick={() => inputRef.current?.click()}
-          className="shrink-0"
+          className="h-11 shrink-0 sm:h-[34px]"
           aria-label={`${actionVerb} ${label}`}
           aria-busy={uploading}
         >
@@ -235,6 +235,7 @@ function PasswordGate({ onAuth }: { onAuth: (password: string) => void }) {
           <Input
             id="admin-pw"
             type="password"
+            className="h-11 sm:h-10"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Enter admin password"
@@ -242,7 +243,7 @@ function PasswordGate({ onAuth }: { onAuth: (password: string) => void }) {
           />
         </div>
         {error && <p className="text-[13px] text-destructive">{error}</p>}
-        <Button type="submit" disabled={loading || !password.trim()} className="w-full" size="sm">
+        <Button type="submit" disabled={loading || !password.trim()} className="h-11 w-full sm:h-[34px]" size="sm">
           {loading ? <Loader2 size={14} className="animate-spin mr-1.5" /> : null}
           Sign In
         </Button>
@@ -354,7 +355,7 @@ function EpisodeForm({
           <label htmlFor="episode-title" className="text-[13px] font-medium text-card-foreground block mb-1">
             Title <span className="text-primary">*</span>
           </label>
-          <Input id="episode-title" value={form.title} onChange={(e) => set("title", e.target.value)} placeholder="Episode title" />
+          <Input id="episode-title" className="h-11 sm:h-10" value={form.title} onChange={(e) => set("title", e.target.value)} placeholder="Episode title" />
         </div>
 
         <div>
@@ -365,7 +366,7 @@ function EpisodeForm({
             id="episode-category"
             value={form.category}
             onChange={(e) => set("category", e.target.value)}
-            className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+            className="flex h-11 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring sm:h-10"
           >
             {CATEGORIES.map((c) => (
               <option key={c} value={c}>{c}</option>
@@ -411,12 +412,12 @@ function EpisodeForm({
 
         <div>
           <label htmlFor="episode-video-url" className="text-[13px] font-medium text-card-foreground block mb-1">Video URL</label>
-          <Input id="episode-video-url" value={form.video_url} onChange={(e) => set("video_url", e.target.value)} placeholder="YouTube embed, Vimeo, MP4…" />
+          <Input id="episode-video-url" className="h-11 sm:h-10" value={form.video_url} onChange={(e) => set("video_url", e.target.value)} placeholder="YouTube embed, Vimeo, MP4…" />
         </div>
 
       </div>
 
-      <Button type="submit" disabled={saving} size="sm">
+      <Button type="submit" disabled={saving} size="sm" className="h-11 w-full sm:h-[34px] sm:w-auto">
         {saving ? <Loader2 size={14} className="animate-spin mr-1.5" /> : null}
         {isEditing ? "Update Episode" : "Publish Episode"}
       </Button>
@@ -459,17 +460,21 @@ function EpisodeList({
         {episodes.map((ep) => (
           <div
             key={ep.id}
-            className={`flex items-center justify-between gap-3 rounded-lg border p-3 ${ep.is_featured ? "border-primary/40" : ""}`}
+            /* min-w-0: as a grid item this defaults to min-width:auto, which
+               stops the title truncating and pushes the page wider than the
+               viewport on a phone. */
+            className={`flex min-w-0 flex-col gap-2 rounded-lg border p-3 sm:flex-row sm:items-center sm:justify-between sm:gap-3 ${ep.is_featured ? "border-primary/40" : ""}`}
           >
-            <div className="min-w-0 flex items-center gap-2">
+            <div className="min-w-0 flex items-center gap-1">
               <button
                 onClick={() => onToggleFeatured(ep.id, ep.is_featured)}
-                className="shrink-0"
-                title={ep.is_featured ? "Unpin from featured" : "Pin as featured"}
+                className="shrink-0 -ml-2 inline-flex h-11 w-11 items-center justify-center rounded-md text-muted-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:-ml-1 sm:h-9 sm:w-9"
+                aria-pressed={ep.is_featured}
+                aria-label={ep.is_featured ? `Unpin ${ep.title} from featured` : `Pin ${ep.title} as featured`}
               >
                 <Star
                   size={16}
-                  className={ep.is_featured ? "text-primary fill-primary" : "text-muted-foreground hover:text-primary"}
+                  className={ep.is_featured ? "text-primary fill-primary" : ""}
                 />
               </button>
               <div className="min-w-0">
@@ -486,13 +491,14 @@ function EpisodeList({
                 </h4>
               </div>
             </div>
-            <div className="flex items-center gap-1 shrink-0">
-              <Button variant="ghost" size="sm" onClick={() => onEdit(ep.id)}>
+            <div className="flex shrink-0 items-center gap-1 self-end sm:self-auto">
+              <Button variant="ghost" size="sm" className="h-11 sm:h-[34px]" onClick={() => onEdit(ep.id)}>
                 <Pencil size={14} className="mr-1" /> Edit
               </Button>
               <Button
                 variant={confirmId === ep.id ? "destructive" : "ghost"}
                 size="sm"
+                className="h-11 sm:h-[34px]"
                 onClick={() => handleDelete(ep.id)}
                 onBlur={() => setConfirmId(null)}
               >
@@ -617,7 +623,7 @@ const Admin = () => {
       <div className="mx-auto max-w-4xl px-5 py-10">
         <div className="flex items-center justify-between mb-8">
           <h1 className="text-xl font-bold text-foreground">Episode Admin</h1>
-          <Button variant="ghost" size="sm" onClick={handleLogout}>
+          <Button variant="ghost" size="sm" className="h-11 sm:h-[34px]" onClick={handleLogout}>
             <LogOut size={14} className="mr-1.5" /> Sign Out
           </Button>
         </div>
