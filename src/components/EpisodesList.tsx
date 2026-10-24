@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, memo } from "react";
+import { useState, useEffect, useMemo, useRef, memo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ArrowRight, Clock, Search } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
@@ -74,6 +74,8 @@ const EpisodesList = ({
   const navigate = useNavigate();
   const [activeFilter, setActiveFilter] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
+  const searchTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [dbEpisodes, setDbEpisodes] = useState<Episode[]>([]);
 
   useEffect(() => {
@@ -106,6 +108,15 @@ const EpisodesList = ({
       });
   }, []);
 
+  // Debounce search to avoid synchronous rerenders on every keystroke (#19 INP)
+  useEffect(() => {
+    if (searchTimer.current) clearTimeout(searchTimer.current);
+    searchTimer.current = setTimeout(() => setDebouncedSearch(searchQuery), 200);
+    return () => {
+      if (searchTimer.current) clearTimeout(searchTimer.current);
+    };
+  }, [searchQuery]);
+
   // Redirect legacy ?episode=<id> and ?episodeSlug=<slug> deep links to episode pages
   useEffect(() => {
     if (!dbEpisodes.length) return;
@@ -120,8 +131,8 @@ const EpisodesList = ({
       ? dbEpisodes
       : dbEpisodes.filter((ep) => ep.category === activeFilter);
 
-    if (searchQuery.trim()) {
-      const q = searchQuery.toLowerCase().trim();
+    if (debouncedSearch.trim()) {
+      const q = debouncedSearch.toLowerCase().trim();
       result = result.filter(
         (ep) =>
           ep.title.toLowerCase().includes(q) ||
@@ -132,7 +143,7 @@ const EpisodesList = ({
     }
 
     return result;
-  }, [dbEpisodes, activeFilter, searchQuery]);
+  }, [dbEpisodes, activeFilter, debouncedSearch]);
 
   const visible = limit ? filtered.slice(0, limit) : filtered;
   const hasMore = limit !== undefined && filtered.length > limit;
