@@ -2,7 +2,7 @@ const steps = [
   {
     number: "01",
     title: "One question",
-    description: "Each episode starts with an urgent or important question — from politics, sport, or current affairs. ",
+    description: "Each episode starts with an urgent or important question, from politics, sport, or current affairs.",
   },
   {
     number: "02",
@@ -44,7 +44,7 @@ const HowItWorks = () => (
             {step.number}
           </span>
           <h3 className="font-display font-normal mt-2.5 text-xl text-heading leading-snug">{step.title}</h3>
-          <p className="font-serif mt-2 text-sm text-muted-foreground leading-relaxed">{step.description}</p>
+          <p className="font-serif mt-2 text-[0.95rem] sm:text-base text-muted-foreground leading-relaxed">{step.description}</p>
         </div>
       ))}
     </div>
@@ -58,15 +58,9 @@ const HowItWorks = () => (
           What we believe.
         </h3>
         <div className="rounded-xl border bg-card p-5 sm:p-7 flex-1">
-          <ul className="space-y-2.5">
+          <ul className="font-serif divide-y divide-border text-[0.95rem] sm:text-base text-muted-foreground leading-relaxed [&>li]:py-3 [&>li:first-child]:pt-0 [&>li:last-child]:pb-0">
             {credo.map((line, i) => (
-              <li
-                key={i}
-                className="font-serif flex gap-3 text-sm sm:text-[0.95rem] text-card-foreground leading-relaxed"
-              >
-                <span className="mt-[0.55rem] h-1.5 w-1.5 shrink-0 rounded-full bg-primary" aria-hidden />
-                <span>{line}</span>
-              </li>
+              <li key={i}>{line}</li>
             ))}
           </ul>
         </div>
@@ -80,7 +74,7 @@ const HowItWorks = () => (
           Credits & tools.
         </h3>
         <div className="rounded-xl border bg-card p-5 sm:p-7 flex-1">
-          <ul className="font-serif space-y-2.5 text-sm sm:text-[0.95rem] text-card-foreground leading-relaxed">
+          <ul className="font-serif divide-y divide-border text-[0.95rem] sm:text-base text-heading leading-relaxed [&>li]:py-3 [&>li:first-child]:pt-0 [&>li:last-child]:pb-0">
             <li><span className="text-muted-foreground">Published by </span>The Four Ashes Publishing Limited</li>
             <li><span className="text-muted-foreground">Content created by </span>Gareth Cadwallader</li>
             <li><span className="text-muted-foreground">Research assistance by </span>Google Gemini and Claude.AI</li>
