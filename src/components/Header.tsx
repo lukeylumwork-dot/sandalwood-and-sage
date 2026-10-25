@@ -32,9 +32,9 @@ const Header = () => {
             src={logoBrand}
             alt=""
             aria-hidden
-            width={78}
-            height={28}
-            className="h-7 w-auto hidden dark:block"
+            width={89}
+            height={32}
+            className="h-8 w-auto hidden dark:block"
           />
           <span className="hidden font-display text-lg tracking-tight text-heading sm:inline">
             Sandalwood &amp; Sage
