@@ -1,6 +1,6 @@
 const Hero = () => (
   <section className="mx-auto max-w-4xl px-4 pt-10 pb-8 text-center sm:px-5 sm:pt-14 sm:pb-12 md:pt-20 md:pb-16">
-    <p className="text-[13px] sm:text-sm font-semibold uppercase tracking-[0.26em] text-primary mb-5 sm:mb-7">
+    <p className="text-[13px] sm:text-sm font-semibold uppercase tracking-[0.18em] text-primary mb-5 sm:mb-7">
       Quality debates in under 15 minutes
     </p>
     <h1 className="font-display text-[2.25rem] sm:text-[3.25rem] md:text-[4rem] lg:text-[4.5rem] font-normal text-heading leading-[0.98] tracking-[-0.02em] text-balance">
