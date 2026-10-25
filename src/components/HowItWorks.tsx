@@ -2,7 +2,7 @@ const steps = [
   {
     number: "01",
     title: "One question",
-    description: "Each episode starts with an urgent or important question — from politics, sport, or current affairs. ",
+    description: "Each episode starts with an urgent or important question, from politics, sport, or current affairs.",
   },
   {
     number: "02",
@@ -31,7 +31,7 @@ const credo = [
 
 const HowItWorks = () => (
   <section id="how-it-works" className="mx-auto max-w-4xl px-4 py-7 sm:px-5 sm:py-10">
-    <p className="text-[12px] sm:text-[13px] font-medium uppercase tracking-[0.18em] text-section-label mb-2">
+    <p className="text-[12px] sm:text-[13px] font-semibold uppercase tracking-[0.18em] text-section-label mb-2">
       How it Works
     </p>
     <h2 className="text-2xl sm:text-3xl text-heading mb-6 sm:mb-8 leading-tight">
@@ -44,43 +44,37 @@ const HowItWorks = () => (
             {step.number}
           </span>
           <h3 className="font-display font-normal mt-2.5 text-xl text-heading leading-snug">{step.title}</h3>
-          <p className="font-serif mt-2 text-sm text-muted-foreground leading-relaxed">{step.description}</p>
+          <p className="font-serif mt-2 text-[0.95rem] sm:text-base text-muted-foreground leading-relaxed">{step.description}</p>
         </div>
       ))}
     </div>
 
     <div className="mt-8 sm:mt-10 grid gap-6 md:grid-cols-2">
       <div className="flex flex-col">
-        <p className="text-[12px] sm:text-[13px] font-medium uppercase tracking-[0.18em] text-section-label mb-2">
+        <p className="text-[12px] sm:text-[13px] font-semibold uppercase tracking-[0.18em] text-section-label mb-2">
           Our Credo
         </p>
         <h3 className="font-display font-normal text-2xl sm:text-3xl text-heading mb-4 sm:mb-5 leading-tight">
           What we believe.
         </h3>
         <div className="rounded-xl border bg-card p-5 sm:p-7 flex-1">
-          <ul className="space-y-2.5">
+          <ul className="font-serif divide-y divide-border text-[0.95rem] sm:text-base text-muted-foreground leading-relaxed [&>li]:py-3 [&>li:first-child]:pt-0 [&>li:last-child]:pb-0">
             {credo.map((line, i) => (
-              <li
-                key={i}
-                className="font-serif flex gap-3 text-sm sm:text-[0.95rem] text-card-foreground leading-relaxed"
-              >
-                <span className="mt-[0.55rem] h-1.5 w-1.5 shrink-0 rounded-full bg-primary" aria-hidden />
-                <span>{line}</span>
-              </li>
+              <li key={i}>{line}</li>
             ))}
           </ul>
         </div>
       </div>
 
       <div className="flex flex-col">
-        <p className="text-[12px] sm:text-[13px] font-medium uppercase tracking-[0.18em] text-section-label mb-2">
+        <p className="text-[12px] sm:text-[13px] font-semibold uppercase tracking-[0.18em] text-section-label mb-2">
           How we do it
         </p>
         <h3 className="font-display font-normal text-2xl sm:text-3xl text-heading mb-4 sm:mb-5 leading-tight">
           Credits & tools.
         </h3>
         <div className="rounded-xl border bg-card p-5 sm:p-7 flex-1">
-          <ul className="font-serif space-y-2.5 text-sm sm:text-[0.95rem] text-card-foreground leading-relaxed">
+          <ul className="font-serif divide-y divide-border text-[0.95rem] sm:text-base text-heading leading-relaxed [&>li]:py-3 [&>li:first-child]:pt-0 [&>li:last-child]:pb-0">
             <li><span className="text-muted-foreground">Published by </span>The Four Ashes Publishing Limited</li>
             <li><span className="text-muted-foreground">Content created by </span>Gareth Cadwallader</li>
             <li><span className="text-muted-foreground">Research assistance by </span>Google Gemini and Claude.AI</li>

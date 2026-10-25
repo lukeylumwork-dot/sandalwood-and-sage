@@ -51,20 +51,20 @@ const TopicSubmission = () => {
 
   return (
     <section id="suggest" className="mx-auto max-w-4xl px-4 py-7 sm:px-5 sm:py-10">
-      <p className="text-[12px] sm:text-[13px] font-medium uppercase tracking-[0.18em] text-section-label mb-2">
+      <p className="text-[12px] sm:text-[13px] font-semibold uppercase tracking-[0.18em] text-section-label mb-2">
         Suggest a Topic
       </p>
       <h2 className="text-2xl sm:text-3xl text-heading mb-2 leading-tight">
         What should we argue about?
       </h2>
-      <p className="font-serif text-sm sm:text-[0.95rem] text-muted-foreground mb-5 sm:mb-6 max-w-lg leading-relaxed">
+      <p className="font-serif text-[0.95rem] sm:text-base text-muted-foreground mb-5 sm:mb-6 max-w-lg leading-relaxed">
         Have a question you think deserves two sides? Send it through and it may feature in a future episode.
       </p>
 
       <div className="rounded-xl border bg-card p-4 sm:p-6 max-w-md">
         {submitted ? (
           <p className="text-sm text-primary font-medium">
-            Thanks — we've received your suggestion.
+            Thanks, we've received your suggestion.
           </p>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">

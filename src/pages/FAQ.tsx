@@ -6,7 +6,7 @@ const FAQ = () => (
   <div className="min-h-screen bg-background">
     <Header />
     <main className="mx-auto max-w-4xl px-4 py-8 sm:px-5 sm:py-12">
-      <p className="text-[12px] sm:text-[13px] font-medium uppercase tracking-[0.22em] text-section-label mb-2">
+      <p className="text-[12px] sm:text-[13px] font-semibold uppercase tracking-[0.18em] text-section-label mb-2">
         FAQ
       </p>
       <h1 className="font-display font-normal text-2xl sm:text-3xl text-heading mb-3 leading-tight">

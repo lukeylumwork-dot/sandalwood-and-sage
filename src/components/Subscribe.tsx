@@ -50,20 +50,20 @@ const Subscribe = () => {
 
   return (
     <section id="subscribe" className="mx-auto max-w-4xl px-4 py-7 sm:px-5 sm:py-10">
-      <p className="text-[12px] sm:text-[13px] font-medium uppercase tracking-[0.18em] text-section-label mb-2">
+      <p className="text-[12px] sm:text-[13px] font-semibold uppercase tracking-[0.18em] text-section-label mb-2">
         Subscribe
       </p>
       <h2 className="text-2xl sm:text-3xl text-heading mb-2 leading-tight">
         Never miss an episode
       </h2>
-      <p className="font-serif text-sm sm:text-[0.95rem] text-muted-foreground mb-6 sm:mb-8 max-w-lg leading-relaxed">
+      <p className="font-serif text-[0.95rem] sm:text-base text-muted-foreground mb-6 sm:mb-8 max-w-lg leading-relaxed">
         Follow Sandalwood & Sage on your favourite platform, or join the mailing list to get new episodes delivered to your inbox.
       </p>
 
       <div className="grid gap-6 sm:gap-8 md:grid-cols-2">
         {/* Platforms */}
         <div>
-          <p className="text-[12px] font-semibold text-section-label mb-3 uppercase tracking-[0.16em]">Platforms</p>
+          <p className="text-[12px] font-semibold text-section-label mb-3 uppercase tracking-[0.18em]">Platforms</p>
           <div className="flex flex-wrap gap-2">
             {platforms.map((p) => (
               <Button
@@ -106,11 +106,11 @@ const Subscribe = () => {
           <h3 className="text-[1.125rem] text-heading mb-1 leading-snug">
             Join the mailing list
           </h3>
-          <p className="font-serif text-[13px] text-muted-foreground mb-4 leading-relaxed">
+          <p className="font-serif text-[0.95rem] text-muted-foreground mb-4 leading-relaxed">
             New episodes, straight to your inbox. No spam.
           </p>
           {submitted ? (
-            <p className="text-sm text-primary font-medium">Thanks — you're on the list.</p>
+            <p className="text-sm text-primary font-medium">Thanks, you're on the list.</p>
           ) : (
             <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2">
               <Input

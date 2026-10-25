@@ -52,7 +52,7 @@ const EpisodeCard = memo(({ ep, index }: { ep: Episode; index: number }) => (
         {ep.title}
       </h3>
       {ep.premise && (
-        <p className="font-serif mt-2 text-sm text-muted-foreground leading-[1.6] max-w-[60ch] line-clamp-2">{ep.premise}</p>
+        <p className="font-serif mt-2 text-[0.95rem] sm:text-base text-muted-foreground leading-[1.6] max-w-[60ch] line-clamp-2">{ep.premise}</p>
       )}
     </div>
     {ep.duration && (
@@ -150,7 +150,7 @@ const EpisodesList = ({
 
   return (
     <section id="episodes" className="mx-auto max-w-4xl px-4 py-7 sm:px-5 sm:py-10">
-      <p className="text-[12px] sm:text-[13px] font-medium uppercase tracking-[0.22em] text-section-label mb-2">
+      <p className="text-[12px] sm:text-[13px] font-semibold uppercase tracking-[0.18em] text-section-label mb-2">
         {eyebrow}
       </p>
       <h2 className="text-[1.5rem] sm:text-3xl text-heading mb-4 sm:mb-6 leading-tight">{heading}</h2>

@@ -92,7 +92,7 @@ const EpisodePage = () => {
 
         <article>
           <header className="mb-6 sm:mb-8 text-center">
-            <span className="text-[12px] font-semibold text-primary block uppercase tracking-[0.22em] mb-3">
+            <span className="text-[12px] font-semibold text-primary block uppercase tracking-[0.18em] mb-3">
               {episode.category}
             </span>
             <h1 className="font-display font-normal text-[1.75rem] sm:text-[2.5rem] leading-[1.05] text-heading text-balance tracking-[-0.02em]">
@@ -128,7 +128,7 @@ const EpisodePage = () => {
 
           <div className="space-y-6 sm:space-y-7">
             <div className="space-y-2">
-              <p className="text-[12px] font-semibold text-section-label uppercase tracking-[0.22em]">
+              <p className="text-[12px] font-semibold text-section-label uppercase tracking-[0.18em]">
                 The question
               </p>
               <p className="font-serif text-[0.9rem] sm:text-base text-foreground leading-[1.6] sm:leading-[1.65] text-pretty">
@@ -137,7 +137,7 @@ const EpisodePage = () => {
             </div>
 
             <div className="space-y-2">
-              <p className="text-[12px] font-semibold text-section-label uppercase tracking-[0.22em]">
+              <p className="text-[12px] font-semibold text-section-label uppercase tracking-[0.18em]">
                 Summary
               </p>
               <p className="font-serif text-[0.875rem] sm:text-[0.95rem] text-muted-foreground leading-[1.65] sm:leading-[1.7] text-pretty">
@@ -147,7 +147,7 @@ const EpisodePage = () => {
 
             {episode.keyPoints.length > 0 && (
               <div className="space-y-2.5">
-                <p className="text-[12px] font-semibold text-section-label uppercase tracking-[0.22em]">
+                <p className="text-[12px] font-semibold text-section-label uppercase tracking-[0.18em]">
                   Key points
                 </p>
                 <ul className="font-serif space-y-2">
@@ -163,7 +163,7 @@ const EpisodePage = () => {
           </div>
 
           <div className="flex items-center gap-2 mt-8 pt-4 border-t border-border/70">
-            <span className="text-[12px] font-semibold text-section-label uppercase tracking-[0.22em] mr-1">Share</span>
+            <span className="text-[12px] font-semibold text-section-label uppercase tracking-[0.18em] mr-1">Share</span>
             <Button
               variant="outline"
               size="icon"
@@ -178,7 +178,7 @@ const EpisodePage = () => {
             </Button>
             <Button variant="outline" size="icon" className="h-9 w-9 sm:h-8 sm:w-8" asChild>
               <a
-                href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(episode.title + " — Sandalwood & Sage")}&url=${encodeURIComponent(shareUrl)}`}
+                href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(episode.title + " | Sandalwood & Sage")}&url=${encodeURIComponent(shareUrl)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Share on Twitter"
