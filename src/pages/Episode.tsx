@@ -178,7 +178,7 @@ const EpisodePage = () => {
             </Button>
             <Button variant="outline" size="icon" className="h-9 w-9 sm:h-8 sm:w-8" asChild>
               <a
-                href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(episode.title + " — Sandalwood & Sage")}&url=${encodeURIComponent(shareUrl)}`}
+                href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(episode.title + " | Sandalwood & Sage")}&url=${encodeURIComponent(shareUrl)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Share on Twitter"

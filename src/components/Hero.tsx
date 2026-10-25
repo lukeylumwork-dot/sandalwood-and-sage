@@ -11,7 +11,7 @@ const Hero = () => (
     </p>
     <p className="font-serif font-light mt-6 sm:mt-8 text-[1.0625rem] sm:text-[1.1875rem] md:text-[1.3125rem] text-muted-foreground max-w-xl mx-auto leading-[1.6] text-pretty">
       Two AI-generated characters work with their creator, Gareth, to make
-      short, serious, punchy debates — the kind that help you figure out not
+      short, serious, punchy debates, the kind that help you figure out not
       just what you think, but why you think it.
     </p>
   </section>

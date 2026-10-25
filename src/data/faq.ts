@@ -5,7 +5,7 @@ export const faqItems = [
   },
   {
     q: "Are the debates AI-generated?",
-    a: "Yes. Each episode uses AI to research and produce balanced, well-argued cases for both sides of a topic — so you can hear the strongest version of each position.",
+    a: "Yes. Each episode uses AI to research and produce balanced, well-argued cases for both sides of a topic, so you can hear the strongest version of each position.",
   },
   {
     q: "Can I suggest a topic?",

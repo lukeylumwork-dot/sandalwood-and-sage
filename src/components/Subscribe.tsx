@@ -110,7 +110,7 @@ const Subscribe = () => {
             New episodes, straight to your inbox. No spam.
           </p>
           {submitted ? (
-            <p className="text-sm text-primary font-medium">Thanks — you're on the list.</p>
+            <p className="text-sm text-primary font-medium">Thanks, you're on the list.</p>
           ) : (
             <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2">
               <Input

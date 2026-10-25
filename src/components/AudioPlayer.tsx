@@ -107,7 +107,7 @@ const AudioPlayer = ({ label, src }: AudioPlayerProps) => {
         </div>
         <div className="flex justify-between text-[12px] tabular-nums text-muted-foreground">
           <span>{formatTime(currentTime)}</span>
-          <span>{duration ? formatTime(duration) : "—"}</span>
+          <span>{duration ? formatTime(duration) : "0:00"}</span>
         </div>
       </div>
 

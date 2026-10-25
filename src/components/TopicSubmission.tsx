@@ -64,7 +64,7 @@ const TopicSubmission = () => {
       <div className="rounded-xl border bg-card p-4 sm:p-6 max-w-md">
         {submitted ? (
           <p className="text-sm text-primary font-medium">
-            Thanks — we've received your suggestion.
+            Thanks, we've received your suggestion.
           </p>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
