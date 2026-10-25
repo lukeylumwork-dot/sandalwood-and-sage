@@ -123,7 +123,7 @@ const FeaturedEpisode = () => {
           <h2 className="text-[1.15rem] sm:text-2xl md:text-3xl lg:text-[2.25rem] text-heading leading-[1.18] text-balance transition-colors group-hover:text-primary">
             {episode.title}
           </h2>
-          <p className="font-serif mt-2 sm:mt-4 text-[0.85rem] sm:text-base text-muted-foreground leading-[1.6] sm:leading-relaxed max-w-2xl text-pretty line-clamp-3 sm:line-clamp-none">
+          <p className="font-serif mt-2 sm:mt-4 text-[0.95rem] sm:text-[1.0625rem] text-muted-foreground leading-[1.6] sm:leading-relaxed max-w-2xl text-pretty line-clamp-3 sm:line-clamp-none">
             {episode.summary}
           </p>
         </div>

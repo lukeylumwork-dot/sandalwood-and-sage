@@ -9,7 +9,7 @@ const Hero = () => (
     <p className="font-display mt-2 sm:mt-3 text-primary text-[1.25rem] sm:text-[1.8rem] md:text-[2.25rem] lg:text-[2.5rem] leading-[1.12] tracking-[-0.015em] text-balance">
       What we&apos;re arguing about this week
     </p>
-    <p className="font-serif font-light mt-6 sm:mt-8 text-[1.0625rem] sm:text-[1.1875rem] md:text-[1.3125rem] text-muted-foreground max-w-xl mx-auto leading-[1.6] text-pretty">
+    <p className="font-serif mt-6 sm:mt-8 text-[1.0625rem] sm:text-[1.1875rem] md:text-[1.3125rem] text-muted-foreground max-w-xl mx-auto leading-[1.6] text-pretty">
       Two AI-generated characters work with their creator, Gareth, to make
       short, serious, punchy debates, the kind that help you figure out not
       just what you think, but why you think it.

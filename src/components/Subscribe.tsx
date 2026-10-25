@@ -56,7 +56,7 @@ const Subscribe = () => {
       <h2 className="text-2xl sm:text-3xl text-heading mb-2 leading-tight">
         Never miss an episode
       </h2>
-      <p className="font-serif text-sm sm:text-[0.95rem] text-muted-foreground mb-6 sm:mb-8 max-w-lg leading-relaxed">
+      <p className="font-serif text-[0.95rem] sm:text-base text-muted-foreground mb-6 sm:mb-8 max-w-lg leading-relaxed">
         Follow Sandalwood & Sage on your favourite platform, or join the mailing list to get new episodes delivered to your inbox.
       </p>
 
@@ -106,7 +106,7 @@ const Subscribe = () => {
           <h3 className="text-[1.125rem] text-heading mb-1 leading-snug">
             Join the mailing list
           </h3>
-          <p className="font-serif text-[13px] text-muted-foreground mb-4 leading-relaxed">
+          <p className="font-serif text-[0.95rem] text-muted-foreground mb-4 leading-relaxed">
             New episodes, straight to your inbox. No spam.
           </p>
           {submitted ? (

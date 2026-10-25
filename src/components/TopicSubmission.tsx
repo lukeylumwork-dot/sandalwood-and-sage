@@ -57,7 +57,7 @@ const TopicSubmission = () => {
       <h2 className="text-2xl sm:text-3xl text-heading mb-2 leading-tight">
         What should we argue about?
       </h2>
-      <p className="font-serif text-sm sm:text-[0.95rem] text-muted-foreground mb-5 sm:mb-6 max-w-lg leading-relaxed">
+      <p className="font-serif text-[0.95rem] sm:text-base text-muted-foreground mb-5 sm:mb-6 max-w-lg leading-relaxed">
         Have a question you think deserves two sides? Send it through and it may feature in a future episode.
       </p>
 

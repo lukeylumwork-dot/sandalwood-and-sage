@@ -52,7 +52,7 @@ const EpisodeCard = memo(({ ep, index }: { ep: Episode; index: number }) => (
         {ep.title}
       </h3>
       {ep.premise && (
-        <p className="font-serif mt-2 text-sm text-muted-foreground leading-[1.6] max-w-[60ch] line-clamp-2">{ep.premise}</p>
+        <p className="font-serif mt-2 text-[0.95rem] sm:text-base text-muted-foreground leading-[1.6] max-w-[60ch] line-clamp-2">{ep.premise}</p>
       )}
     </div>
     {ep.duration && (
